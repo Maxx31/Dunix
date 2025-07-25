@@ -1,0 +1,3 @@
+[submodule "Dunix/vendor/spdlog"]
+	path = Dunix/vendor/spdlog
+	url = https://github.com/gabime/spdlog
