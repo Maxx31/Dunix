@@ -3,11 +3,6 @@
 #include "../Core.h"
 #include "Event.h"
 
-enum class EventCategory
-{
-	EngineEvent
-};
-
 namespace Dunix
 {
 	class DUNIX_API EventDispatcher

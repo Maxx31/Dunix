@@ -9,5 +9,7 @@ namespace Dunix
 	{
 	public:
 
+		EVENT_CLASS_TYPE(KeyEvent)
+		EVENT_CLASS_CATEGORY(EventCategory::Input)
 	};
 }
