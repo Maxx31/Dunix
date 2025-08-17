@@ -19,6 +19,9 @@
     <ClInclude Include="src\Dunix\Log.h">
       <Filter>Dunix</Filter>
     </ClInclude>
+    <ClInclude Include="src\Dunix\Events\Event.h" />
+    <ClInclude Include="src\Dunix\Events\EventDispatcher.h" />
+    <ClInclude Include="src\Dunix\Events\KeyEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Dunix\Application.cpp">

@@ -153,6 +153,9 @@
     <ClInclude Include="src\Dunix\Application.h" />
     <ClInclude Include="src\Dunix\Core.h" />
     <ClInclude Include="src\Dunix\EntryPoint.h" />
+    <ClInclude Include="src\Dunix\Events\Event.h" />
+    <ClInclude Include="src\Dunix\Events\EventDispatcher.h" />
+    <ClInclude Include="src\Dunix\Events\KeyEvent.h" />
     <ClInclude Include="src\Dunix\Log.h" />
   </ItemGroup>
   <ItemGroup>

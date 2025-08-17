@@ -5,6 +5,6 @@
 #include "Dunix/Application.h"
 #include "Dunix/Log.h"
 
-//----EntryPoint--------------
+//--------EntryPoint--------------
 #include "Dunix/EntryPoint.h"
 //----------------------------
