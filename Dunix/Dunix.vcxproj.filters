@@ -4,6 +4,12 @@
     <Filter Include="Dunix">
       <UniqueIdentifier>{AD8C0F0D-19A1-37BE-E222-DB1D4EF633EF}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Dunix\Events">
+      <UniqueIdentifier>{F1938C5A-DDF6-1BFF-867C-54B572BEE781}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dunix\WIndow">
+      <UniqueIdentifier>{D4E45F81-C047-EF25-69CD-27DC550FBBA8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Dunix.h" />
@@ -16,12 +22,24 @@
     <ClInclude Include="src\Dunix\EntryPoint.h">
       <Filter>Dunix</Filter>
     </ClInclude>
+    <ClInclude Include="src\Dunix\Events\Event.h">
+      <Filter>Dunix\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dunix\Events\EventDispatcher.h">
+      <Filter>Dunix\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dunix\Events\KeyEvent.h">
+      <Filter>Dunix\Events</Filter>
+    </ClInclude>
     <ClInclude Include="src\Dunix\Log.h">
       <Filter>Dunix</Filter>
     </ClInclude>
-    <ClInclude Include="src\Dunix\Events\Event.h" />
-    <ClInclude Include="src\Dunix\Events\EventDispatcher.h" />
-    <ClInclude Include="src\Dunix\Events\KeyEvent.h" />
+    <ClInclude Include="src\Dunix\WIndow\GLFWWindow.h">
+      <Filter>Dunix\WIndow</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dunix\WIndow\Window.h">
+      <Filter>Dunix\WIndow</Filter>
+    </ClInclude>
     <ClInclude Include="src\dxpch.h" />
   </ItemGroup>
   <ItemGroup>

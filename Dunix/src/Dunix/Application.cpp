@@ -1,9 +1,4 @@
-#include "Application.h"
-#include "Log.h"
-
-#include "Events/Event.h"
-#include "Events/EventDispatcher.h"
-#include "Events/KeyEvent.h"
+#include <Dunix.h>
 
 namespace Dunix
 {
