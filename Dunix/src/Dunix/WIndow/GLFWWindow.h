@@ -10,7 +10,7 @@ namespace Dunix
 
 		GLFWWindow(WindowsProps windowsProps);
 
-		virtual ~GLFWWindow() override;
+	//	virtual ~GLFWWindow() override;
 		virtual void Update() override;
 
 		virtual void* GetNativeWindow() override;

@@ -8,10 +8,6 @@ namespace Dunix
 	{
 	}
 
-	GLFWWindow::~GLFWWindow()
-	{
-
-	}
 
 	void GLFWWindow::Update()
 	{
