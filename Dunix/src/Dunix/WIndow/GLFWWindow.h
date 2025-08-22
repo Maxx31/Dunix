@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../Core.h"
 #include "Window.h"
 
 namespace Dunix
@@ -9,9 +8,12 @@ namespace Dunix
 	{
 	public:
 
+		GLFWWindow(WindowsProps windowsProps);
 
+		virtual ~GLFWWindow() override;
+		virtual void Update() override;
 
-
+		virtual void* GetNativeWindow() override;
 	};
 
 }
