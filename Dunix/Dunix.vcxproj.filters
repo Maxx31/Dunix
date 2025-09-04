@@ -34,10 +34,10 @@
     <ClInclude Include="src\Dunix\Log.h">
       <Filter>Dunix</Filter>
     </ClInclude>
-    <ClInclude Include="src\Dunix\Window\GLFWWindow.h">
+    <ClInclude Include="src\Dunix\Window\Window.h">
       <Filter>Dunix\Window</Filter>
     </ClInclude>
-    <ClInclude Include="src\Dunix\Window\Window.h">
+    <ClInclude Include="src\Dunix\Window\WindowGLFW.h">
       <Filter>Dunix\Window</Filter>
     </ClInclude>
     <ClInclude Include="src\dxpch.h" />
@@ -49,12 +49,12 @@
     <ClCompile Include="src\Dunix\Log.cpp">
       <Filter>Dunix</Filter>
     </ClCompile>
-    <ClCompile Include="src\Dunix\Window\GLFWWindow.cpp">
-      <Filter>Dunix\Window</Filter>
-    </ClCompile>
-    <ClCompile Include="src\dxpch.cpp" />
     <ClCompile Include="src\Dunix\Window\Window.cpp">
       <Filter>Dunix\Window</Filter>
     </ClCompile>
+    <ClCompile Include="src\Dunix\Window\WindowGLFW.cpp">
+      <Filter>Dunix\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dxpch.cpp" />
   </ItemGroup>
 </Project>

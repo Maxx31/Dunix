@@ -15,8 +15,12 @@ namespace Dunix
 	void Application::Run()
 	{
 		WindowsProps props(1280, 920);
-		Dunix::CreateDunixWindow(props);
+		Window* MainWindow = Dunix::CreateDunixWindow(props);
 
-		while (true);
+		while (true)
+		{
+			MainWindow->Update();
+		}
+
 	}
 }

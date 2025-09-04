@@ -19,7 +19,7 @@ namespace Dunix
 	class DUNIX_API Window
 	{
 	public:
-		//virtual ~Window() = 0;
+		virtual ~Window() = 0;
 		virtual void Update() = 0;
 
 		virtual void* GetNativeWindow() = 0;
