@@ -6,10 +6,10 @@ namespace Dunix
 {
 	struct WindowsProps
 	{
-		WindowsProps(float InHeight, float InWidth)
+		WindowsProps(float InWidth, float InHeight)
 		{
-			Height = InHeight;
 			Width = InWidth;
+			Height = InHeight;
 		}
 		float Height;
 		float Width;

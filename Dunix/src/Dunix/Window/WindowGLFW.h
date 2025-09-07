@@ -17,7 +17,7 @@ namespace Dunix
 		virtual void* GetNativeWindow() override;
 
 	private:
-		//GLFWwindow* m_Window;
+		GLFWwindow* m_Window;
 	};
 
 }

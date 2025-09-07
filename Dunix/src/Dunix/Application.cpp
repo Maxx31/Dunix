@@ -1,6 +1,7 @@
 #include "dxpch.h"
 #include "Application.h"
 #include "WIndow/Window.h"
+#include "Log.h"
 
 namespace Dunix
 {
@@ -15,11 +16,11 @@ namespace Dunix
 	void Application::Run()
 	{
 		WindowsProps props(1280, 920);
-		Window* MainWindow = Dunix::CreateDunixWindow(props);
-
+		DX_INFO("Tick");
+		Window* mainWindow = Dunix::CreateDunixWindow(props);
 		while (true)
 		{
-			MainWindow->Update();
+			mainWindow->Update();
 		}
 
 	}
