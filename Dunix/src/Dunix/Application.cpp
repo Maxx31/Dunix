@@ -7,6 +7,10 @@ namespace Dunix
 {
 	Application::Application()
 	{
+		WindowsProps props(1280, 920);
+		m_Window = Dunix::CreateDunixWindow(props);
+
+		m_Window->SetEventCallback(std::bind(&Application::OnEvent, this, std::placeholders::_1));
 	}
 
 	Application::~Application()
@@ -15,13 +19,14 @@ namespace Dunix
 
 	void Application::Run()
 	{
-		WindowsProps props(1280, 920);
-		DX_INFO("Tick");
-		Window* mainWindow = Dunix::CreateDunixWindow(props);
 		while (true)
 		{
-			mainWindow->Update();
+			m_Window->Update();
 		}
+	}
 
+	void Application::OnEvent(Event& e)
+	{
+		DX_CORE_INFO("{0}", e);
 	}
 }

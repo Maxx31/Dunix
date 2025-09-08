@@ -162,6 +162,8 @@
     <ClInclude Include="src\Dunix\Events\Event.h" />
     <ClInclude Include="src\Dunix\Events\EventDispatcher.h" />
     <ClInclude Include="src\Dunix\Events\KeyEvent.h" />
+    <ClInclude Include="src\Dunix\Events\MouseEvent.h" />
+    <ClInclude Include="src\Dunix\Events\WindowEvent.h" />
     <ClInclude Include="src\Dunix\Log.h" />
     <ClInclude Include="src\Dunix\Window\Window.h" />
     <ClInclude Include="src\Dunix\Window\WindowGLFW.h" />

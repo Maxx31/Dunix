@@ -15,9 +15,24 @@ namespace Dunix
 		virtual void Update() override;
 
 		virtual void* GetNativeWindow() override;
+		inline void SetEventCallback(const EventCallbackFn& callback) override;
+
+	private:
+		//Event callbacks
+		void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
 	private:
 		GLFWwindow* m_Window;
+
+		struct WindowData
+		{
+			std::string Title;
+			unsigned int Width, Height;
+
+			EventCallbackFn EventCallback;
+		};
+
+		WindowData m_Data;
 	};
 
 }

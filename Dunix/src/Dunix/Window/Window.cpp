@@ -9,8 +9,8 @@ namespace Dunix
 	{
 	}
 
-	Window* CreateDunixWindow(WindowsProps props)
+	std::unique_ptr<Window> CreateDunixWindow(WindowsProps props)
 	{
-		return new WindowGLFW(props);
+		return std::make_unique<WindowGLFW>(props);
 	}
 }

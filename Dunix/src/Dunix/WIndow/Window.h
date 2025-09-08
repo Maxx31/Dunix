@@ -1,6 +1,8 @@
 #pragma once
+#include "dxpch.h"
 
 #include "../Core.h"
+#include <Dunix/Events/Event.h>
 
 namespace Dunix
 {
@@ -15,6 +17,7 @@ namespace Dunix
 		float Width;
 	};
 
+	using EventCallbackFn = std::function<void(Event&)>;
 
 	class DUNIX_API Window
 	{
@@ -23,7 +26,8 @@ namespace Dunix
 		virtual void Update() = 0;
 
 		virtual void* GetNativeWindow() = 0;
+		virtual void SetEventCallback(const EventCallbackFn& cb) = 0;
 	};
 
-	Window* CreateDunixWindow(WindowsProps windowProps);
+	std::unique_ptr<Window> CreateDunixWindow(WindowsProps windowProps);
 }

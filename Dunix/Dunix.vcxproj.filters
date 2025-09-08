@@ -41,6 +41,12 @@
       <Filter>Dunix\Window</Filter>
     </ClInclude>
     <ClInclude Include="src\dxpch.h" />
+    <ClInclude Include="src\Dunix\Events\MouseEvent.h">
+      <Filter>Dunix\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dunix\Events\WindowEvent.h">
+      <Filter>Dunix\Events</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Dunix\Application.cpp">

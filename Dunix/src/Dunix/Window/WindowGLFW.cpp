@@ -1,5 +1,6 @@
 #include "dxpch.h"
 #include "WindowGLFW.h"
+#include "Dunix/Events/WindowEvent.h"
 
 namespace Dunix
 {
@@ -27,7 +28,19 @@ namespace Dunix
 		}
 
 		glfwMakeContextCurrent(m_Window);
+		glfwSetWindowUserPointer(m_Window, &m_Data);
 		glfwSwapInterval(1);
+
+		//GLFW callbacks
+		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height)
+		{
+			WindowData& windowData = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+			windowData.Width = width;
+			windowData.Height = height;
+
+			WindowResizeEvent event(width, height);
+			windowData.EventCallback(event);
+		});
 	}
 
 	WindowGLFW ::~WindowGLFW()
@@ -47,5 +60,14 @@ namespace Dunix
 	void* WindowGLFW::GetNativeWindow()
 	{
 		return this;
+	}
+
+	inline void WindowGLFW::SetEventCallback(const EventCallbackFn& callback)
+	{
+		m_Data.EventCallback = callback;
+	}
+
+	void WindowGLFW::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+	{
 	}
 }
