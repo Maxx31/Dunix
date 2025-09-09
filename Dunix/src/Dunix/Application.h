@@ -2,6 +2,7 @@
 
 #include "Core.h"
 #include "Dunix/Events/Event.h"
+#include "Events/WindowEvent.h"
 #include "Dunix/Window/Window.h"
 
 namespace Dunix
@@ -13,8 +14,9 @@ namespace Dunix
 		virtual ~Application();
 
 		void Run();
-		
 		void OnEvent(Event& e);
+
+		bool OnWindowClose(WindowCloseEvent& e);
 	private:
 		std::unique_ptr<Window> m_Window;
 	};

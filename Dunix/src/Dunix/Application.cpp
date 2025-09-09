@@ -1,6 +1,7 @@
 #include "dxpch.h"
 #include "Application.h"
-#include "WIndow/Window.h"
+#include "Events/EventDispatcher.h"
+#include "Events/WindowEvent.h"
 #include "Log.h"
 
 namespace Dunix
@@ -27,6 +28,15 @@ namespace Dunix
 
 	void Application::OnEvent(Event& e)
 	{
+		EventDispatcher dispatcher(e);
+		dispatcher.Dispatch<WindowCloseEvent>(std::bind(&Application::OnWindowClose, this, std::placeholders::_1));
+
 		DX_CORE_INFO("{0}", e);
+	}
+
+	bool Application::OnWindowClose(WindowCloseEvent& e)
+	{
+		DX_CORE_INFO("Close application");
+		return true;
 	}
 }
