@@ -11,7 +11,7 @@ namespace Dunix
 		std::string ToString() const override
 		{
 			std::stringstream ss;
-			ss << "KeyEvent";
+			ss << "WindowResizeEvent";
 			return ss.str();
 		}
 		WindowResizeEvent(unsigned int width, unsigned int height)
@@ -35,7 +35,7 @@ namespace Dunix
 		std::string ToString() const override
 		{
 			std::stringstream ss;
-			ss << "KeyEvent";
+			ss << "WindowCloseEvent";
 			return ss.str();
 		}
 		EVENT_CLASS_TYPE(WindowCloseEvent)

@@ -11,7 +11,7 @@ namespace Dunix
 		std::string ToString() const override
 		{
 			std::stringstream ss;
-			ss << "KeyEvent";
+			ss << "MouseButtonPressed";
 			return ss.str();
 		}
 		EVENT_CLASS_TYPE(KeyEvent)
@@ -24,7 +24,7 @@ namespace Dunix
 		std::string ToString() const override
 		{
 			std::stringstream ss;
-			ss << "KeyEvent";
+			ss << "MouseButtonReleased";
 			return ss.str();
 		}
 		EVENT_CLASS_TYPE(KeyEvent)
@@ -37,7 +37,7 @@ namespace Dunix
 		std::string ToString() const override
 		{
 			std::stringstream ss;
-			ss << "KeyEvent";
+			ss << "MouseMovedEvent";
 			return ss.str();
 		}
 		EVENT_CLASS_TYPE(KeyEvent)

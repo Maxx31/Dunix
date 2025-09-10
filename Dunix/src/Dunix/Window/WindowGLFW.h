@@ -29,6 +29,8 @@ namespace Dunix
 			std::string Title;
 			unsigned int Width, Height;
 
+			int KeyCode, KeyAction;
+
 			EventCallbackFn EventCallback;
 		};
 

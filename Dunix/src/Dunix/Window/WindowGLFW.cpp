@@ -41,6 +41,20 @@ namespace Dunix
 			WindowResizeEvent event(width, height);
 			windowData.EventCallback(event);
 		});
+
+		glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
+			{
+				WindowData& windowData = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+
+				if (action == GLFW_PRESS)
+				{
+
+				}
+				else if (action == GLFW_RELEASE)
+				{
+
+				}
+			});
 	}
 
 	WindowGLFW ::~WindowGLFW()
