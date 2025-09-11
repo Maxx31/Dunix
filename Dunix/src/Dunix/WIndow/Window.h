@@ -1,7 +1,7 @@
 #pragma once
 #include "dxpch.h"
 
-#include "../Core.h"
+#include "../Core/Core.h"
 #include <Dunix/Events/Event.h>
 
 namespace Dunix

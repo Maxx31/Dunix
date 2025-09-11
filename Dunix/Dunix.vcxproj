@@ -155,23 +155,27 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Dunix\Core\Layer.h" />
     <ClInclude Include="src\Dunix.h" />
-    <ClInclude Include="src\Dunix\Application.h" />
-    <ClInclude Include="src\Dunix\Core.h" />
-    <ClInclude Include="src\Dunix\EntryPoint.h" />
+    <ClInclude Include="src\Dunix\Core\Application.h" />
+    <ClInclude Include="src\Dunix\Core\Core.h" />
+    <ClInclude Include="src\Dunix\Core\EntryPoint.h" />
+    <ClInclude Include="src\Dunix\Core\LayerStack.h" />
     <ClInclude Include="src\Dunix\Events\Event.h" />
     <ClInclude Include="src\Dunix\Events\EventDispatcher.h" />
     <ClInclude Include="src\Dunix\Events\KeyEvent.h" />
     <ClInclude Include="src\Dunix\Events\MouseEvent.h" />
     <ClInclude Include="src\Dunix\Events\WindowEvent.h" />
-    <ClInclude Include="src\Dunix\Log.h" />
+    <ClInclude Include="src\Dunix\Core\Log.h" />
     <ClInclude Include="src\Dunix\Window\Window.h" />
     <ClInclude Include="src\Dunix\Window\WindowGLFW.h" />
     <ClInclude Include="src\dxpch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Dunix\Application.cpp" />
-    <ClCompile Include="src\Dunix\Log.cpp" />
+    <ClCompile Include="src\Dunix\Core\Layer.cpp" />
+    <ClCompile Include="src\Dunix\Core\Application.cpp" />
+    <ClCompile Include="src\Dunix\Core\LayerStack.cpp" />
+    <ClCompile Include="src\Dunix\Core\Log.cpp" />
     <ClCompile Include="src\Dunix\Window\Window.cpp" />
     <ClCompile Include="src\Dunix\Window\WindowGLFW.cpp" />
     <ClCompile Include="src\dxpch.cpp">

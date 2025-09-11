@@ -4,6 +4,9 @@
     <Filter Include="Dunix">
       <UniqueIdentifier>{AD8C0F0D-19A1-37BE-E222-DB1D4EF633EF}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Dunix\Core">
+      <UniqueIdentifier>{8E2E6C6B-6B4D-4A7F-9C76-6E9C0B2F5A11}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Dunix\Events">
       <UniqueIdentifier>{F1938C5A-DDF6-1BFF-867C-54B572BEE781}</UniqueIdentifier>
     </Filter>
@@ -13,15 +16,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Dunix.h" />
-    <ClInclude Include="src\Dunix\Application.h">
-      <Filter>Dunix</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Dunix\Core.h">
-      <Filter>Dunix</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Dunix\EntryPoint.h">
-      <Filter>Dunix</Filter>
-    </ClInclude>
     <ClInclude Include="src\Dunix\Events\Event.h">
       <Filter>Dunix\Events</Filter>
     </ClInclude>
@@ -30,9 +24,6 @@
     </ClInclude>
     <ClInclude Include="src\Dunix\Events\KeyEvent.h">
       <Filter>Dunix\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Dunix\Log.h">
-      <Filter>Dunix</Filter>
     </ClInclude>
     <ClInclude Include="src\Dunix\Window\Window.h">
       <Filter>Dunix\Window</Filter>
@@ -47,14 +38,26 @@
     <ClInclude Include="src\Dunix\Events\WindowEvent.h">
       <Filter>Dunix\Events</Filter>
     </ClInclude>
+    <ClInclude Include="src\Dunix\Core\Application.h">
+      <Filter>Dunix\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dunix\Core\Core.h">
+      <Filter>Dunix\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dunix\Core\EntryPoint.h">
+      <Filter>Dunix\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dunix\Core\Log.h">
+      <Filter>Dunix\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dunix\Core\Layer.h">
+      <Filter>Dunix\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dunix\Core\LayerStack.h">
+      <Filter>Dunix\Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Dunix\Application.cpp">
-      <Filter>Dunix</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Dunix\Log.cpp">
-      <Filter>Dunix</Filter>
-    </ClCompile>
     <ClCompile Include="src\Dunix\Window\Window.cpp">
       <Filter>Dunix\Window</Filter>
     </ClCompile>
@@ -62,5 +65,17 @@
       <Filter>Dunix\Window</Filter>
     </ClCompile>
     <ClCompile Include="src\dxpch.cpp" />
+    <ClCompile Include="src\Dunix\Core\Application.cpp">
+      <Filter>Dunix\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Dunix\Core\Log.cpp">
+      <Filter>Dunix\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Dunix\Core\Layer.cpp">
+      <Filter>Dunix\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Dunix\Core\LayerStack.cpp">
+      <Filter>Dunix\Core</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

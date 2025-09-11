@@ -1,6 +1,6 @@
 #pragma once
 #include "dxpch.h"
-#include "../Core.h"
+#include "../Core/Core.h"
 
 namespace Dunix
 {

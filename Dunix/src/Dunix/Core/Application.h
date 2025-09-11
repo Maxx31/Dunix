@@ -2,7 +2,7 @@
 
 #include "Core.h"
 #include "Dunix/Events/Event.h"
-#include "Events/WindowEvent.h"
+#include "Dunix/Events/WindowEvent.h"
 #include "Dunix/Window/Window.h"
 
 namespace Dunix

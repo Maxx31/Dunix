@@ -2,9 +2,9 @@
 
 //For use by applications
 
-#include "Dunix/Application.h"
-#include "Dunix/Log.h"
+#include "Dunix/Core/Application.h"
+#include "Dunix/Core/Log.h"
 
 //--------EntryPoint--------------
-#include "Dunix/EntryPoint.h"
+#include "Dunix/Core/EntryPoint.h"
 //----------------------------

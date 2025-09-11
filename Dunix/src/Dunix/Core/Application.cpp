@@ -1,7 +1,7 @@
 #include "dxpch.h"
 #include "Application.h"
-#include "Events/EventDispatcher.h"
-#include "Events/WindowEvent.h"
+#include "Dunix/Events/EventDispatcher.h"
+#include "Dunix/Events/WindowEvent.h"
 #include "Log.h"
 
 namespace Dunix
