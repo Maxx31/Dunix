@@ -1,6 +1,7 @@
 #include "dxpch.h"
 #include "WindowGLFW.h"
 #include "Dunix/Events/WindowEvent.h"
+#include <Dunix/Events/KeyEvent.h>
 
 namespace Dunix
 {
@@ -43,18 +44,32 @@ namespace Dunix
 		});
 
 		glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
+		{
+			WindowData& windowData = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+
+			windowData.KeyCode = key;
+			windowData.KeyAction = action;
+
+			if (action == GLFW_PRESS)
 			{
-				WindowData& windowData = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+				KeyPressedEvent event(key);
+				windowData.EventCallback(event);
+			}
+			else if (action == GLFW_RELEASE)
+			{
+				KeyReleasedEvent event(key);
+				windowData.EventCallback(event);
+			}
+		});
 
-				if (action == GLFW_PRESS)
-				{
+		glfwSetWindowCloseCallback(m_Window, [](GLFWwindow* window)
+		{
+			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+			WindowCloseEvent event;
+			data.EventCallback(event);
+		});
 
-				}
-				else if (action == GLFW_RELEASE)
-				{
 
-				}
-			});
 	}
 
 	WindowGLFW ::~WindowGLFW()

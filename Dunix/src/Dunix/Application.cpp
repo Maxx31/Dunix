@@ -20,7 +20,8 @@ namespace Dunix
 
 	void Application::Run()
 	{
-		while (true)
+		m_Running = true;
+		while (m_Running)
 		{
 			m_Window->Update();
 		}
@@ -36,6 +37,7 @@ namespace Dunix
 
 	bool Application::OnWindowClose(WindowCloseEvent& e)
 	{
+		m_Running = false;
 		DX_CORE_INFO("Close application");
 		return true;
 	}
