@@ -4,6 +4,7 @@
 #include "Dunix/Events/Event.h"
 #include "Dunix/Events/WindowEvent.h"
 #include "Dunix/Window/Window.h"
+#include "LayerStack.h"
 
 namespace Dunix
 {
@@ -17,9 +18,14 @@ namespace Dunix
 		void OnEvent(Event& e);
 
 		bool OnWindowClose(WindowCloseEvent& e);
+
+		void PushLayer(Layer* layer);
+		void PushOverlay(Layer* layer);
 	private:
 		std::unique_ptr<Window> m_Window;
 		bool m_Running;
+
+		LayerStack m_LayerStack;
 	};
 
 	// To be defined in CLIENT

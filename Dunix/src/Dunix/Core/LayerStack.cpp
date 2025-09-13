@@ -1,31 +1,64 @@
+#include "dxpch.h"
 #include "LayerStack.h"
 
 namespace Dunix
 {
-	void LayerStack::PushLayer(std::unique_ptr<Layer>inLayer)
+	void LayerStack::PushLayer(Layer* inLayer)
 	{
-		Layer* ptr = inLayer.get();
-		m_Layers.insert(m_Layers.begin() + static_cast<std::ptrdiff_t>(m_LastLayerIndex),
-			std::move(inLayer));
+		auto pos = m_Layers.begin() + m_LastLayerIndex;
+		m_Layers.insert(pos, inLayer);
 
 		m_LastLayerIndex++;
-		ptr->OnAttach();
+
+		inLayer->OnAttach();
 	}
 
-	void LayerStack::PushOverlay(std::unique_ptr<Layer>inOverlay)
+	void LayerStack::PushOverlay(Layer* inOverLay)
 	{
-		Layer* ptr = inOverlay.get();
-		m_Layers.emplace_back(std::move(inOverlay));
-		ptr->OnAttach();
+		m_Layers.push_back(inOverLay);
+
+		inOverLay->OnAttach();
 	}
 
-	std::unique_ptr<Layer> LayerStack::PopLayer(Layer* inLayer)
+	void LayerStack::PopLayer(Layer* inLayer)
 	{
-		return std::unique_ptr<Layer>();
+		auto endIt = m_Layers.begin() + m_LastLayerIndex;
+		auto res = std::find(m_Layers.begin(), endIt, inLayer);
+
+		if (res != endIt)
+		{
+			inLayer->OnDetach();
+			m_Layers.erase(res);
+			m_LastLayerIndex--;
+		}
 	}
 
-	std::unique_ptr<Layer> LayerStack::PopOverlay(Layer* inOverlay)
+	void LayerStack::PopOverlay(Layer* inOverlay)
 	{
-		return std::unique_ptr<Layer>();
+		auto beginIt = m_Layers.begin() + m_LastLayerIndex;
+		auto res = std::find(beginIt, m_Layers.end(), inOverlay);
+
+		if (res != m_Layers.end())
+		{
+			inOverlay->OnDetach();
+			m_Layers.erase(res);
+		}
+	}
+	void LayerStack::OnUpdate()
+	{
+		for (auto it = m_Layers.end(); it != m_Layers.begin(); )
+		{
+			(*--it)->OnUpdate();
+		}
+	}
+	
+	void LayerStack::OnEvent(Event& e)
+	{
+		for (auto it = m_Layers.end(); it != m_Layers.begin(); )
+		{
+			(*--it)->OnEvent(e);
+			if (e.Handled)
+				break;
+		}
 	}
 }

@@ -1,4 +1,6 @@
 #pragma once
+
+#include "dxpch.h"
 #include "Core.h"
 #include "Layer.h"
 
@@ -7,14 +9,17 @@ namespace Dunix
 	class DUNIX_API LayerStack
 	{
 	public:
-		void PushLayer(std::unique_ptr<Layer>inLayer);
-		void PushOverlay(std::unique_ptr<Layer>inOverlay);
+		void PushLayer(Layer* inLayer);
+		void PushOverlay(Layer* inOverlay);
 
-		std::unique_ptr<Layer> PopLayer(Layer* inLayer);
-		std::unique_ptr<Layer> PopOverlay(Layer* inOverlay);
+	    void PopLayer(Layer* inLayer);
+		void PopOverlay(Layer* inOverlay);
+
+		void OnUpdate();
+		void OnEvent(Event& e);
 
 	private:
-		std::vector<std::unique_ptr<Layer>>m_Layers;
+		std::vector<Layer*>m_Layers;
 
 		size_t m_LastLayerIndex = 0; // [0..m_LastLayerIndex) = normal layers, [m_InsertIndex..end) = overlays
 	};

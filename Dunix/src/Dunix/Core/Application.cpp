@@ -24,6 +24,7 @@ namespace Dunix
 		while (m_Running)
 		{
 			m_Window->Update();
+			m_LayerStack.OnUpdate();
 		}
 	}
 
@@ -32,6 +33,7 @@ namespace Dunix
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(std::bind(&Application::OnWindowClose, this, std::placeholders::_1));
 
+		m_LayerStack.OnEvent(e);
 		DX_CORE_INFO("{0}", e);
 	}
 
@@ -40,5 +42,14 @@ namespace Dunix
 		m_Running = false;
 		DX_CORE_INFO("Close application");
 		return true;
+	}
+	void Application::PushLayer(Layer* layer)
+	{
+		m_LayerStack.PushLayer(layer);
+	}
+
+	void Application::PushOverlay(Layer* layer)
+	{
+		m_LayerStack.PushOverlay(layer);
 	}
 }
