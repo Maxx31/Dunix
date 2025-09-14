@@ -68,8 +68,6 @@ namespace Dunix
 			WindowCloseEvent event;
 			data.EventCallback(event);
 		});
-
-
 	}
 
 	WindowGLFW ::~WindowGLFW()
@@ -80,8 +78,6 @@ namespace Dunix
 
 	void WindowGLFW::Update()
 	{
-		glClear(GL_COLOR_BUFFER_BIT);
-
 		glfwSwapBuffers(m_Window);
 		glfwPollEvents();   
 	}
