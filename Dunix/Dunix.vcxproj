@@ -183,6 +183,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="vendor\Glad\Glad.vcxproj">
+      <Project>{4fa797e7-496c-4f86-97c8-fb80331b5c85}</Project>
+    </ProjectReference>
     <ProjectReference Include="vendor\GLFW\GLFW.vcxproj">
       <Project>{154B857C-0182-860D-AA6E-6C109684020F}</Project>
     </ProjectReference>

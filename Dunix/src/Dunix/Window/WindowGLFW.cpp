@@ -1,7 +1,10 @@
 #include "dxpch.h"
 #include "WindowGLFW.h"
+
 #include "Dunix/Events/WindowEvent.h"
 #include <Dunix/Events/KeyEvent.h>
+
+#include "glad/glad.h"
 
 namespace Dunix
 {
@@ -29,6 +32,9 @@ namespace Dunix
 		}
 
 		glfwMakeContextCurrent(m_Window);
+
+		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		glfwSwapInterval(1);
 
@@ -78,6 +84,7 @@ namespace Dunix
 
 	void WindowGLFW::Update()
 	{
+		glClear(GL_COLOR_BUFFER_BIT);
 		glfwSwapBuffers(m_Window);
 		glfwPollEvents();   
 	}
