@@ -80,7 +80,7 @@
       <PrecompiledHeaderFile>dxpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DX_PLATFORM_WINDOWS;DX_BUILD_DLL;GLFW_INCLUDE_NONE;DX_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;vendor\Glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;vendor\Glad\include;vendor\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -104,7 +104,7 @@
       <PrecompiledHeaderFile>dxpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DX_PLATFORM_WINDOWS;DX_BUILD_DLL;GLFW_INCLUDE_NONE;DX_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;vendor\Glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;vendor\Glad\include;vendor/imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -132,7 +132,7 @@
       <PrecompiledHeaderFile>dxpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DX_PLATFORM_WINDOWS;DX_BUILD_DLL;DX_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;vendor\Glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;vendor\Glad\include;vendor\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -161,12 +161,14 @@
     <ClInclude Include="src\Dunix\Core\Core.h" />
     <ClInclude Include="src\Dunix\Core\EntryPoint.h" />
     <ClInclude Include="src\Dunix\Core\LayerStack.h" />
+    <ClInclude Include="src\Dunix\Editor\ImGuiLayer.h" />
     <ClInclude Include="src\Dunix\Events\Event.h" />
     <ClInclude Include="src\Dunix\Events\EventDispatcher.h" />
     <ClInclude Include="src\Dunix\Events\KeyEvent.h" />
     <ClInclude Include="src\Dunix\Events\MouseEvent.h" />
     <ClInclude Include="src\Dunix\Events\WindowEvent.h" />
     <ClInclude Include="src\Dunix\Core\Log.h" />
+    <ClInclude Include="src\Dunix\Renderer\ImGuiOpenGLRenderer.h" />
     <ClInclude Include="src\Dunix\Window\Window.h" />
     <ClInclude Include="src\Dunix\Window\WindowGLFW.h" />
     <ClInclude Include="src\dxpch.h" />
@@ -176,6 +178,8 @@
     <ClCompile Include="src\Dunix\Core\Application.cpp" />
     <ClCompile Include="src\Dunix\Core\LayerStack.cpp" />
     <ClCompile Include="src\Dunix\Core\Log.cpp" />
+    <ClCompile Include="src\Dunix\Editor\ImGuiLayer.cpp" />
+    <ClCompile Include="src\Dunix\Renderer\ImGuiOpenGLRenderer.cpp" />
     <ClCompile Include="src\Dunix\Window\Window.cpp" />
     <ClCompile Include="src\Dunix\Window\WindowGLFW.cpp" />
     <ClCompile Include="src\dxpch.cpp">

@@ -15,6 +15,9 @@ namespace Dunix
 		virtual ~WindowGLFW() override;
 		virtual void Update() override;
 
+		inline unsigned int GetWidth() const override { return m_Data.Width; }
+		inline unsigned int GetHeight() const override { return m_Data.Height; }
+
 		virtual void* GetNativeWindow() override;
 		inline void SetEventCallback(const EventCallbackFn& callback) override;
 

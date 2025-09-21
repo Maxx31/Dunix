@@ -21,11 +21,15 @@ namespace Dunix
 
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* layer);
+
+		Window* GetWindow() { return m_Window.get(); }
+		static Application& GetApplication() { return *m_Instance; }
 	private:
 		std::unique_ptr<Window> m_Window;
 		bool m_Running;
 
 		LayerStack m_LayerStack;
+		static Application* m_Instance;
 	};
 
 	// To be defined in CLIENT

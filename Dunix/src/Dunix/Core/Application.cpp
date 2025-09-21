@@ -6,16 +6,20 @@
 
 namespace Dunix
 {
+	Application* Application::m_Instance = nullptr;
+
 	Application::Application()
 	{
 		WindowsProps props(1280, 920);
 		m_Window = Dunix::CreateDunixWindow(props);
 
 		m_Window->SetEventCallback(std::bind(&Application::OnEvent, this, std::placeholders::_1));
+		m_Instance = this;
 	}
 
 	Application::~Application()
 	{
+		m_Instance = nullptr;
 	}
 
 	void Application::Run()
