@@ -3,6 +3,7 @@
 #include "Dunix/Events/EventDispatcher.h"
 #include "Dunix/Events/WindowEvent.h"
 #include "Log.h"
+#include <gl/GL.h>
 
 namespace Dunix
 {
@@ -10,11 +11,11 @@ namespace Dunix
 
 	Application::Application()
 	{
+		m_Instance = this;
 		WindowsProps props(1280, 920);
 		m_Window = Dunix::CreateDunixWindow(props);
 
 		m_Window->SetEventCallback(std::bind(&Application::OnEvent, this, std::placeholders::_1));
-		m_Instance = this;
 	}
 
 	Application::~Application()
@@ -27,8 +28,11 @@ namespace Dunix
 		m_Running = true;
 		while (m_Running)
 		{
-			m_Window->Update();
+			glClearColor(1, 0, 1, 1);
+			glClear(GL_COLOR_BUFFER_BIT);
+
 			m_LayerStack.OnUpdate();
+			m_Window->Update();
 		}
 	}
 

@@ -24,6 +24,8 @@ namespace Dunix
 
 		glfwSetErrorCallback(GlfwErrorCallback);
 		m_Window = glfwCreateWindow((int)windowsProps.Width, (int)windowsProps.Height, "Dunix", nullptr, nullptr);
+		m_Data.Width = (int)windowsProps.Width;
+		m_Data.Height = (int)windowsProps.Height;
 
 		if (!m_Window)
 		{
@@ -84,7 +86,7 @@ namespace Dunix
 
 	void WindowGLFW::Update()
 	{
-		glClear(GL_COLOR_BUFFER_BIT);
+		//glClear(GL_COLOR_BUFFER_BIT);
 		glfwSwapBuffers(m_Window);
 		glfwPollEvents();   
 	}
