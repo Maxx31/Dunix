@@ -1,12 +1,17 @@
 #include "dxpch.h"
+
+#include "GLFW/glfw3.h"
+#include "imgui.h"
 #include "ImGuiLayer.h"
 
 #include "Dunix/Core/Application.h"
 #include "Dunix/Window/Window.h"
-#include "GLFW/glfw3.h"
-#include "imgui.h"
 #include "Dunix/Renderer/ImGuiOpenGLRenderer.h"
- 
+
+#include <Dunix/Events/EventDispatcher.h>
+#include <Dunix/Events/MouseEvent.h>
+#include <Dunix/Events/KeyEvent.h>
+
 namespace Dunix
 {
 	ImGuiLayer::ImGuiLayer()
@@ -55,16 +60,18 @@ namespace Dunix
 
 	void ImGuiLayer::OnDetach()
 	{
+
 	}
 
 	void ImGuiLayer::OnUpdate()
 	{
 		ImGuiIO& io = ImGui::GetIO();
+
 		Application& app = Application::GetApplication();
 		io.DisplaySize = ImVec2(app.GetWindow()->GetWidth(), app.GetWindow()->GetHeight());
 
 		float time = (float)glfwGetTime();
-		io.DeltaTime = m_Time > 0.0f ? (time - m_Time) : (1.0f / 60.0f);
+		io.DeltaTime = m_Time > 0.0f ? (time - m_Time) : (1.0f / 60.0f); //Calculate time between frames
 		m_Time = time;
 
 		ImGui_ImplOpenGL3_NewFrame();
@@ -79,5 +86,38 @@ namespace Dunix
 
 	void ImGuiLayer::OnEvent(Event& e)
 	{
+		EventDispatcher dispatcher(e);
+
+		dispatcher.Dispatch<MouseMovedEvent>(std::bind(&ImGuiLayer::OnMouseMovedEvent, this, std::placeholders::_1));
+		dispatcher.Dispatch<MouseButtonPressedEvent>(std::bind(&ImGuiLayer::OnMouseButtonPressedEvent, this, std::placeholders::_1));
+		dispatcher.Dispatch<MouseButtonReleasedEvent>(std::bind(&ImGuiLayer::OnMouseButtonReleasedEvent, this, std::placeholders::_1));
+
+		dispatcher.Dispatch<KeyPressedEvent>(std::bind(&ImGuiLayer::OnKeyPressedEvent, this, std::placeholders::_1));
+		dispatcher.Dispatch<KeyReleasedEvent>(std::bind(&ImGuiLayer::OnKeyReleasedEvent, this, std::placeholders::_1));
+	}
+
+	bool ImGuiLayer::OnMouseMovedEvent(MouseMovedEvent& e)
+	{
+		return true;
+	}
+
+	bool ImGuiLayer::OnMouseButtonPressedEvent(MouseButtonPressedEvent& e)
+	{
+		return true;
+	}
+
+	bool ImGuiLayer::OnMouseButtonReleasedEvent(MouseButtonReleasedEvent& e)
+	{
+		return true;
+	}
+
+	bool ImGuiLayer::OnKeyPressedEvent(KeyPressedEvent& e)
+	{
+		return true;
+	}
+
+	bool ImGuiLayer::OnKeyReleasedEvent(KeyReleasedEvent& e)
+	{
+		return true;
 	}
 }

@@ -1,11 +1,11 @@
 #pragma once
 
-#include "../Core.h"
+#include "../Core/Core.h"
 #include "Event.h"
 
 namespace Dunix
 {
-	class DUNIX_API MouseButtonPressed : public Event
+	class DUNIX_API MouseButtonPressedEvent : public Event
 	{
 	public:
 		std::string ToString() const override
@@ -14,11 +14,11 @@ namespace Dunix
 			ss << "MouseButtonPressed";
 			return ss.str();
 		}
-		EVENT_CLASS_TYPE(KeyEvent)
-			EVENT_CLASS_CATEGORY(EventCategory::Input)
+		EVENT_CLASS_TYPE(MouseButtonPressedEvent)
+		EVENT_CLASS_CATEGORY(EventCategory::Input | EventCategory::Mouse)
 	};
 
-	class DUNIX_API MouseButtonReleased : public KeyEvent
+	class DUNIX_API MouseButtonReleasedEvent : public Event
 	{
 	public:
 		std::string ToString() const override
@@ -27,11 +27,11 @@ namespace Dunix
 			ss << "MouseButtonReleased";
 			return ss.str();
 		}
-		EVENT_CLASS_TYPE(KeyEvent)
-			EVENT_CLASS_CATEGORY(EventCategory::Input)
+		EVENT_CLASS_TYPE(MouseButtonReleasedEvent)
+		EVENT_CLASS_CATEGORY(EventCategory::Input | EventCategory::Mouse)
 	};
 
-	class DUNIX_API MouseMovedEvent : public KeyEvent
+	class DUNIX_API MouseMovedEvent : public Event
 	{
 	public:
 		std::string ToString() const override
@@ -40,7 +40,7 @@ namespace Dunix
 			ss << "MouseMovedEvent";
 			return ss.str();
 		}
-		EVENT_CLASS_TYPE(KeyEvent)
-			EVENT_CLASS_CATEGORY(EventCategory::Input)
+		EVENT_CLASS_TYPE(MouseMovedEvent)
+		EVENT_CLASS_CATEGORY(EventCategory::Input | EventCategory::Mouse)
 	};
 }
