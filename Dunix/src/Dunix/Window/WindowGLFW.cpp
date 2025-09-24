@@ -2,10 +2,10 @@
 #include "WindowGLFW.h"
 
 #include "Dunix/Events/WindowEvent.h"
+#include <Dunix/Events/MouseEvent.h>
 #include <Dunix/Events/KeyEvent.h>
 
 #include "glad/glad.h"
-
 namespace Dunix
 {
 
@@ -42,40 +42,64 @@ namespace Dunix
 
 		//GLFW callbacks
 		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height)
-		{
-			WindowData& windowData = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
-			windowData.Width = width;
-			windowData.Height = height;
+			{
+				WindowData& windowData = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+				windowData.Width = width;
+				windowData.Height = height;
 
-			WindowResizeEvent event(width, height);
-			windowData.EventCallback(event);
-		});
+				WindowResizeEvent event(width, height);
+				windowData.EventCallback(event);
+			});
+
+		glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double xpos, double ypos)
+			{
+				WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+
+				MouseMovedEvent event((float)xpos, (float)ypos);
+				data.EventCallback(event);
+			});
+
+		glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int button, int action, int mods)
+			{
+				WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+
+				if (action == GLFW_PRESS)
+				{
+					MouseButtonPressedEvent event(button);
+					data.EventCallback(event);
+				}
+				else if (action == GLFW_RELEASE)
+				{
+					MouseButtonReleasedEvent event(button);
+					data.EventCallback(event);
+				}
+			});
 
 		glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
-		{
-			WindowData& windowData = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
-
-			windowData.KeyCode = key;
-			windowData.KeyAction = action;
-
-			if (action == GLFW_PRESS)
 			{
-				KeyPressedEvent event(key);
-				windowData.EventCallback(event);
-			}
-			else if (action == GLFW_RELEASE)
-			{
-				KeyReleasedEvent event(key);
-				windowData.EventCallback(event);
-			}
-		});
+				WindowData& windowData = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+
+				windowData.KeyCode = key;
+				windowData.KeyAction = action;
+
+				if (action == GLFW_PRESS)
+				{
+					KeyPressedEvent event(key);
+					windowData.EventCallback(event);
+				}
+				else if (action == GLFW_RELEASE)
+				{
+					KeyReleasedEvent event(key);
+					windowData.EventCallback(event);
+				}
+			});
 
 		glfwSetWindowCloseCallback(m_Window, [](GLFWwindow* window)
-		{
-			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
-			WindowCloseEvent event;
-			data.EventCallback(event);
-		});
+			{
+				WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+				WindowCloseEvent event;
+				data.EventCallback(event);
+			});
 	}
 
 	WindowGLFW ::~WindowGLFW()
@@ -88,7 +112,7 @@ namespace Dunix
 	{
 		//glClear(GL_COLOR_BUFFER_BIT);
 		glfwSwapBuffers(m_Window);
-		glfwPollEvents();   
+		glfwPollEvents();
 	}
 
 	void* WindowGLFW::GetNativeWindow()

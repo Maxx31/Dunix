@@ -5,9 +5,57 @@
 
 namespace Dunix
 {
-	class DUNIX_API MouseButtonPressedEvent : public Event
+	class DUNIX_API MouseMovedEvent : public Event
 	{
 	public:
+
+		MouseMovedEvent(float inPosX, float inPosY)
+			: m_PosX(inPosX), m_PosY(inPosY) {}
+
+		std::string ToString() const override
+		{
+			std::stringstream ss;
+			ss << "MouseMovedEvent";
+			return ss.str();
+		}
+
+		inline float GetPosX() const { return m_PosX; }
+		inline float GetPosY() const { return m_PosY; }
+
+		EVENT_CLASS_TYPE(MouseMovedEvent)
+		EVENT_CLASS_CATEGORY(EventCategory::Input | EventCategory::Mouse)
+
+	private:
+		float m_PosX, m_PosY;
+	};
+
+	class DUNIX_API MouseButtonEvent : public Event
+	{
+	public:
+
+		MouseButtonEvent(int inButtonCode)
+			:m_ButtonCode(inButtonCode){}
+
+		std::string ToString() const override
+		{
+			std::stringstream ss;
+			ss << "MouseButtonEvent";
+			return ss.str();
+		}
+
+		inline unsigned int GetButtonCode() const { return m_ButtonCode; }
+
+		EVENT_CLASS_TYPE(MouseButtonEvent)
+		EVENT_CLASS_CATEGORY(EventCategory::Input | EventCategory::Mouse)
+
+	private:
+		unsigned int m_ButtonCode;
+	};
+
+	class DUNIX_API MouseButtonPressedEvent : public MouseButtonEvent
+	{
+	public:
+		MouseButtonPressedEvent(int inButtonCode) : MouseButtonEvent(inButtonCode) {}
 		std::string ToString() const override
 		{
 			std::stringstream ss;
@@ -18,9 +66,11 @@ namespace Dunix
 		EVENT_CLASS_CATEGORY(EventCategory::Input | EventCategory::Mouse)
 	};
 
-	class DUNIX_API MouseButtonReleasedEvent : public Event
+	class DUNIX_API MouseButtonReleasedEvent : public MouseButtonEvent
 	{
 	public:
+		MouseButtonReleasedEvent(int inButtonCode) : MouseButtonEvent(inButtonCode) {}
+
 		std::string ToString() const override
 		{
 			std::stringstream ss;
@@ -28,19 +78,6 @@ namespace Dunix
 			return ss.str();
 		}
 		EVENT_CLASS_TYPE(MouseButtonReleasedEvent)
-		EVENT_CLASS_CATEGORY(EventCategory::Input | EventCategory::Mouse)
-	};
-
-	class DUNIX_API MouseMovedEvent : public Event
-	{
-	public:
-		std::string ToString() const override
-		{
-			std::stringstream ss;
-			ss << "MouseMovedEvent";
-			return ss.str();
-		}
-		EVENT_CLASS_TYPE(MouseMovedEvent)
 		EVENT_CLASS_CATEGORY(EventCategory::Input | EventCategory::Mouse)
 	};
 }

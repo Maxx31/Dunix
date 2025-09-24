@@ -98,17 +98,23 @@ namespace Dunix
 
 	bool ImGuiLayer::OnMouseMovedEvent(MouseMovedEvent& e)
 	{
-		return true;
+		ImGuiIO& io = ImGui::GetIO();
+		io.AddMousePosEvent(e.GetPosX(), e.GetPosY());
+		return io.WantCaptureMouse;
 	}
 
 	bool ImGuiLayer::OnMouseButtonPressedEvent(MouseButtonPressedEvent& e)
 	{
-		return true;
+		ImGuiIO& io = ImGui::GetIO();
+		io.AddMouseButtonEvent((int)e.GetButtonCode(), true);
+		return io.WantCaptureMouse;
 	}
 
 	bool ImGuiLayer::OnMouseButtonReleasedEvent(MouseButtonReleasedEvent& e)
 	{
-		return true;
+		ImGuiIO& io = ImGui::GetIO();
+		io.AddMouseButtonEvent((int)e.GetButtonCode(), false);
+		return io.WantCaptureMouse;
 	}
 
 	bool ImGuiLayer::OnKeyPressedEvent(KeyPressedEvent& e)

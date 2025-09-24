@@ -16,6 +16,7 @@ namespace Dunix
 	enum class EventType
 	{
 		None,
+		MouseButtonEvent,
 		MouseButtonPressedEvent,
 		MouseButtonReleasedEvent,
 		MouseMovedEvent,
