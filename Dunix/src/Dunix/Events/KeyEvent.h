@@ -67,4 +67,29 @@ namespace Dunix
 	private:
 		unsigned int m_KeyCode;
 	};
+
+	class DUNIX_API KeyTypedEvent : public KeyEvent
+	{
+	public:
+
+		KeyTypedEvent(unsigned int keyCode)
+			: m_KeyCode(keyCode)
+		{
+		}
+
+		std::string ToString() const override
+		{
+			std::stringstream ss;
+			ss << "KeyTypedEvent";
+			return ss.str();
+		}
+
+		inline unsigned int GetKeyCode() const { return m_KeyCode; }
+
+		EVENT_CLASS_TYPE(KeyTypedEvent)
+		EVENT_CLASS_CATEGORY(EventCategory::Input | EventCategory::Keyboard)
+
+	private:
+		unsigned int m_KeyCode;
+	};
 }

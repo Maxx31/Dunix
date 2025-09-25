@@ -20,9 +20,11 @@ namespace Dunix
 		MouseButtonPressedEvent,
 		MouseButtonReleasedEvent,
 		MouseMovedEvent,
+		MouseScrolledEvent,
 		KeyEvent,
 		KeyPressedEvent,
 		KeyReleasedEvent,
+		KeyTypedEvent,
 		WindowResizeEvent,
 		WindowCloseEvent
 	};

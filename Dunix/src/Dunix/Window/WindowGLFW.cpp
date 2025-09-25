@@ -75,6 +75,14 @@ namespace Dunix
 				}
 			});
 
+		glfwSetScrollCallback(m_Window, [](GLFWwindow* window, double xOffset, double yOffset)
+			{
+				WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+
+				MouseScrolledEvent event((float)xOffset, (float)yOffset);
+				data.EventCallback(event);
+			});
+
 		glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
 			{
 				WindowData& windowData = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
@@ -92,6 +100,14 @@ namespace Dunix
 					KeyReleasedEvent event(key);
 					windowData.EventCallback(event);
 				}
+			});
+
+		glfwSetCharCallback(m_Window, [](GLFWwindow* window, unsigned int keycode)
+			{
+				WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+
+				KeyTypedEvent event(keycode);
+				data.EventCallback(event);
 			});
 
 		glfwSetWindowCloseCallback(m_Window, [](GLFWwindow* window)

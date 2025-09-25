@@ -20,9 +20,11 @@ namespace Dunix
 		bool OnMouseMovedEvent(class MouseMovedEvent& e);
 		bool OnMouseButtonPressedEvent(class MouseButtonPressedEvent& e);
 		bool OnMouseButtonReleasedEvent(class MouseButtonReleasedEvent& e);
+		bool OnMouseScrolledEvent(class MouseScrolledEvent& e);
 
 		bool OnKeyPressedEvent(class KeyPressedEvent& e);
 		bool OnKeyReleasedEvent(class KeyReleasedEvent& e);
+		bool OnKeyTypedEvent(class KeyTypedEvent& e);
 
 	private:
 		float m_Time = 0.0f;
