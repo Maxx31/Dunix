@@ -22,7 +22,7 @@ namespace Dunix
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* layer);
 
-		Window* GetWindow() { return m_Window.get(); }
+		Window& GetWindow() { return *m_Window; }
 		static Application& GetApplication() { return *m_Instance; }
 	private:
 		std::unique_ptr<Window> m_Window;

@@ -48,7 +48,7 @@ namespace Dunix
         ImGuiIO& io = ImGui::GetIO();
 
         Application& app = Application::GetApplication();
-        io.DisplaySize = ImVec2(app.GetWindow()->GetWidth(), app.GetWindow()->GetHeight());
+        io.DisplaySize = ImVec2(app.GetWindow().GetWidth(), app.GetWindow().GetHeight());
 
         float time = (float)glfwGetTime();
         io.DeltaTime = m_Time > 0.0f ? (time - m_Time) : (1.0f / 60.0f); //Calculate time between frames

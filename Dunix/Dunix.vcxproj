@@ -155,6 +155,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Dunix\Core\Input.h" />
     <ClInclude Include="src\Dunix\Core\Layer.h" />
     <ClInclude Include="src\Dunix.h" />
     <ClInclude Include="src\Dunix\Core\Application.h" />
@@ -171,6 +172,7 @@
     <ClInclude Include="src\Dunix\Renderer\ImGuiOpenGLRenderer.h" />
     <ClInclude Include="src\Dunix\Window\Window.h" />
     <ClInclude Include="src\Dunix\Window\WindowGLFW.h" />
+    <ClInclude Include="src\Dunix\Window\WindowsInput.h" />
     <ClInclude Include="src\dxpch.h" />
   </ItemGroup>
   <ItemGroup>
@@ -182,6 +184,7 @@
     <ClCompile Include="src\Dunix\Renderer\ImGuiOpenGLRenderer.cpp" />
     <ClCompile Include="src\Dunix\Window\Window.cpp" />
     <ClCompile Include="src\Dunix\Window\WindowGLFW.cpp" />
+    <ClCompile Include="src\Dunix\Window\WindowsInput.cpp" />
     <ClCompile Include="src\dxpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
