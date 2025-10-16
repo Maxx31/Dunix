@@ -31,11 +31,11 @@ namespace Dunix
 
 	enum EventCategory
 	{
-		None = 0,
-		App = 1 << 0,
-		Input = 1 << 1,
-		Keyboard = 1 << 2,
-		Mouse = 1 << 3,
+		CategoryNone = 0,
+		CategoryApp = 1 << 0,
+		CategoryInput = 1 << 1,
+		CategoryKeyboard = 1 << 2,
+		CategoryMouse = 1 << 3,
 	};
 
 	class DUNIX_API Event

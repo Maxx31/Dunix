@@ -16,7 +16,7 @@ namespace Dunix
 		}
 
 		EVENT_CLASS_TYPE(KeyEvent)
-		EVENT_CLASS_CATEGORY(EventCategory::Input | EventCategory::Keyboard)
+		EVENT_CLASS_CATEGORY(EventCategory::CategoryInput | EventCategory::CategoryKeyboard)
 	};
 
 	class DUNIX_API KeyPressedEvent : public KeyEvent
@@ -37,7 +37,7 @@ namespace Dunix
 		inline unsigned int GetKeyCode() const { return m_KeyCode; }
 
 		EVENT_CLASS_TYPE(KeyEvent)
-		EVENT_CLASS_CATEGORY(EventCategory::Input | EventCategory::Keyboard)
+		EVENT_CLASS_CATEGORY(EventCategory::CategoryInput | EventCategory::CategoryKeyboard)
 
 	private:
 		unsigned int m_KeyCode;
@@ -62,7 +62,7 @@ namespace Dunix
 		inline unsigned int GetKeyCode() const { return m_KeyCode; }
 
 		EVENT_CLASS_TYPE(KeyEvent)
-		EVENT_CLASS_CATEGORY(EventCategory::Input | EventCategory::Keyboard)
+		EVENT_CLASS_CATEGORY(EventCategory::CategoryInput | EventCategory::CategoryKeyboard)
 
 	private:
 		unsigned int m_KeyCode;
@@ -87,7 +87,7 @@ namespace Dunix
 		inline unsigned int GetKeyCode() const { return m_KeyCode; }
 
 		EVENT_CLASS_TYPE(KeyTypedEvent)
-		EVENT_CLASS_CATEGORY(EventCategory::Input | EventCategory::Keyboard)
+		EVENT_CLASS_CATEGORY(EventCategory::CategoryInput | EventCategory::CategoryKeyboard)
 
 	private:
 		unsigned int m_KeyCode;

@@ -23,7 +23,7 @@ namespace Dunix
 		inline float GetPosY() const { return m_PosY; }
 
 		EVENT_CLASS_TYPE(MouseMovedEvent)
-		EVENT_CLASS_CATEGORY(EventCategory::Input | EventCategory::Mouse)
+		EVENT_CLASS_CATEGORY(EventCategory::CategoryInput | EventCategory::CategoryMouse)
 
 	private:
 		float m_PosX, m_PosY;
@@ -46,7 +46,7 @@ namespace Dunix
 		inline unsigned int GetButtonCode() const { return m_ButtonCode; }
 
 		EVENT_CLASS_TYPE(MouseButtonEvent)
-		EVENT_CLASS_CATEGORY(EventCategory::Input | EventCategory::Mouse)
+		EVENT_CLASS_CATEGORY(EventCategory::CategoryInput | EventCategory::CategoryMouse)
 
 	private:
 		unsigned int m_ButtonCode;
@@ -63,7 +63,7 @@ namespace Dunix
 			return ss.str();
 		}
 		EVENT_CLASS_TYPE(MouseButtonPressedEvent)
-		EVENT_CLASS_CATEGORY(EventCategory::Input | EventCategory::Mouse)
+		EVENT_CLASS_CATEGORY(EventCategory::CategoryInput | EventCategory::CategoryMouse)
 	};
 
 	class DUNIX_API MouseButtonReleasedEvent : public MouseButtonEvent
@@ -78,7 +78,7 @@ namespace Dunix
 			return ss.str();
 		}
 		EVENT_CLASS_TYPE(MouseButtonReleasedEvent)
-		EVENT_CLASS_CATEGORY(EventCategory::Input | EventCategory::Mouse)
+		EVENT_CLASS_CATEGORY(EventCategory::CategoryInput | EventCategory::CategoryMouse)
 	};
 
 	class DUNIX_API MouseScrolledEvent : public Event
@@ -99,7 +99,7 @@ namespace Dunix
 		}
 
 		EVENT_CLASS_TYPE(MouseScrolledEvent)
-		EVENT_CLASS_CATEGORY(EventCategory::Input | EventCategory::Mouse)
+		EVENT_CLASS_CATEGORY(EventCategory::CategoryInput | EventCategory::CategoryMouse)
 	private:
 		float m_XOffset, m_YOffset;
 	};

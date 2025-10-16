@@ -23,7 +23,7 @@ namespace Dunix
 		inline unsigned int GetHeight() const { return m_Height; }
 
 		EVENT_CLASS_TYPE(WindowResizeEvent)
-		EVENT_CLASS_CATEGORY(EventCategory::Input)
+		EVENT_CLASS_CATEGORY(EventCategory::CategoryInput)
 
 	private:
 		unsigned int m_Width, m_Height;
@@ -39,6 +39,6 @@ namespace Dunix
 			return ss.str();
 		}
 		EVENT_CLASS_TYPE(WindowCloseEvent)
-		EVENT_CLASS_CATEGORY(EventCategory::Input)
+		EVENT_CLASS_CATEGORY(EventCategory::CategoryInput)
 	};
 }
