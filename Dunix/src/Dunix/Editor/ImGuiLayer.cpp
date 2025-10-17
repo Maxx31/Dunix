@@ -6,7 +6,8 @@
 
 #include "Dunix/Core/Application.h"
 #include "Dunix/Window/Window.h"
-#include "Dunix/Renderer/ImGuiOpenGLRenderer.h"
+#include "backends/imgui_impl_opengl3.h"
+#include "backends/imgui_impl_glfw.h"
 
 #include <Dunix/Events/EventDispatcher.h>
 #include <Dunix/Events/MouseEvent.h>

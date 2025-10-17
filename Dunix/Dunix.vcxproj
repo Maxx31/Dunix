@@ -169,7 +169,6 @@
     <ClInclude Include="src\Dunix\Events\MouseEvent.h" />
     <ClInclude Include="src\Dunix\Events\WindowEvent.h" />
     <ClInclude Include="src\Dunix\Core\Log.h" />
-    <ClInclude Include="src\Dunix\Renderer\ImGuiOpenGLRenderer.h" />
     <ClInclude Include="src\Dunix\Window\Window.h" />
     <ClInclude Include="src\Dunix\Window\WindowGLFW.h" />
     <ClInclude Include="src\Dunix\Window\WindowsInput.h" />
@@ -180,8 +179,8 @@
     <ClCompile Include="src\Dunix\Core\Application.cpp" />
     <ClCompile Include="src\Dunix\Core\LayerStack.cpp" />
     <ClCompile Include="src\Dunix\Core\Log.cpp" />
+    <ClCompile Include="src\Dunix\Editor\ImGuiBuild.cpp" />
     <ClCompile Include="src\Dunix\Editor\ImGuiLayer.cpp" />
-    <ClCompile Include="src\Dunix\Renderer\ImGuiOpenGLRenderer.cpp" />
     <ClCompile Include="src\Dunix\Window\Window.cpp" />
     <ClCompile Include="src\Dunix\Window\WindowGLFW.cpp" />
     <ClCompile Include="src\Dunix\Window\WindowsInput.cpp" />
