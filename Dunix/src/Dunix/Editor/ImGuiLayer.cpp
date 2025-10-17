@@ -41,101 +41,42 @@ namespace Dunix
 
     void ImGuiLayer::OnDetach()
     {
-
+        ImGui_ImplOpenGL3_Shutdown();
+        ImGui_ImplGlfw_Shutdown();
+        ImGui::DestroyContext();
     }
 
-    void ImGuiLayer::OnUpdate()
+
+    void ImGuiLayer::Begin()
+    {
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+    }
+
+    void ImGuiLayer::End()
     {
         ImGuiIO& io = ImGui::GetIO();
-
         Application& app = Application::GetApplication();
         io.DisplaySize = ImVec2(app.GetWindow().GetWidth(), app.GetWindow().GetHeight());
 
-        float time = (float)glfwGetTime();
-        io.DeltaTime = m_Time > 0.0f ? (time - m_Time) : (1.0f / 60.0f); //Calculate time between frames
-        m_Time = time;
-
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui::NewFrame();
-
-        static bool show = true;
-        ImGui::ShowDemoWindow(&show);
-
+        // Rendering
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+        if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+        {
+            GLFWwindow* backup_current_context = glfwGetCurrentContext();
+            ImGui::UpdatePlatformWindows();
+            ImGui::RenderPlatformWindowsDefault();
+            glfwMakeContextCurrent(backup_current_context);
+        }
     }
 
-    void ImGuiLayer::OnEvent(Event& e)
+    void ImGuiLayer::OnImGuiRender()
     {
-        EventDispatcher dispatcher(e);
-
-        dispatcher.Dispatch<MouseMovedEvent>(std::bind(&ImGuiLayer::OnMouseMovedEvent, this, std::placeholders::_1));
-        dispatcher.Dispatch<MouseButtonPressedEvent>(std::bind(&ImGuiLayer::OnMouseButtonPressedEvent, this, std::placeholders::_1));
-        dispatcher.Dispatch<MouseButtonReleasedEvent>(std::bind(&ImGuiLayer::OnMouseButtonReleasedEvent, this, std::placeholders::_1));
-        dispatcher.Dispatch<MouseScrolledEvent>(std::bind(&ImGuiLayer::OnMouseScrolledEvent, this, std::placeholders::_1));
-
-        dispatcher.Dispatch<KeyPressedEvent>(std::bind(&ImGuiLayer::OnKeyPressedEvent, this, std::placeholders::_1));
-        dispatcher.Dispatch<KeyReleasedEvent>(std::bind(&ImGuiLayer::OnKeyReleasedEvent, this, std::placeholders::_1));
-        dispatcher.Dispatch<KeyTypedEvent>(std::bind(&ImGuiLayer::OnKeyTypedEvent, this, std::placeholders::_1));
-    }
-
-    bool ImGuiLayer::OnMouseMovedEvent(MouseMovedEvent& e)
-    {
-        ImGuiIO& io = ImGui::GetIO();
-        io.AddMousePosEvent(e.GetPosX(), e.GetPosY());
-        return io.WantCaptureMouse;
-    }
-
-    bool ImGuiLayer::OnMouseButtonPressedEvent(MouseButtonPressedEvent& e)
-    {
-        ImGuiIO& io = ImGui::GetIO();
-        io.AddMouseButtonEvent((int)e.GetButtonCode(), true);
-        return io.WantCaptureMouse;
-    }
-
-    bool ImGuiLayer::OnMouseButtonReleasedEvent(MouseButtonReleasedEvent& e)
-    {
-        ImGuiIO& io = ImGui::GetIO();
-        io.AddMouseButtonEvent((int)e.GetButtonCode(), false);
-        return io.WantCaptureMouse;
-    }
-
-    bool ImGuiLayer::OnMouseScrolledEvent(MouseScrolledEvent& e)
-    {
-        ImGuiIO& io = ImGui::GetIO();
-        io.AddMouseWheelEvent((float)e.GetXOffset(), (float)e.GetYOffset());
-        return io.WantCaptureMouse;
-    }
-
-	bool ImGuiLayer::OnKeyPressedEvent(KeyPressedEvent& e)
-	{
-		ImGuiIO& io = ImGui::GetIO();
-
-		ImGuiKey key = GlfwKeyToImGuiKey((int)e.GetKeyCode());
-		if (key != ImGuiKey_None)
-			io.AddKeyEvent(GlfwKeyToImGuiKey(e.GetKeyCode()), true);
-
-		return io.WantCaptureKeyboard;
-	}
-
-    bool ImGuiLayer::OnKeyReleasedEvent(KeyReleasedEvent& e)
-    {
-        ImGuiIO& io = ImGui::GetIO();
-
-        ImGuiKey key = GlfwKeyToImGuiKey((int)e.GetKeyCode());
-        if (key != ImGuiKey_None)
-            io.AddKeyEvent(GlfwKeyToImGuiKey(e.GetKeyCode()), false);
-
-        return io.WantCaptureKeyboard;
-    }
-
-    bool ImGuiLayer::OnKeyTypedEvent(KeyTypedEvent& e)
-    {
-        ImGuiIO& io = ImGui::GetIO();
-        io.AddInputCharacter((unsigned int)e.GetKeyCode());
-        return io.WantCaptureKeyboard;
-
-        return false;
+        static bool show = true;
+        ImGui::ShowDemoWindow(&show);
     }
 
     static ImGuiKey GlfwKeyToImGuiKey(int key)

@@ -4,6 +4,8 @@
 #include "Dunix/Events/Event.h"
 #include "Dunix/Events/WindowEvent.h"
 #include "Dunix/Window/Window.h"
+#include "Dunix/Editor/ImGuiLayer.h"
+
 #include "LayerStack.h"
 
 namespace Dunix
@@ -26,6 +28,8 @@ namespace Dunix
 		static Application& GetApplication() { return *m_Instance; }
 	private:
 		std::unique_ptr<Window> m_Window;
+		ImGuiLayer* m_ImGuiLayer;
+
 		bool m_Running;
 
 		LayerStack m_LayerStack;

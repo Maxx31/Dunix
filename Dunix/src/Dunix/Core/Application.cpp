@@ -16,6 +16,9 @@ namespace Dunix
 		m_Window = Dunix::CreateDunixWindow(props);
 
 		m_Window->SetEventCallback(std::bind(&Application::OnEvent, this, std::placeholders::_1));
+
+		m_ImGuiLayer = new ImGuiLayer();
+		PushOverlay(m_ImGuiLayer);
 	}
 
 	Application::~Application()
@@ -34,6 +37,11 @@ namespace Dunix
 			m_LayerStack.OnUpdate();
 			m_Window->Update();
 		}
+
+		m_ImGuiLayer->Begin();
+		for (Layer* layer : m_LayerStack)
+			layer->OnImGuiRender();
+		m_ImGuiLayer->End();
 	}
 
 	void Application::OnEvent(Event& e)
