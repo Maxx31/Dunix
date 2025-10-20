@@ -3,6 +3,16 @@
 
 namespace Dunix
 {
+	LayerStack::LayerStack()
+	{
+	}
+
+	LayerStack::~LayerStack()
+	{
+		for (Layer* layer : m_Layers)
+			delete layer;
+	}
+
 	void LayerStack::PushLayer(Layer* inLayer)
 	{
 		auto pos = m_Layers.begin() + m_LastLayerIndex;

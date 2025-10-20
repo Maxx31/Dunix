@@ -9,14 +9,19 @@ namespace Dunix
 	class DUNIX_API LayerStack
 	{
 	public:
+		LayerStack();
+		~LayerStack();
+
 		void PushLayer(Layer* inLayer);
 		void PushOverlay(Layer* inOverlay);
-
 	    void PopLayer(Layer* inLayer);
 		void PopOverlay(Layer* inOverlay);
 
 		void OnUpdate();
 		void OnEvent(Event& e);
+
+		auto begin() { return m_Layers.begin(); }
+		auto end() { return m_Layers.end(); }
 
 	private:
 		std::vector<Layer*>m_Layers;
