@@ -357,8 +357,7 @@ int main(int, char**)
 
     // Create window with Vulkan context
     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-    float main_scale = ImGui_ImplGlfw_GetContentScaleForMonitor(glfwGetPrimaryMonitor()); // Valid on GLFW 3.3+ only
-    GLFWwindow* window = glfwCreateWindow((int)(1280 * main_scale), (int)(800 * main_scale), "Dear ImGui GLFW+Vulkan example", nullptr, nullptr);
+    GLFWwindow* window = glfwCreateWindow(1280, 720, "Dear ImGui GLFW+Vulkan example", nullptr, nullptr);
     if (!glfwVulkanSupported())
     {
         printf("GLFW: Vulkan Not Supported\n");
@@ -389,15 +388,22 @@ int main(int, char**)
     ImGuiIO& io = ImGui::GetIO(); (void)io;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // Enable Docking
+    io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;       // Enable Multi-Viewport / Platform Windows
+    //io.ConfigViewportsNoAutoMerge = true;
+    //io.ConfigViewportsNoTaskBarIcon = true;
 
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
     //ImGui::StyleColorsLight();
 
-    // Setup scaling
+    // When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
     ImGuiStyle& style = ImGui::GetStyle();
-    style.ScaleAllSizes(main_scale);        // Bake a fixed style scale. (until we have a solution for dynamic style scaling, changing this requires resetting Style + calling this again)
-    style.FontScaleDpi = main_scale;        // Set initial font scale. (using io.ConfigDpiScaleFonts=true makes this unnecessary. We leave both here for documentation purpose)
+    if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+    {
+        style.WindowRounding = 0.0f;
+        style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+    }
 
     // Setup Platform/Renderer backends
     ImGui_ImplGlfw_InitForVulkan(window, true);
@@ -510,17 +516,25 @@ int main(int, char**)
 
         // Rendering
         ImGui::Render();
-        ImDrawData* draw_data = ImGui::GetDrawData();
-        const bool is_minimized = (draw_data->DisplaySize.x <= 0.0f || draw_data->DisplaySize.y <= 0.0f);
-        if (!is_minimized)
+        ImDrawData* main_draw_data = ImGui::GetDrawData();
+        const bool main_is_minimized = (main_draw_data->DisplaySize.x <= 0.0f || main_draw_data->DisplaySize.y <= 0.0f);
+        wd->ClearValue.color.float32[0] = clear_color.x * clear_color.w;
+        wd->ClearValue.color.float32[1] = clear_color.y * clear_color.w;
+        wd->ClearValue.color.float32[2] = clear_color.z * clear_color.w;
+        wd->ClearValue.color.float32[3] = clear_color.w;
+        if (!main_is_minimized)
+            FrameRender(wd, main_draw_data);
+
+        // Update and Render additional Platform Windows
+        if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
         {
-            wd->ClearValue.color.float32[0] = clear_color.x * clear_color.w;
-            wd->ClearValue.color.float32[1] = clear_color.y * clear_color.w;
-            wd->ClearValue.color.float32[2] = clear_color.z * clear_color.w;
-            wd->ClearValue.color.float32[3] = clear_color.w;
-            FrameRender(wd, draw_data);
-            FramePresent(wd);
+            ImGui::UpdatePlatformWindows();
+            ImGui::RenderPlatformWindowsDefault();
         }
+
+        // Present Main Platform Window
+        if (!main_is_minimized)
+            FramePresent(wd);
     }
 
     // Cleanup
