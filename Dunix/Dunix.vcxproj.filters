@@ -98,8 +98,5 @@
     <ClCompile Include="src\Dunix\Window\WindowsInput.cpp">
       <Filter>Dunix\Window</Filter>
     </ClCompile>
-    <ClCompile Include="src\Dunix\Editor\ImGuiBuild.cpp">
-      <Filter>Dunix\Editor</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>

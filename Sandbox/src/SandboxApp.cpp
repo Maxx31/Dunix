@@ -1,11 +1,14 @@
 #include <Dunix.h>
 
-#include "imgui/imgui.h"
-#include <Dunix/Events/KeyEvent.h>
+#include <imgui/imgui.h>
 
 class ExampleLayer : public Dunix::Layer
 {
 public:
+	ExampleLayer()
+		: Layer("Example")
+	{
+	}
 
 	virtual void OnImGuiRender() override
 	{
