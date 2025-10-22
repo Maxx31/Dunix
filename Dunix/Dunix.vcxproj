@@ -191,6 +191,7 @@
     <ClCompile Include="src\Dunix\Core\Application.cpp" />
     <ClCompile Include="src\Dunix\Core\LayerStack.cpp" />
     <ClCompile Include="src\Dunix\Core\Log.cpp" />
+    <ClCompile Include="src\Dunix\Editor\ImGuiBuild.cpp" />
     <ClCompile Include="src\Dunix\Editor\ImGuiLayer.cpp" />
     <ClCompile Include="src\Dunix\Window\Window.cpp" />
     <ClCompile Include="src\Dunix\Window\WindowGLFW.cpp" />
