@@ -31,12 +31,13 @@ namespace Dunix
         IMGUI_CHECKVERSION();
 
         ImGui::CreateContext();
-        ImGui::StyleColorsDark();
 
         ImGuiIO& io = ImGui::GetIO();
         io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
         io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multi-Viewport / Platform Windows
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+
+        ImGui::StyleColorsDark();
 
         ImGuiStyle& style = ImGui::GetStyle();
         if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
@@ -47,7 +48,8 @@ namespace Dunix
 
         Application& app = Application::GetApplication();
         GLFWwindow* window = static_cast<GLFWwindow*>(app.GetWindow().GetNativeWindow());
-
+        printf("HWND before init: %p\n", (void*)ImGui::GetMainViewport()->PlatformHandleRaw);
+        printf("Viewports flag: %d\n", (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable) != 0);
         ImGui_ImplGlfw_InitForOpenGL(window, true);
         ImGui_ImplOpenGL3_Init("#version 410");
     }

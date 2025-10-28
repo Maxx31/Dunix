@@ -132,7 +132,7 @@ namespace Dunix
 
 	void* WindowGLFW::GetNativeWindow()
 	{
-		return this;
+		return m_Window;
 	}
 
 	inline void WindowGLFW::SetEventCallback(const EventCallbackFn& callback)
