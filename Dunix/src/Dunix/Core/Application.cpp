@@ -28,20 +28,20 @@ namespace Dunix
 
 	void Application::Run()
 	{
-		m_Running = true;
 		while (m_Running)
 		{
 			glClearColor(1, 0, 1, 1);
 			glClear(GL_COLOR_BUFFER_BIT);
 
 			m_LayerStack.OnUpdate();
+
+			m_ImGuiLayer->Begin();
+			for (Layer* layer : m_LayerStack)
+				layer->OnImGuiRender();
+			m_ImGuiLayer->End();
+
 			m_Window->Update();
 		}
-
-		m_ImGuiLayer->Begin();
-		for (Layer* layer : m_LayerStack)
-			layer->OnImGuiRender();
-		m_ImGuiLayer->End();
 	}
 
 	void Application::OnEvent(Event& e)

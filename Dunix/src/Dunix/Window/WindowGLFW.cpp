@@ -126,8 +126,8 @@ namespace Dunix
 
 	void WindowGLFW::Update()
 	{
-		glfwSwapBuffers(m_Window);
 		glfwPollEvents();
+		glfwSwapBuffers(m_Window);
 	}
 
 	void* WindowGLFW::GetNativeWindow()
