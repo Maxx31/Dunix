@@ -27,6 +27,7 @@ namespace Dunix
 
 	private:
 		GLFWwindow* m_Window;
+		std::unique_ptr<class GraphicsContext> m_Context;
 
 		struct WindowData
 		{

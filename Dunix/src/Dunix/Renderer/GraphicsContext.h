@@ -1,6 +1,10 @@
 #pragma once
-namespace Dunix {
-    class GraphicsContext {
+
+namespace Dunix 
+{
+    class GraphicsContext 
+    {
+
     public:
         virtual ~GraphicsContext() = default;
         virtual void Init() = 0;

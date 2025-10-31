@@ -167,6 +167,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Dunix\Renderer\OpenGL\OpengGLContext.h" />
     <ClInclude Include="src\Dunix\Core\Input.h" />
     <ClInclude Include="src\Dunix\Core\Layer.h" />
     <ClInclude Include="src\Dunix.h" />
@@ -181,12 +182,14 @@
     <ClInclude Include="src\Dunix\Events\MouseEvent.h" />
     <ClInclude Include="src\Dunix\Events\WindowEvent.h" />
     <ClInclude Include="src\Dunix\Core\Log.h" />
+    <ClInclude Include="src\Dunix\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\Dunix\Window\Window.h" />
     <ClInclude Include="src\Dunix\Window\WindowGLFW.h" />
     <ClInclude Include="src\Dunix\Window\WindowsInput.h" />
     <ClInclude Include="src\dxpch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Dunix\Renderer\OpenGL\OpengGLContext.cpp" />
     <ClCompile Include="src\Dunix\Core\Layer.cpp" />
     <ClCompile Include="src\Dunix\Core\Application.cpp" />
     <ClCompile Include="src\Dunix\Core\LayerStack.cpp" />

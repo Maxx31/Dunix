@@ -71,6 +71,8 @@
     <ClInclude Include="src\Dunix\Window\WindowsInput.h">
       <Filter>Dunix\Window</Filter>
     </ClInclude>
+    <ClInclude Include="src\Dunix\Renderer\GraphicsContext.h" />
+    <ClInclude Include="src\Dunix\Renderer\OpenGL\OpengGLContext.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Dunix\Window\Window.cpp">
@@ -99,5 +101,6 @@
       <Filter>Dunix\Window</Filter>
     </ClCompile>
     <ClCompile Include="src\Dunix\Editor\ImGuiBuild.cpp" />
+    <ClCompile Include="src\Dunix\Renderer\OpenGL\OpengGLContext.cpp" />
   </ItemGroup>
 </Project>

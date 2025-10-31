@@ -1,14 +1,16 @@
 #include "dxpch.h"
 #include "WindowGLFW.h"
 
+#include <Dunix/Renderer/OpenGL/OpengGLContext.h>
+
 #include "Dunix/Events/WindowEvent.h"
 #include <Dunix/Events/MouseEvent.h>
 #include <Dunix/Events/KeyEvent.h>
 
 #include "glad/glad.h"
+
 namespace Dunix
 {
-
 	static void GlfwErrorCallback(int code, const char* desc)
 	{
 		DX_CORE_ERROR("GLFW error {}: {}", code, desc);
@@ -33,9 +35,8 @@ namespace Dunix
 			DX_ERROR("Can't create GLFW window");
 		}
 
-		glfwMakeContextCurrent(m_Window);
-
-		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		m_Context = std::make_unique<OpengGLContext>(m_Window);
+		m_Context->Init();
 
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		glfwSwapInterval(1);
@@ -127,7 +128,7 @@ namespace Dunix
 	void WindowGLFW::Update()
 	{
 		glfwPollEvents();
-		glfwSwapBuffers(m_Window);
+		m_Context->SwapBuffers();
 	}
 
 	void* WindowGLFW::GetNativeWindow()
