@@ -3,7 +3,8 @@
 #include "Dunix/Events/EventDispatcher.h"
 #include "Dunix/Events/WindowEvent.h"
 #include "Log.h"
-#include <gl/GL.h>
+
+#include <glad/glad.h>
 
 namespace Dunix
 {
@@ -19,6 +20,26 @@ namespace Dunix
 
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
+
+		//Rendering simple triangle 
+		float vertices[] = {
+		-0.5f, -0.5f,
+		0.5f, -0.5f,
+		0.0f,  0.5f
+		};
+
+		glGenVertexArrays(1, &m_VAO);
+		glGenBuffers(1, &m_VBO);
+
+		glBindVertexArray(m_VAO);
+		glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
+
+		glBindVertexArray(0);
+
 	}
 
 	Application::~Application()
@@ -30,8 +51,11 @@ namespace Dunix
 	{
 		while (m_Running)
 		{
-			glClearColor(1, 0, 1, 1);
+			glClearColor(0.137, 0.137, 0.137, 1);
 			glClear(GL_COLOR_BUFFER_BIT);
+
+			glBindVertexArray(m_VAO);
+			glDrawArrays(GL_TRIANGLES, 0, 3);
 
 			m_LayerStack.OnUpdate();
 

@@ -26,6 +26,7 @@ namespace Dunix
 
 		Window& GetWindow() { return *m_Window; }
 		static Application& GetApplication() { return *m_Instance; }
+
 	private:
 		std::unique_ptr<Window> m_Window;
 		ImGuiLayer* m_ImGuiLayer;
@@ -34,6 +35,9 @@ namespace Dunix
 
 		LayerStack m_LayerStack;
 		static Application* m_Instance;
+
+		unsigned int m_VAO, m_VBO;
+		unsigned int m_ShaderProgram;
 	};
 
 	// To be defined in CLIENT
