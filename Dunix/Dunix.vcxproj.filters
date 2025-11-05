@@ -73,6 +73,8 @@
     </ClInclude>
     <ClInclude Include="src\Dunix\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\Dunix\Renderer\OpenGL\OpengGLContext.h" />
+    <ClInclude Include="src\Dunix\Renderer\Shader.h" />
+    <ClInclude Include="src\Dunix\Renderer\OpenGL\OpenGLShader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Dunix\Window\Window.cpp">
@@ -102,5 +104,7 @@
     </ClCompile>
     <ClCompile Include="src\Dunix\Editor\ImGuiBuild.cpp" />
     <ClCompile Include="src\Dunix\Renderer\OpenGL\OpengGLContext.cpp" />
+    <ClCompile Include="src\Dunix\Renderer\Shader.cpp" />
+    <ClCompile Include="src\Dunix\Renderer\OpenGL\OpenGLShader.cpp" />
   </ItemGroup>
 </Project>
