@@ -37,7 +37,7 @@ namespace Dunix
 		static Application* m_Instance;
 
 		unsigned int m_VAO, m_VBO;
-		unsigned int m_ShaderProgram;
+		class Shader* m_DefaultShader;
 	};
 
 	// To be defined in CLIENT

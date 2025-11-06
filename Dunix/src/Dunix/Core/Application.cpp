@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "Dunix/Events/EventDispatcher.h"
 #include "Dunix/Events/WindowEvent.h"
+#include "Dunix/Renderer/Shader.h"
 #include "Log.h"
 
 #include <glad/glad.h>
@@ -39,6 +40,15 @@ namespace Dunix
 		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
 
 		glBindVertexArray(0);
+
+		//Shader
+
+		m_DefaultShader = Shader::CreateFromFile(
+			"assets/shaders/default.vert",
+			"assets/shaders/default.frag"
+		);
+
+		m_DefaultShader->Bind();
 	}
 
 	Application::~Application()
@@ -52,7 +62,7 @@ namespace Dunix
 		{
 			glClearColor(0.137, 0.137, 0.137, 1);
 			glClear(GL_COLOR_BUFFER_BIT);
-
+			
 			glBindVertexArray(m_VAO);
 			glDrawArrays(GL_TRIANGLES, 0, 3);
 
