@@ -1,11 +1,12 @@
 #include "dxpch.h"
 #include "Shader.h"
+#include "OpenGL/OpenGLShader.h"
 
 namespace Dunix
 {
-	Shader* Dunix::Shader::CreateFromFile(const std::string& vsPath, const std::string fsPath)
+	Shader* Shader::CreateFromFile(const std::string& vsPath, const std::string fsPath)
 	{
-		return nullptr;
+		return new OpenGLShader(vsPath, fsPath);
 	}
 
 }
