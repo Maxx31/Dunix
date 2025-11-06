@@ -63,7 +63,7 @@ namespace Dunix
 
 	unsigned int OpenGLShader::CompileShader(unsigned int type, const std::string& source)
 	{
-		unsigned int id = glCreateShader(GL_VERTEX_SHADER);
+		unsigned int id = glCreateShader(type);
 		const char* src = source.c_str();
 		glShaderSource(id, 1, &src, nullptr);
 		glCompileShader(id);

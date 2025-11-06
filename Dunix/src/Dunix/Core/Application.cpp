@@ -47,8 +47,6 @@ namespace Dunix
 			"assets/shaders/default.vert",
 			"assets/shaders/default.frag"
 		);
-
-		m_DefaultShader->Bind();
 	}
 
 	Application::~Application()
@@ -58,11 +56,12 @@ namespace Dunix
 
 	void Application::Run()
 	{
+		m_DefaultShader->Bind();
 		while (m_Running)
 		{
 			glClearColor(0.137, 0.137, 0.137, 1);
 			glClear(GL_COLOR_BUFFER_BIT);
-			
+
 			glBindVertexArray(m_VAO);
 			glDrawArrays(GL_TRIANGLES, 0, 3);
 
