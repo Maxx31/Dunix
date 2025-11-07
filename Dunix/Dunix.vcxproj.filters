@@ -75,6 +75,8 @@
     <ClInclude Include="src\Dunix\Renderer\OpenGL\OpengGLContext.h" />
     <ClInclude Include="src\Dunix\Renderer\Shader.h" />
     <ClInclude Include="src\Dunix\Renderer\OpenGL\OpenGLShader.h" />
+    <ClInclude Include="src\Dunix\Renderer\Buffer.h" />
+    <ClInclude Include="src\Dunix\Renderer\OpenGL\OpenGLBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Dunix\Window\Window.cpp">
@@ -106,5 +108,7 @@
     <ClCompile Include="src\Dunix\Renderer\OpenGL\OpengGLContext.cpp" />
     <ClCompile Include="src\Dunix\Renderer\Shader.cpp" />
     <ClCompile Include="src\Dunix\Renderer\OpenGL\OpenGLShader.cpp" />
+    <ClCompile Include="src\Dunix\Renderer\OpenGL\OpenGLBuffer.cpp" />
+    <ClCompile Include="src\Dunix\Renderer\Buffer.cpp" />
   </ItemGroup>
 </Project>

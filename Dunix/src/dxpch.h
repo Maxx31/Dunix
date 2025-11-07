@@ -9,6 +9,7 @@
 #include <memory>
 #include <utility>
 #include <functional>
+#include <cstdint>
 
 #include <string>
 #include <sstream>
