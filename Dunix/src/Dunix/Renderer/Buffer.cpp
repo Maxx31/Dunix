@@ -4,6 +4,11 @@
 
 namespace Dunix
 {
+	VertexArray* VertexArray::Create()
+	{
+		return nullptr;
+	}
+
 	VertexBuffer* VertexBuffer::Create(float* vertices, uint32_t size)
 	{
 		return new OpenGLVertexBuffer(vertices, size);

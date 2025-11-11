@@ -38,6 +38,7 @@ namespace Dunix
 
 		unsigned int m_VAO; //Vertex Array Object
 
+		class VertexArray* m_VA;
 		class VertexBuffer* m_VBO; //Vertex Buffer Object
 		class IndexBuffer* m_IBO; //Index Buffer Object
 		class Shader* m_Shader;
