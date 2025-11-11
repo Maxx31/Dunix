@@ -4,6 +4,7 @@
 namespace Dunix
 {
 	///////////////////////VERTEX BUFFER////////////////////////////////
+
 	OpenGLVertexBuffer::OpenGLVertexBuffer(const float* vertices, uint32_t size)
 	{
 		glGenBuffers(1, &m_RendererID);
@@ -24,6 +25,7 @@ namespace Dunix
 	///////////////////////INDEX BUFFER////////////////////////////////
 
 	OpenGLIndexBuffer::OpenGLIndexBuffer(const uint32_t* indices, uint32_t count)
+		: m_Count(count)
 	{
 		glGenBuffers(1, &m_ID);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ID);

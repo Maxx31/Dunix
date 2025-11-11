@@ -22,12 +22,14 @@ namespace Dunix
 	public:
 		OpenGLIndexBuffer(const uint32_t* indices, uint32_t count);
 
-
 		void Bind() const override;
 		void Unbind() const override;
 
+		uint32_t GetCount() const override { return m_Count;}
+
 	private:
 		GLuint m_ID = 0;
+		uint32_t m_Count = 0;
 	};
 
 }
