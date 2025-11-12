@@ -41,4 +41,52 @@ namespace Dunix
 	{
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
+
+	///////////////////////VERTEX ARRAY////////////////////////////////
+
+	OpenGLVertexArray::OpenGLVertexArray()
+	{
+		glGenVertexArrays(1, &m_VAO);
+
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
+	}
+
+	void OpenGLVertexArray::Bind() const
+	{
+		glBindVertexArray(m_VAO);
+	}
+
+	void OpenGLVertexArray::Unbind() const
+	{
+		glBindVertexArray(0);
+	}
+
+	void OpenGLVertexArray::AddVertexBuffer(VertexBuffer* vb)
+	{
+		Bind();
+		vb->Bind();
+
+		uint32_t index = 0;
+		const auto& layout = vb->GetLayout();
+		for (const auto& element : layout)
+		{
+			glEnableVertexAttribArray(index);
+			glVertexAttribPointer(index,
+				element.GetComponentCount(),
+				ShaderDataTypeToOpenGLBaseType(element.Type),
+				element.Normalized ? GL_TRUE : GL_FALSE,
+				layout.GetStride(),
+				(const void*)element.Offset);
+			index++;
+		}
+	}
+
+	void OpenGLVertexArray::SetIndexBuffer(IndexBuffer* ib)
+	{
+		Bind();
+		ib->Bind();
+
+		m_IndexBuffer = ib;
+	}
 }

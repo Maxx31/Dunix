@@ -34,22 +34,23 @@ namespace Dunix
 
 		uint32_t indices[] = { 0, 1, 2 };
 
-		glGenVertexArrays(1, &m_VAO);
-		glBindVertexArray(m_VAO);
+		//glGenVertexArrays(1, &m_VAO);
+		//glBindVertexArray(m_VAO);
 
 		m_VBO = VertexBuffer::Create(vertices, sizeof(vertices));
 		m_IBO = IndexBuffer::Create(indices, 3);
+		m_VA = VertexArray::Create();
 
-		//m_VA = VertexArray::Create();
-		//m_VA->AddVertexBuffer(m_VB);
-		//m_VA->SetIndexBuffer(m_IB);
+		m_VA->SetVertexBuffer(m_VBO);
+		m_VA->SetIndexBuffer(m_IBO);
 
+		m_VA->Bind();
 		m_VBO->Bind();
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
 
 		m_IBO->Bind();
-		glBindVertexArray(0);
+		//glBindVertexArray(0);
 
 		m_Shader = Shader::CreateFromFile(
 			"assets/shaders/default.vert",
@@ -70,8 +71,8 @@ namespace Dunix
 			glClearColor(0.137, 0.137, 0.137, 1);
 			glClear(GL_COLOR_BUFFER_BIT);
 
-			//m_VA->Bind();
-			glBindVertexArray(m_VAO);
+			m_VA->Bind();
+			//glBindVertexArray(m_VAO);
 			glDrawElements(GL_TRIANGLES, m_IBO->GetCount(), GL_UNSIGNED_INT, nullptr);
 
 			m_LayerStack.OnUpdate();

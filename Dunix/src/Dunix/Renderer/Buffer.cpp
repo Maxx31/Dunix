@@ -4,11 +4,6 @@
 
 namespace Dunix
 {
-	VertexArray* VertexArray::Create()
-	{
-		return nullptr;
-	}
-
 	VertexBuffer* VertexBuffer::Create(float* vertices, uint32_t size)
 	{
 		return new OpenGLVertexBuffer(vertices, size);
@@ -17,5 +12,10 @@ namespace Dunix
 	IndexBuffer* IndexBuffer::Create(const uint32_t* indices, uint32_t count)
 	{
 		return new OpenGLIndexBuffer(indices, count);
+	}
+
+	VertexArray* VertexArray::Create()
+	{
+		return new OpenGLVertexArray();
 	}
 }

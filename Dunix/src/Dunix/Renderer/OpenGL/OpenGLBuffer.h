@@ -32,4 +32,21 @@ namespace Dunix
 		uint32_t m_Count = 0;
 	};
 
+	class OpenGLVertexArray : public VertexArray
+	{
+	public:
+		OpenGLVertexArray();
+
+		void Bind() const override;
+		void Unbind() const override;
+
+		void AddVertexBuffer(VertexBuffer* vb) override;
+		void SetIndexBuffer(IndexBuffer* ib) override;
+
+	private:
+		unsigned int m_VAO;
+
+		std::vector<VertexBuffer*> m_VertexBuffers;
+		IndexBuffer* m_IndexBuffer = nullptr;
+	};
 }
