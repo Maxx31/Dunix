@@ -68,9 +68,6 @@ namespace Dunix
 	OpenGLVertexArray::OpenGLVertexArray()
 	{
 		glGenVertexArrays(1, &m_VAO);
-
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
 	}
 
 	void OpenGLVertexArray::Bind() const
@@ -90,15 +87,19 @@ namespace Dunix
 
 		uint32_t index = 0;
 		const auto& layout = vb->GetLayout();
+
 		for (const auto& element : layout)
 		{
 			glEnableVertexAttribArray(index);
-			glVertexAttribPointer(index,
+			glVertexAttribPointer
+			(
+				index,
 				element.GetComponentCount(),
 				ShaderDataTypeToOpenGLBaseType(element.Type),
-				element.Normalized ? GL_TRUE : GL_FALSE,
+				element.IsNormalized ? GL_TRUE : GL_FALSE,
 				layout.GetStride(),
-				(const void*)element.Offset);
+				(const void*)element.Offset
+			);
 			index++;
 		}
 	}
