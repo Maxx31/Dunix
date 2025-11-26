@@ -3,7 +3,6 @@
 
 namespace Dunix {
 
-	RendererAPI Renderer::s_RendererAPI = RendererAPI::OpenGL;
 	void Renderer::BeginScene()
 	{
 	}

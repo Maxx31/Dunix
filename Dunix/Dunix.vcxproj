@@ -167,6 +167,8 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Dunix\Renderer\RenderCommand.h" />
+    <ClInclude Include="src\Dunix\Renderer\Renderer.h" />
     <ClInclude Include="src\Dunix\Renderer\Buffer.h" />
     <ClInclude Include="src\Dunix\Renderer\OpenGL\OpengGLContext.h" />
     <ClInclude Include="src\Dunix\Core\Input.h" />
@@ -186,6 +188,7 @@
     <ClInclude Include="src\Dunix\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\Dunix\Renderer\OpenGL\OpenGLShader.h" />
     <ClInclude Include="src\Dunix\Renderer\OpenGL\OpenGLBuffer.h" />
+    <ClInclude Include="src\Dunix\Renderer\RendererAPI.h" />
     <ClInclude Include="src\Dunix\Renderer\Shader.h" />
     <ClInclude Include="src\Dunix\Window\Window.h" />
     <ClInclude Include="src\Dunix\Window\WindowGLFW.h" />
@@ -193,6 +196,8 @@
     <ClInclude Include="src\dxpch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Dunix\Renderer\RenderCommand.cpp" />
+    <ClCompile Include="src\Dunix\Renderer\Renderer.cpp" />
     <ClCompile Include="src\Dunix\Renderer\Buffer.cpp" />
     <ClCompile Include="src\Dunix\Renderer\OpenGL\OpengGLContext.cpp" />
     <ClCompile Include="src\Dunix\Core\Layer.cpp" />
@@ -203,6 +208,7 @@
     <ClCompile Include="src\Dunix\Editor\ImGuiLayer.cpp" />
     <ClCompile Include="src\Dunix\Renderer\OpenGL\OpenGLShader.cpp" />
     <ClCompile Include="src\Dunix\Renderer\OpenGL\OpenGLBuffer.cpp" />
+    <ClCompile Include="src\Dunix\Renderer\RendererAPI.cpp" />
     <ClCompile Include="src\Dunix\Renderer\Shader.cpp" />
     <ClCompile Include="src\Dunix\Window\Window.cpp" />
     <ClCompile Include="src\Dunix\Window\WindowGLFW.cpp" />
