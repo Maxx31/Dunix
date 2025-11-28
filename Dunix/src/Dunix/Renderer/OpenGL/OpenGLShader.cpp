@@ -6,6 +6,7 @@
 #include <sstream>
 
 #include <glad/glad.h>
+#include <glm/gtc/type_ptr.hpp>
 
 namespace Dunix
 {
@@ -32,6 +33,12 @@ namespace Dunix
 
 	void OpenGLShader::SetFloat3(const char* name, float x, float y, float z)
 	{
+	}
+
+	void OpenGLShader::SetMat4(const char* name, const glm::mat4& value)
+	{
+		GLint location = glGetUniformLocation(m_Program, name);
+		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
 	}
 
 	std::string OpenGLShader::ReadFile(const std::string& path)

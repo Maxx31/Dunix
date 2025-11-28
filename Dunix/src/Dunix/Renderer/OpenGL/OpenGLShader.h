@@ -15,6 +15,8 @@ namespace Dunix
         virtual void SetFloat(const char* name, float v) override;
         virtual void SetFloat3(const char* name, float x, float y, float z) override;
 
+        virtual void SetMat4(const char* name, const glm::mat4& value) override;
+
     private:
         std::string ReadFile(const std::string& path);
 

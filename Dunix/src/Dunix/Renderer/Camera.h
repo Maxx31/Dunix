@@ -12,6 +12,9 @@ namespace Dunix
 		void SetPosition(const glm::vec3& pos);
 		void SetRotation(const glm::vec3& rotEuler);
 
+		void RecalculateProjection();
+		void RecalculateView();
+
 		const glm::mat4& GetView() const { return m_View; }
 		const glm::mat4& GetProjection() const { return m_Projection; }
 		glm::mat4 GetViewProjection() const { return m_Projection * m_View; }

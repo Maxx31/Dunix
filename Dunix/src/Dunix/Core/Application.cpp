@@ -6,6 +6,8 @@
 #include "Dunix/Renderer/Shader.h"
 #include "Dunix/Renderer/Buffer.h"
 
+#include "Dunix/Renderer/Camera.h"
+
 #include "Log.h"
 
 #include <glad/glad.h>
@@ -27,17 +29,19 @@ namespace Dunix
 
 		//Rendering simple triangle 
 		float vertices[] = {
-		-0.5f, -0.5f,
-		0.5f, -0.5f,
-		0.0f,  0.5f
+		-0.5f, -0.5f, 0.0f,   // vertex 0
+		0.5f, -0.5f, 0.0f,   // vertex 1
+		0.0f,  0.5f, 0.0f    // vertex 2
 		};
 
 		uint32_t indices[] = { 0, 1, 2 };
 
-		m_VBO = VertexBuffer::Create(vertices, sizeof(vertices));
+		m_Camera = std::make_shared<Camera>(45.0f, 16.0f / 9.0f, 0.1f, 1000.0f);
+		m_Camera->SetPosition(glm::vec3(0, 3, 0));
 
+		m_VBO = VertexBuffer::Create(vertices, sizeof(vertices));
 		m_VBO->SetLayout({
-			{ ShaderDataType::Float2, "aPos" }   // 2 floats: x, y
+			{ ShaderDataType::Float3, "aPos" }   // 2 floats: x, y
 		});
 
 		m_IBO = IndexBuffer::Create(indices, 3);
@@ -50,6 +54,8 @@ namespace Dunix
 			"assets/shaders/default.vert",
 			"assets/shaders/default.frag"
 		);
+
+		m_Shader->SetMat4("u_ViewProjection", m_Camera->GetViewProjection());
 	}
 
 	Application::~Application()
