@@ -37,11 +37,13 @@ namespace Dunix
 		uint32_t indices[] = { 0, 1, 2 };
 
 		m_Camera = std::make_shared<Camera>(45.0f, 16.0f / 9.0f, 0.1f, 1000.0f);
-		m_Camera->SetPosition(glm::vec3(0, 3, 0));
+
+		m_Camera->SetPosition(glm::vec3(0.0f, 0.0f, 3.0f));
+		m_Camera->SetRotation(glm::vec3(0.0f, 30.0f, 0.0f)); // looking along -Z
 
 		m_VBO = VertexBuffer::Create(vertices, sizeof(vertices));
 		m_VBO->SetLayout({
-			{ ShaderDataType::Float3, "aPos" }   // 2 floats: x, y
+			{ ShaderDataType::Float3, "aPos" }   // 3 floats: x, y, z
 		});
 
 		m_IBO = IndexBuffer::Create(indices, 3);
@@ -55,6 +57,10 @@ namespace Dunix
 			"assets/shaders/default.frag"
 		);
 
+		glm::mat4 viewProj = m_Camera->GetViewProjection();  // put a breakpoint here
+		m_Shader->Bind();
+
+		m_Shader->SetMat4("u_ViewProjection", viewProj);
 		m_Shader->SetMat4("u_ViewProjection", m_Camera->GetViewProjection());
 	}
 
@@ -70,7 +76,7 @@ namespace Dunix
 			glClearColor(0.137, 0.137, 0.137, 1);
 			glClear(GL_COLOR_BUFFER_BIT);
 
-			m_Shader->Bind();
+			//m_Shader->Bind();
 			m_VA->Bind();
 
 			glDrawElements(GL_TRIANGLES, m_IBO->GetCount(), GL_UNSIGNED_INT, nullptr);
