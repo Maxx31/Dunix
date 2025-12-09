@@ -81,6 +81,8 @@
     <ClInclude Include="src\Dunix\Renderer\RendererAPI.h" />
     <ClInclude Include="src\Dunix\Renderer\RenderCommand.h" />
     <ClInclude Include="src\Dunix\Renderer\Camera.h" />
+    <ClInclude Include="src\Dunix\Core\Timestep.h" />
+    <ClInclude Include="src\Dunix\Core\Time.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Dunix\Window\Window.cpp">
@@ -118,5 +120,6 @@
     <ClCompile Include="src\Dunix\Renderer\RenderCommand.cpp" />
     <ClCompile Include="src\Dunix\Renderer\RendererAPI.cpp" />
     <ClCompile Include="src\Dunix\Renderer\Camera.cpp" />
+    <ClCompile Include="src\Dunix\Core\Time.cpp" />
   </ItemGroup>
 </Project>

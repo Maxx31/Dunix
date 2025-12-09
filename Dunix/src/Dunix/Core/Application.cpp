@@ -3,10 +3,13 @@
 
 #include "Dunix/Events/EventDispatcher.h"
 #include "Dunix/Events/WindowEvent.h"
+
 #include "Dunix/Renderer/Shader.h"
 #include "Dunix/Renderer/Buffer.h"
-
 #include "Dunix/Renderer/Camera.h"
+
+#include "Dunix/Core/Time.h"
+#include "Dunix/Core/Timestep.h"
 
 #include "Log.h"
 
@@ -71,17 +74,22 @@ namespace Dunix
 
 	void Application::Run()
 	{
+		float lastFrameTime = Time::GetTime();
+
 		while (m_Running)
 		{
+			float time = Time::GetTime();
+			Timestep ts = time - lastFrameTime;
+			lastFrameTime = time;
+
 			glClearColor(0.137, 0.137, 0.137, 1);
 			glClear(GL_COLOR_BUFFER_BIT);
 
-			//m_Shader->Bind();
 			m_VA->Bind();
 
 			glDrawElements(GL_TRIANGLES, m_IBO->GetCount(), GL_UNSIGNED_INT, nullptr);
 
-			m_LayerStack.OnUpdate();
+			m_LayerStack.OnUpdate(ts);
 
 			m_ImGuiLayer->Begin();
 			for (Layer* layer : m_LayerStack)

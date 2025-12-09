@@ -1,6 +1,8 @@
 #include "dxpch.h"
 #include "LayerStack.h"
 
+#include "Dunix/Core/Timestep.h"
+
 namespace Dunix
 {
 	LayerStack::LayerStack()
@@ -54,11 +56,12 @@ namespace Dunix
 			m_Layers.erase(res);
 		}
 	}
-	void LayerStack::OnUpdate()
+
+	void LayerStack::OnUpdate(Timestep ts)
 	{
 		for (auto it = m_Layers.end(); it != m_Layers.begin(); )
 		{
-			(*--it)->OnUpdate();
+			(*--it)->OnUpdate(ts);
 		}
 	}
 	

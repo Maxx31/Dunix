@@ -195,6 +195,8 @@
     <ClInclude Include="src\Dunix\Window\WindowGLFW.h" />
     <ClInclude Include="src\Dunix\Window\WindowsInput.h" />
     <ClInclude Include="src\dxpch.h" />
+    <ClInclude Include="src\Dunix\Core\Timestep.h" />
+    <ClInclude Include="src\Dunix\Core\Time.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Dunix\Renderer\Camera.cpp" />
@@ -218,6 +220,7 @@
     <ClCompile Include="src\dxpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\Dunix\Core\Time.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="vendor\Glad\Glad.vcxproj">

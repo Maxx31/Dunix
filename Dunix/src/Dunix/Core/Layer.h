@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Dunix/Events/Event.h"
+#include "Dunix/Core/Timestep.h"
 
 namespace Dunix
 {
@@ -11,7 +12,7 @@ namespace Dunix
 
 		virtual void OnAttach() {};
 		virtual void OnDetach() {};
-		virtual void OnUpdate() {};
+		virtual void OnUpdate(Timestep ts) {};
 		virtual void OnImGuiRender() {}
 		virtual void OnEvent(Event& e) {}
 	private:

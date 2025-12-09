@@ -17,7 +17,7 @@ namespace Dunix
 	    void PopLayer(Layer* inLayer);
 		void PopOverlay(Layer* inOverlay);
 
-		void OnUpdate();
+		void OnUpdate(class Timestep ts);
 		void OnEvent(Event& e);
 
 		auto begin() { return m_Layers.begin(); }
