@@ -14,7 +14,7 @@ namespace Dunix
 
 		if (WindowsWindow)
 		{
-			auto state = glfwGetKey(WindowsWindow, button);
+			auto state = glfwGetMouseButton(WindowsWindow, button);
 			return state == GLFW_PRESS;
 		}
 		
@@ -27,7 +27,7 @@ namespace Dunix
 
 		if (WindowsWindow)
 		{
-			auto state = glfwGetMouseButton(WindowsWindow, keycode);
+			auto state = glfwGetKey(WindowsWindow, keycode);
 			return state == GLFW_PRESS || state == GLFW_REPEAT;
 		}
 

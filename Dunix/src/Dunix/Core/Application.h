@@ -21,6 +21,8 @@ namespace Dunix
 
 		bool OnWindowClose(WindowCloseEvent& e);
 
+		void UpdateCameraPosition(float deltaTime);
+
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* layer);
 

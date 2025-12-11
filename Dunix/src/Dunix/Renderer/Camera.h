@@ -9,6 +9,12 @@ namespace Dunix
 	public:
 		Camera(float FOV, float aspect, float nearClip, float farClip);
 
+		const glm::vec3& GetPosition() const { return m_Position; }
+		const glm::vec3& GetRotation() const { return m_Rotation; }
+
+		glm::vec3 GetForward() const;
+		glm::vec3 GetRight() const;
+
 		void SetPosition(const glm::vec3& pos);
 		void SetRotation(const glm::vec3& rotEuler);
 

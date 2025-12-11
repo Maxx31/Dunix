@@ -10,6 +10,23 @@ namespace Dunix
 		RecalculateView();
 	}
 
+	glm::vec3 Camera::GetForward() const
+	{
+		float pitch = glm::radians(m_Rotation.x);
+		float yaw = glm::radians(m_Rotation.y);
+
+		glm::vec3 forward;
+		forward.x = cos(yaw) * cos(pitch);
+		forward.y = sin(pitch);
+		forward.z = sin(yaw) * cos(pitch);
+		return glm::normalize(forward);
+	}
+
+	glm::vec3 Camera::GetRight() const
+	{
+		return glm::normalize(glm::cross(GetForward(), glm::vec3(0.0f, 1.0f, 0.0f)));
+	}
+
 	void Camera::SetPosition(const glm::vec3& pos)
 	{
 		m_Position = pos;

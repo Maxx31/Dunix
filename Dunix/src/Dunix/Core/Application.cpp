@@ -8,12 +8,14 @@
 #include "Dunix/Renderer/Buffer.h"
 #include "Dunix/Renderer/Camera.h"
 
+#include "Dunix/Core/Input.h"
 #include "Dunix/Core/Time.h"
 #include "Dunix/Core/Timestep.h"
 
 #include "Log.h"
 
 #include <glad/glad.h>
+#include <GLFW/glfw3.h>
 
 namespace Dunix
 {
@@ -85,6 +87,12 @@ namespace Dunix
 			glClearColor(0.137, 0.137, 0.137, 1);
 			glClear(GL_COLOR_BUFFER_BIT);
 
+			UpdateCameraPosition(ts);
+			glm::mat4 viewProj = m_Camera->GetViewProjection();  
+			m_Shader->Bind();
+			m_Shader->SetMat4("u_ViewProjection", viewProj);
+			m_Shader->SetMat4("u_ViewProjection", m_Camera->GetViewProjection());
+
 			m_VA->Bind();
 
 			glDrawElements(GL_TRIANGLES, m_IBO->GetCount(), GL_UNSIGNED_INT, nullptr);
@@ -106,7 +114,7 @@ namespace Dunix
 		dispatcher.Dispatch<WindowCloseEvent>(std::bind(&Application::OnWindowClose, this, std::placeholders::_1));
 
 		m_LayerStack.OnEvent(e);
-		DX_CORE_INFO("{0}", e);
+	    //DX_CORE_INFO("{0}", e);
 	}
 
 	bool Application::OnWindowClose(WindowCloseEvent& e)
@@ -115,6 +123,24 @@ namespace Dunix
 		DX_CORE_INFO("Close application");
 		return true;
 	}
+
+	void Application::UpdateCameraPosition(float deltaTime)
+	{
+		float speed = 5.0f * deltaTime;
+		glm::vec3 pos = m_Camera->GetPosition();
+
+		if (Input::IsKeyPressed(GLFW_KEY_W))
+			pos += m_Camera->GetForward() * speed;
+		if (Input::IsKeyPressed(GLFW_KEY_S))
+			pos -= m_Camera->GetForward() * speed;
+		if (Input::IsKeyPressed(GLFW_KEY_A))
+			pos -= m_Camera->GetRight() * speed;
+		if (Input::IsKeyPressed(GLFW_KEY_D))
+			pos += m_Camera->GetRight() * speed;
+
+		m_Camera->SetPosition(pos);
+	}
+
 	void Application::PushLayer(Layer* layer)
 	{
 		m_LayerStack.PushLayer(layer);
