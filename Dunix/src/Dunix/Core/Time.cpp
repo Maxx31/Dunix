@@ -3,7 +3,7 @@
 
 namespace Dunix
 {
-	float Time::GetTime()
+	const float Time::GetTime()
 	{
 		using clock = std::chrono::steady_clock;
 		static auto start = clock::now();

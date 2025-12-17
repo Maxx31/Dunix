@@ -5,7 +5,7 @@ namespace Dunix
 	class Time
 	{
 	public:
-		static float GetTime();
+		static const float GetTime();
 	};
 }
 

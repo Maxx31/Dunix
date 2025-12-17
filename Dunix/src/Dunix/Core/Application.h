@@ -3,6 +3,8 @@
 #include "Core.h"
 #include "Dunix/Events/Event.h"
 #include "Dunix/Events/WindowEvent.h"
+#include "Dunix/Events/MouseEvent.h"
+
 #include "Dunix/Window/Window.h"
 #include "Dunix/Editor/ImGuiLayer.h"
 
@@ -20,6 +22,7 @@ namespace Dunix
 		void OnEvent(Event& e);
 
 		bool OnWindowClose(WindowCloseEvent& e);
+		bool OnMouseMoved(MouseMovedEvent& e);
 
 		void UpdateCameraPosition(float deltaTime);
 
@@ -45,6 +48,10 @@ namespace Dunix
 		class VertexBuffer* m_VBO; //Vertex Buffer Object
 		class IndexBuffer* m_IBO; //Index Buffer Object
 		class Shader* m_Shader;
+
+		bool  m_FirstMouse = true;
+		float m_LastMouseX = 0.0f;
+		float m_LastMouseY = 0.0f;
 	};
 
 	// To be defined in CLIENT

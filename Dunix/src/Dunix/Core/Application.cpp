@@ -2,7 +2,6 @@
 #include "Application.h"
 
 #include "Dunix/Events/EventDispatcher.h"
-#include "Dunix/Events/WindowEvent.h"
 
 #include "Dunix/Renderer/Shader.h"
 #include "Dunix/Renderer/Buffer.h"
@@ -112,6 +111,7 @@ namespace Dunix
 	{
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(std::bind(&Application::OnWindowClose, this, std::placeholders::_1));
+		dispatcher.Dispatch<MouseMovedEvent>(std::bind(&Application::OnMouseMoved, this, std::placeholders::_1));
 
 		m_LayerStack.OnEvent(e);
 	    //DX_CORE_INFO("{0}", e);
@@ -120,8 +120,42 @@ namespace Dunix
 	bool Application::OnWindowClose(WindowCloseEvent& e)
 	{
 		m_Running = false;
-		DX_CORE_INFO("Close application");
 		return true;
+	}
+
+	bool Application::OnMouseMoved(MouseMovedEvent& e)
+	{
+		float xpos = e.GetPosX();
+		float ypos = e.GetPosY();
+
+		if (m_FirstMouse)
+		{
+			m_LastMouseX = xpos;
+			m_LastMouseY = ypos;
+			m_FirstMouse = false;
+			return false;
+		}
+
+		float xoffset = xpos - m_LastMouseX;
+		float yoffset = m_LastMouseY - ypos; // inverted Y (screen vs world)
+
+		m_LastMouseX = xpos;
+		m_LastMouseY = ypos;
+
+		const float sensitivity = 0.1f;
+		xoffset *= sensitivity;
+		yoffset *= sensitivity;
+
+		glm::vec3 rot = m_Camera->GetRotation();
+		rot.x += yoffset; // pitch
+		rot.y += xoffset; // yaw
+
+		// clamp pitch
+		if (rot.x > 89.0f)  rot.x = 89.0f;
+		if (rot.x < -89.0f) rot.x = -89.0f;
+
+		m_Camera->SetRotation(rot);
+		return false;
 	}
 
 	void Application::UpdateCameraPosition(float deltaTime)
