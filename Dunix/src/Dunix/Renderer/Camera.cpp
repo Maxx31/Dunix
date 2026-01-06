@@ -12,19 +12,19 @@ namespace Dunix
 
 	glm::vec3 Camera::GetForward() const
 	{
-		float pitch = glm::radians(m_Rotation.x);
-		float yaw = glm::radians(m_Rotation.y);
-
-		glm::vec3 forward;
-		forward.x = cos(yaw) * cos(pitch);
-		forward.y = sin(pitch);
-		forward.z = sin(yaw) * cos(pitch);
-		return glm::normalize(forward);
+		glm::mat4 rot(1.0f);
+		rot = glm::rotate(rot, glm::radians(m_Rotation.y), { 0,1,0 }); // yaw
+		rot = glm::rotate(rot, glm::radians(m_Rotation.x), { 1,0,0 }); // pitch
+		// forward in OpenGL is usually -Z
+		return glm::normalize(glm::vec3(rot * glm::vec4(0, 0, -1, 0)));
 	}
 
 	glm::vec3 Camera::GetRight() const
 	{
-		return glm::normalize(glm::cross(GetForward(), glm::vec3(0.0f, 1.0f, 0.0f)));
+		glm::mat4 rot(1.0f);
+		rot = glm::rotate(rot, glm::radians(m_Rotation.y), { 0,1,0 });
+		rot = glm::rotate(rot, glm::radians(m_Rotation.x), { 1,0,0 });
+		return glm::normalize(glm::vec3(rot * glm::vec4(1, 0, 0, 0)));
 	}
 
 	void Camera::SetPosition(const glm::vec3& pos)

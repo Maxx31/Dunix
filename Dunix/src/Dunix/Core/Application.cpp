@@ -114,7 +114,6 @@ namespace Dunix
 		dispatcher.Dispatch<MouseMovedEvent>(std::bind(&Application::OnMouseMoved, this, std::placeholders::_1));
 
 		m_LayerStack.OnEvent(e);
-	    //DX_CORE_INFO("{0}", e);
 	}
 
 	bool Application::OnWindowClose(WindowCloseEvent& e)
