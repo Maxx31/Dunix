@@ -13,8 +13,8 @@ namespace Dunix
 	glm::vec3 Camera::GetForward() const
 	{
 		glm::mat4 rot(1.0f);
-		rot = glm::rotate(rot, glm::radians(m_Rotation.y), { 0,1,0 }); // yaw
-		rot = glm::rotate(rot, glm::radians(m_Rotation.x), { 1,0,0 }); // pitch
+		rot = glm::rotate(rot, glm::radians(m_Rotation.y), { 0,1,0 }); //Apply yaw
+		rot = glm::rotate(rot, glm::radians(m_Rotation.x), { 1,0,0 }); //Apply Pitch
 		// forward in OpenGL is usually -Z
 		return glm::normalize(glm::vec3(rot * glm::vec4(0, 0, -1, 0)));
 	}
@@ -22,8 +22,8 @@ namespace Dunix
 	glm::vec3 Camera::GetRight() const
 	{
 		glm::mat4 rot(1.0f);
-		rot = glm::rotate(rot, glm::radians(m_Rotation.y), { 0,1,0 });
-		rot = glm::rotate(rot, glm::radians(m_Rotation.x), { 1,0,0 });
+		rot = glm::rotate(rot, glm::radians(m_Rotation.y), { 0,1,0 }); //Apply yaw
+		rot = glm::rotate(rot, glm::radians(m_Rotation.x), { 1,0,0 }); //Apply Pitch
 		return glm::normalize(glm::vec3(rot * glm::vec4(1, 0, 0, 0)));
 	}
 

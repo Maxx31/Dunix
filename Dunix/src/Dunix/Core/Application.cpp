@@ -147,7 +147,7 @@ namespace Dunix
 
 		glm::vec3 rot = m_Camera->GetRotation();
 		rot.x += yoffset; // pitch
-		rot.y += xoffset; // yaw
+		rot.y -= xoffset; // yaw
 
 		// clamp pitch
 		if (rot.x > 89.0f)  rot.x = 89.0f;
