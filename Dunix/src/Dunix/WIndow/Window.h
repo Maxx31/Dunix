@@ -31,6 +31,8 @@ namespace Dunix
 
 		virtual void* GetNativeWindow() = 0;
 		virtual void SetEventCallback(const EventCallbackFn& cb) = 0;
+
+		virtual void SetCursorLocked(bool locked) = 0;
 	};
 
 	std::unique_ptr<Window> CreateDunixWindow(WindowsProps windowProps);

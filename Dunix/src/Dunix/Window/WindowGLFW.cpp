@@ -23,8 +23,8 @@ namespace Dunix
 		{
 			DX_ERROR("GLFW can't initialize");
 		}
-
 		glfwSetErrorCallback(GlfwErrorCallback);
+
 		m_Window = glfwCreateWindow((int)windowsProps.Width, (int)windowsProps.Height, "Dunix", nullptr, nullptr);
 		m_Data.Width = (int)windowsProps.Width;
 		m_Data.Height = (int)windowsProps.Height;
@@ -40,6 +40,8 @@ namespace Dunix
 
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		glfwSwapInterval(1);
+
+		SetCursorLocked(true);
 
 		//GLFW callbacks
 		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height)
@@ -129,6 +131,12 @@ namespace Dunix
 	{
 		glfwPollEvents();
 		m_Context->SwapBuffers();
+	}
+
+	void WindowGLFW::SetCursorLocked(bool locked)
+	{
+		glfwSetInputMode(m_Window, GLFW_CURSOR,
+			locked ? GLFW_CURSOR_DISABLED : GLFW_CURSOR_NORMAL);
 	}
 
 	void* WindowGLFW::GetNativeWindow()

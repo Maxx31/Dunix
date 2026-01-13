@@ -21,6 +21,8 @@ namespace Dunix
 		virtual void* GetNativeWindow() override;
 		inline void SetEventCallback(const EventCallbackFn& callback) override;
 
+		void SetCursorLocked(bool locked) override;
+
 	private:
 		//Event callbacks
 		void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
