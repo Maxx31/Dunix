@@ -4,6 +4,7 @@
 #include "Dunix/Events/Event.h"
 #include "Dunix/Events/WindowEvent.h"
 #include "Dunix/Events/MouseEvent.h"
+#include <Dunix/Events/KeyEvent.h>
 
 #include "Dunix/Window/Window.h"
 #include "Dunix/Editor/ImGuiLayer.h"
@@ -23,6 +24,9 @@ namespace Dunix
 
 		bool OnWindowClose(WindowCloseEvent& e);
 		bool OnMouseMoved(MouseMovedEvent& e);
+
+		bool OnKeyPressed(KeyPressedEvent& e);
+		bool OnMousePressed(MouseButtonPressedEvent& e);
 
 		void UpdateCameraPosition(float deltaTime);
 

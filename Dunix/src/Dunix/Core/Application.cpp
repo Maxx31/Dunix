@@ -133,6 +133,8 @@ namespace Dunix
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(std::bind(&Application::OnWindowClose, this, std::placeholders::_1));
 		dispatcher.Dispatch<MouseMovedEvent>(std::bind(&Application::OnMouseMoved, this, std::placeholders::_1));
+		dispatcher.Dispatch<KeyPressedEvent>(std::bind(&Application::OnKeyPressed, this, std::placeholders::_1));
+		dispatcher.Dispatch<MouseButtonPressedEvent>(std::bind(&Application::OnMousePressed, this, std::placeholders::_1));
 
 		m_LayerStack.OnEvent(e);
 	}
@@ -176,6 +178,24 @@ namespace Dunix
 
 		m_Camera->SetRotation(rot);
 		return false;
+	}
+
+	bool Application::OnKeyPressed(KeyPressedEvent& e)
+	{
+		if (e.GetKeyCode() == GLFW_KEY_ESCAPE)
+		{
+			m_Window->SetCursorLocked(false);
+		}
+		return true;
+	}
+
+	bool Application::OnMousePressed(MouseButtonPressedEvent& e)
+	{
+		if (e.GetButtonCode() == GLFW_MOUSE_BUTTON_LEFT)
+		{
+			m_Window->SetCursorLocked(true);
+		}
+		return true;
 	}
 
 	void Application::UpdateCameraPosition(float deltaTime)
