@@ -21,10 +21,7 @@ namespace Dunix
 
 	glm::vec3 Camera::GetRight() const
 	{
-		glm::mat4 rot(1.0f);
-		rot = glm::rotate(rot, glm::radians(m_Rotation.y), { 0,1,0 }); //Apply yaw
-		rot = glm::rotate(rot, glm::radians(m_Rotation.x), { 1,0,0 }); //Apply Pitch
-		return glm::normalize(glm::vec3(rot * glm::vec4(1, 0, 0, 0)));
+		return glm::normalize(glm::cross(GetForward(), glm::vec3(0.0f, 1.0f, 0.0f)));
 	}
 
 	void Camera::SetPosition(const glm::vec3& pos)
@@ -49,8 +46,8 @@ namespace Dunix
 		glm::mat4 transform = glm::mat4(1.0f);
 		transform = glm::translate(transform, m_Position);
 
-		transform = glm::rotate(transform, glm::radians(m_Rotation.x), { 1,0,0 });
 		transform = glm::rotate(transform, glm::radians(m_Rotation.y), { 0,1,0 });
+		transform = glm::rotate(transform, glm::radians(m_Rotation.x), { 1,0,0 });
 		transform = glm::rotate(transform, glm::radians(m_Rotation.z), { 0,0,1 });
 
 		// camera matrix is inverse of its transform
