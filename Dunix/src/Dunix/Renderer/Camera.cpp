@@ -46,8 +46,8 @@ namespace Dunix
 		glm::mat4 transform = glm::mat4(1.0f);
 		transform = glm::translate(transform, m_Position);
 
-		transform = glm::rotate(transform, glm::radians(m_Rotation.y), { 0,1,0 });
-		transform = glm::rotate(transform, glm::radians(m_Rotation.x), { 1,0,0 });
+		transform = glm::rotate(transform, glm::radians(m_Rotation.y), { 0,1,0 });//Apply yaw
+		transform = glm::rotate(transform, glm::radians(m_Rotation.x), { 1,0,0 }); // Apply Pitch
 		transform = glm::rotate(transform, glm::radians(m_Rotation.z), { 0,0,1 });
 
 		// camera matrix is inverse of its transform
