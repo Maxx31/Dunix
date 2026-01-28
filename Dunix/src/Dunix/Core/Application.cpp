@@ -30,63 +30,6 @@ namespace Dunix
 
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
-
-		//Rendering simple triangle 
-		float vertices[] =
-		{
-			// x, y, z
-			-0.5f, -0.5f, -0.5f, // 0
-			 0.5f, -0.5f, -0.5f, // 1
-			 0.5f,  0.5f, -0.5f, // 2
-			-0.5f,  0.5f, -0.5f, // 3
-			-0.5f, -0.5f,  0.5f, // 4
-			 0.5f, -0.5f,  0.5f, // 5
-			 0.5f,  0.5f,  0.5f, // 6
-			-0.5f,  0.5f,  0.5f  // 7
-		};
-
-		uint32_t indices[] =
-		{
-			// back face (-Z)
-			0, 1, 2,  2, 3, 0,
-			// front face (+Z)
-			4, 5, 6,  6, 7, 4,
-			// left face (-X)
-			4, 7, 3,  3, 0, 4,
-			// right face (+X)
-			1, 5, 6,  6, 2, 1,
-			// bottom face (-Y)
-			4, 5, 1,  1, 0, 4,
-			// top face (+Y)
-			3, 2, 6,  6, 7, 3
-		};
-
-		m_Camera = std::make_shared<Camera>(45.0f, 16.0f / 9.0f, 0.1f, 1000.0f);
-
-		m_Camera->SetPosition(glm::vec3(0.0f, 0.0f, 3.0f));
-		m_Camera->SetRotation(glm::vec3(0.0f, 30.0f, 0.0f)); // looking along -Z
-
-		m_VBO = VertexBuffer::Create(vertices, sizeof(vertices));
-		m_VBO->SetLayout({
-			{ ShaderDataType::Float3, "aPos" }   // 3 floats: x, y, z
-		});
-
-		m_IBO = IndexBuffer::Create(indices, 36);
-		m_VA = VertexArray::Create();
-
-		m_VA->AddVertexBuffer(m_VBO);
-		m_VA->SetIndexBuffer(m_IBO);
-
-		m_Shader = Shader::CreateFromFile(
-			"assets/shaders/default.vert",
-			"assets/shaders/default.frag"
-		);
-
-		glm::mat4 viewProj = m_Camera->GetViewProjection();  // put a breakpoint here
-		m_Shader->Bind();
-
-		m_Shader->SetMat4("u_ViewProjection", viewProj);
-		m_Shader->SetMat4("u_ViewProjection", m_Camera->GetViewProjection());
 	}
 
 	Application::~Application()
@@ -104,26 +47,13 @@ namespace Dunix
 			Timestep ts = time - lastFrameTime;
 			lastFrameTime = time;
 
-			glClearColor(0.137, 0.137, 0.137, 1);
-			glClear(GL_COLOR_BUFFER_BIT);
-
-			UpdateCameraPosition(ts);
-			glm::mat4 viewProj = m_Camera->GetViewProjection();  
-			m_Shader->Bind();
-			m_Shader->SetMat4("u_ViewProjection", viewProj);
-			m_Shader->SetMat4("u_ViewProjection", m_Camera->GetViewProjection());
-
-			m_VA->Bind();
-
-			glDrawElements(GL_TRIANGLES, m_IBO->GetCount(), GL_UNSIGNED_INT, nullptr);
-
 			m_LayerStack.OnUpdate(ts);
 
 			m_ImGuiLayer->Begin();
 			for (Layer* layer : m_LayerStack)
 				layer->OnImGuiRender();
-			m_ImGuiLayer->End();
 
+			m_ImGuiLayer->End();
 			m_Window->Update();
 		}
 	}

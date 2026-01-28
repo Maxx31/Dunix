@@ -16,5 +16,4 @@ namespace Dunix {
 		vertexArray->Bind();
 		RenderCommand::DrawIndexed(vertexArray);
 	}
-
 }

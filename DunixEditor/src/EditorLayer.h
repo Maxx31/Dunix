@@ -1,45 +1,50 @@
 #pragma once
 
 #include <Dunix.h>
+
+#include "Dunix/Core/Timestep.h"
+#include "Dunix/Core/Layer.h"
+
 #include "Dunix/Renderer/Shader.h"
 #include "Dunix/Renderer/Buffer.h"
 #include "Dunix/Renderer/Camera.h"
-#include "Dunix/Core/Timestep.h"
 #include "Dunix/Renderer/RenderCommand.h"
 
 #include <imgui/imgui.h>
 
-using namespace Dunix;
 
-class EditorLayer : public Layer
+namespace Dunix
 {
-public:
-	EditorLayer();
 
-	void OnUpdate(Timestep ts) override;
-	void OnEvent(Event& e) override;
-	void OnImGuiRender() override;
+	class EditorLayer : public Layer
+	{
+	public:
+		EditorLayer();
 
-
-private:
-	bool OnMouseMoved(MouseMovedEvent& e);
-	bool OnKeyPressed(KeyPressedEvent& e);
-	bool OnMousePressed(MouseButtonPressedEvent& e);
-
-	void UpdateCameraPosition(float dt);
+		void OnUpdate(Timestep ts) override;
+		void OnEvent(Event& e) override;
+		void OnImGuiRender() override;
 
 
-private:
-	std::shared_ptr<Camera> m_Camera;
+	private:
+		bool OnMouseMoved(MouseMovedEvent& e);
+		bool OnKeyPressed(KeyPressedEvent& e);
+		bool OnMousePressed(MouseButtonPressedEvent& e);
 
-	std::shared_ptr<VertexArray>  m_VA;
-	std::shared_ptr<VertexBuffer> m_VBO;
-	std::shared_ptr<IndexBuffer>  m_IBO;
-	std::shared_ptr<Shader>       m_Shader;
+		void UpdateCameraPosition(float dt);
 
-	bool  m_FirstMouse = true;
-	float m_LastMouseX = 0.0f;
-	float m_LastMouseY = 0.0f;
 
-};
+	private:
+		std::shared_ptr<class Camera> m_Camera;
+		class VertexArray* m_VA;
+		class VertexBuffer* m_VBO;
+		class IndexBuffer* m_IBO;
+
+		class Shader* m_Shader;
+
+		bool  m_FirstMouse = true;
+		float m_LastMouseX = 0.0f;
+		float m_LastMouseY = 0.0f;
+	};
+}
 

@@ -6,6 +6,11 @@ namespace Dunix {
 	class RenderCommand
 	{
 	public:
+		static void Init()
+		{
+			m_RendererAPI->Init();
+		}
+
 		inline static void SetClearColor(const glm::vec4& color)
 		{
 			m_RendererAPI->SetClearColor(color);
@@ -20,6 +25,7 @@ namespace Dunix {
 		{
 			m_RendererAPI->DrawIndexed(vertexArray);
 		}
+
 	private:
 		static RendererAPI* m_RendererAPI;
 	};
