@@ -12,10 +12,8 @@
 
 #include <imgui/imgui.h>
 
-
 namespace Dunix
 {
-
 	class EditorLayer : public Layer
 	{
 	public:
@@ -25,14 +23,12 @@ namespace Dunix
 		void OnEvent(Event& e) override;
 		void OnImGuiRender() override;
 
-
 	private:
 		bool OnMouseMoved(MouseMovedEvent& e);
 		bool OnKeyPressed(KeyPressedEvent& e);
 		bool OnMousePressed(MouseButtonPressedEvent& e);
 
 		void UpdateCameraPosition(float dt);
-
 
 	private:
 		std::shared_ptr<class Camera> m_Camera;

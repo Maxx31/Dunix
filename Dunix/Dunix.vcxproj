@@ -167,7 +167,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="OpenGLRendererAPI.h" />
+    <ClInclude Include="src\Dunix\Renderer\OpenGL\OpenGLRendererAPI.h" />
     <ClInclude Include="src\Dunix\Renderer\Camera.h" />
     <ClInclude Include="src\Dunix\Renderer\RenderCommand.h" />
     <ClInclude Include="src\Dunix\Renderer\Renderer.h" />
@@ -200,7 +200,7 @@
     <ClInclude Include="src\Dunix\Core\Time.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="OpenGLRendererAPI.cpp" />
+    <ClCompile Include="src\Dunix\Renderer\OpenGL\OpenGLRendererAPI.cpp" />
     <ClCompile Include="src\Dunix\Renderer\Camera.cpp" />
     <ClCompile Include="src\Dunix\Renderer\RenderCommand.cpp" />
     <ClCompile Include="src\Dunix\Renderer\Renderer.cpp" />

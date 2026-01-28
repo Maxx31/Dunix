@@ -18,7 +18,7 @@ namespace Dunix {
 		glClear(GL_COLOR_BUFFER_BIT);
 	}
 
-	void OpenGLRendererAPI::DrawIndexed(const std::shared_ptr<class VertexArray>& vertexArray)
+	void OpenGLRendererAPI::DrawIndexed(class VertexArray* vertexArray)
 	{
 	}
 }
