@@ -133,6 +133,8 @@ namespace Dunix
 		virtual void AddVertexBuffer(VertexBuffer* vb) = 0;
 		virtual void SetIndexBuffer(IndexBuffer* ib) = 0;
 
+		virtual const IndexBuffer* GetIndexBuffer() const = 0;
+
 		static VertexArray* Create();
 	};
 

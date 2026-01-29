@@ -6,6 +6,7 @@
 #include "Dunix/Renderer/Shader.h"
 #include "Dunix/Renderer/Buffer.h"
 #include "Dunix/Renderer/Camera.h"
+#include "Dunix/Renderer/RenderCommand.h"
 
 #include "Dunix/Core/Input.h"
 #include "Dunix/Core/Time.h"
@@ -23,10 +24,13 @@ namespace Dunix
 	Application::Application()
 	{
 		m_Instance = this;
-		WindowsProps props(1280, 920);
-		m_Window = Dunix::CreateDunixWindow(props);
 
+		WindowsProps props(1280, 920);
+
+		m_Window = Dunix::CreateDunixWindow(props);
 		m_Window->SetEventCallback(std::bind(&Application::OnEvent, this, std::placeholders::_1));
+
+		RenderCommand::Init();
 
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);

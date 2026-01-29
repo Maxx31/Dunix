@@ -41,11 +41,13 @@ namespace Dunix
 	public:
 		OpenGLVertexArray();
 
-		void Bind() const override;
-		void Unbind() const override;
+		virtual void Bind() const override;
+		virtual void Unbind() const override;
 
-		void AddVertexBuffer(VertexBuffer* vb) override;
-		void SetIndexBuffer(IndexBuffer* ib) override;
+		virtual void AddVertexBuffer(VertexBuffer* vb) override;
+		virtual void SetIndexBuffer(IndexBuffer* ib) override;
+
+		virtual const IndexBuffer* GetIndexBuffer() const { return m_IndexBuffer; }
 
 	private:
 		unsigned int m_VAO;

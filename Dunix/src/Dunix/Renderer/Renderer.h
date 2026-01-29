@@ -12,6 +12,6 @@ namespace Dunix {
 		static void BeginScene();
 		static void EndScene();
 
-		static void Submit(const std::shared_ptr<VertexArray>& vertexArray);
+		static void Submit(VertexArray* vertexArray);
 	};
 }
