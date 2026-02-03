@@ -1,6 +1,9 @@
 #include <Dunix.h>
-
 #include <imgui/imgui.h>
+
+//--------EntryPoint--------------
+#include "Dunix/Core/EntryPoint.h"
+//----------------------------
 
 class ExampleLayer : public Dunix::Layer
 {
@@ -23,15 +26,15 @@ public:
 
 };
 
-class Sandbox : public Dunix::Application
+class Editor : public Dunix::Application
 {
 public:
-	Sandbox()
+	Editor()
 	{
 		PushLayer(new ExampleLayer());
 	}
 
-	~Sandbox()
+	~Editor()
 	{
 
 	}
@@ -39,5 +42,5 @@ public:
 
 Dunix::Application* Dunix::CreateApplication()
 {
-	return new Sandbox();
+	return new Editor();
 }

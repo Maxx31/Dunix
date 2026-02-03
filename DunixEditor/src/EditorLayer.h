@@ -10,8 +10,6 @@
 #include "Dunix/Renderer/Camera.h"
 #include "Dunix/Renderer/RenderCommand.h"
 
-#include <imgui/imgui.h>
-
 namespace Dunix
 {
 	class EditorLayer : public Layer
@@ -24,8 +22,10 @@ namespace Dunix
 		void OnImGuiRender() override;
 
 	private:
-		bool OnMouseMoved(MouseMovedEvent& e);
+		bool OnWindowClose(WindowCloseEvent& e);
 		bool OnKeyPressed(KeyPressedEvent& e);
+
+		bool OnMouseMoved(MouseMovedEvent& e);
 		bool OnMousePressed(MouseButtonPressedEvent& e);
 
 		void UpdateCameraPosition(float dt);

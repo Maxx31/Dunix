@@ -46,7 +46,7 @@ namespace Dunix
             style.Colors[ImGuiCol_WindowBg].w = 1.0f;
         }
 
-        Application& app = Application::GetApplication();
+        Application& app = Application::Get();
         GLFWwindow* window = static_cast<GLFWwindow*>(app.GetWindow().GetNativeWindow());
 
         ImGui_ImplGlfw_InitForOpenGL(window, true);
@@ -70,7 +70,7 @@ namespace Dunix
     void ImGuiLayer::End()
     {
         ImGuiIO& io = ImGui::GetIO();
-        Application& app = Application::GetApplication();
+        Application& app = Application::Get();
         io.DisplaySize = ImVec2(app.GetWindow().GetWidth(), app.GetWindow().GetHeight());
 
         // Rendering

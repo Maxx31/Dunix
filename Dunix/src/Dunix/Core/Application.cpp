@@ -66,9 +66,6 @@ namespace Dunix
 	{
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(std::bind(&Application::OnWindowClose, this, std::placeholders::_1));
-		dispatcher.Dispatch<MouseMovedEvent>(std::bind(&Application::OnMouseMoved, this, std::placeholders::_1));
-		dispatcher.Dispatch<KeyPressedEvent>(std::bind(&Application::OnKeyPressed, this, std::placeholders::_1));
-		dispatcher.Dispatch<MouseButtonPressedEvent>(std::bind(&Application::OnMousePressed, this, std::placeholders::_1));
 
 		m_LayerStack.OnEvent(e);
 	}
@@ -77,76 +74,6 @@ namespace Dunix
 	{
 		m_Running = false;
 		return true;
-	}
-
-	bool Application::OnMouseMoved(MouseMovedEvent& e)
-	{
-		float xpos = e.GetPosX();
-		float ypos = e.GetPosY();
-
-		if (m_FirstMouse)
-		{
-			m_LastMouseX = xpos;
-			m_LastMouseY = ypos;
-			m_FirstMouse = false;
-			return false;
-		}
-
-		float xoffset = xpos - m_LastMouseX;
-		float yoffset = m_LastMouseY - ypos; // inverted Y (screen vs world)
-
-		m_LastMouseX = xpos;
-		m_LastMouseY = ypos;
-
-		const float sensitivity = 0.1f;
-		xoffset *= sensitivity;
-		yoffset *= sensitivity;
-
-		glm::vec3 rot = m_Camera->GetRotation();
-		rot.x += yoffset; // pitch
-		rot.y -= xoffset; // yaw
-
-		// clamp pitch
-		if (rot.x > 89.0f)  rot.x = 89.0f;
-		if (rot.x < -89.0f) rot.x = -89.0f;
-
-		m_Camera->SetRotation(rot);
-		return false;
-	}
-
-	bool Application::OnKeyPressed(KeyPressedEvent& e)
-	{
-		if (e.GetKeyCode() == GLFW_KEY_ESCAPE)
-		{
-			m_Window->SetCursorLocked(false);
-		}
-		return true;
-	}
-
-	bool Application::OnMousePressed(MouseButtonPressedEvent& e)
-	{
-		if (e.GetButtonCode() == GLFW_MOUSE_BUTTON_LEFT)
-		{
-			m_Window->SetCursorLocked(true);
-		}
-		return true;
-	}
-
-	void Application::UpdateCameraPosition(float deltaTime)
-	{
-		float speed = 5.0f * deltaTime;
-		glm::vec3 pos = m_Camera->GetPosition();
-
-		if (Input::IsKeyPressed(GLFW_KEY_W))
-			pos += m_Camera->GetForward() * speed;
-		if (Input::IsKeyPressed(GLFW_KEY_S))
-			pos -= m_Camera->GetForward() * speed;
-		if (Input::IsKeyPressed(GLFW_KEY_A))
-			pos -= m_Camera->GetRight() * speed;
-		if (Input::IsKeyPressed(GLFW_KEY_D))
-			pos += m_Camera->GetRight() * speed;
-
-		m_Camera->SetPosition(pos);
 	}
 
 	void Application::PushLayer(Layer* layer)

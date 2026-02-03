@@ -10,7 +10,7 @@ namespace Dunix
 
 	bool Dunix::WindowsInput::IsMouseButtonPressedImpl(int button)
 	{
-		GLFWwindow* WindowsWindow = static_cast<GLFWwindow*>(Application::GetApplication().GetWindow().GetNativeWindow());
+		GLFWwindow* WindowsWindow = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
 
 		if (WindowsWindow)
 		{
@@ -23,7 +23,7 @@ namespace Dunix
 
 	bool Dunix::WindowsInput::IsKeyPressedImpl(int keycode)
 	{
-		GLFWwindow* WindowsWindow = static_cast<GLFWwindow*>(Application::GetApplication().GetWindow().GetNativeWindow());
+		GLFWwindow* WindowsWindow = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
 
 		if (WindowsWindow)
 		{
@@ -36,7 +36,7 @@ namespace Dunix
 
 	std::pair<float, float> Dunix::WindowsInput::GetMousePositionImpl()
 	{
-		GLFWwindow* WindowsWindow = static_cast<GLFWwindow*>(Application::GetApplication().GetWindow().GetNativeWindow());
+		GLFWwindow* WindowsWindow = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
 
 		if (WindowsWindow)
 		{

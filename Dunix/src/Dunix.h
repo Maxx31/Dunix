@@ -6,7 +6,3 @@
 #include "Dunix/Core/Log.h"
 
 #include "Dunix/Editor/ImGuiLayer.h"
-
-//--------EntryPoint--------------
-#include "Dunix/Core/EntryPoint.h"
-//----------------------------

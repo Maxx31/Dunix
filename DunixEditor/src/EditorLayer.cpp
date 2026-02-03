@@ -4,6 +4,7 @@
 #include "Dunix/Events/EventDispatcher.h"
 #include "Dunix/Core/Input.h"
 
+#include <GLFW/include/GLFW/glfw3.h>
 #include <imgui/imgui.h>
 
 namespace Dunix {
@@ -161,3 +162,4 @@ namespace Dunix {
         ImGui::Text("Viewport running");
         ImGui::End();
     }
+}

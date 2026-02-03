@@ -4,7 +4,7 @@
 
 namespace Dunix {
 
-	class OpenGLRendererAPI : RendererAPI
+	class OpenGLRendererAPI : public RendererAPI
 	{
 		virtual void Init() override;
 
