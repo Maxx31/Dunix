@@ -1,46 +1,50 @@
 #include <Dunix.h>
-#include <imgui/imgui.h>
+#include "EditorLayer.h"
 
 //--------EntryPoint--------------
 #include "Dunix/Core/EntryPoint.h"
 //----------------------------
 
-class ExampleLayer : public Dunix::Layer
+#include <imgui/imgui.h>
+
+namespace Dunix
 {
-public:
-	ExampleLayer()
-		: Layer("Example")
+	class ExampleLayer : public Layer
 	{
-	}
+	public:
+		ExampleLayer()
+			: Layer("Example")
+		{
+		}
 
-	virtual void OnImGuiRender() override
+		virtual void OnImGuiRender() override
+		{
+			ImGui::Begin("Test");
+			ImGui::Text("Hello World");
+			ImGui::End();
+		}
+
+		void OnEvent(Event& event) override
+		{
+		}
+
+	};
+
+	class Editor : public Application
 	{
-		ImGui::Begin("Test");
-		ImGui::Text("Hello World");
-		ImGui::End();
-	}
+	public:
+		Editor()
+		{
+			PushLayer(new EditorLayer());
+		}
 
-	void OnEvent(Dunix::Event& event) override
+		~Editor()
+		{
+
+		}
+	};
+	Application* CreateApplication()
 	{
+		return new Editor();
 	}
-
-};
-
-class Editor : public Dunix::Application
-{
-public:
-	Editor()
-	{
-		PushLayer(new ExampleLayer());
-	}
-
-	~Editor()
-	{
-
-	}
-};
-
-Dunix::Application* Dunix::CreateApplication()
-{
-	return new Editor();
 }
