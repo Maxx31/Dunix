@@ -1,8 +1,7 @@
 #include "dxpch.h"
 #include "Camera.h"
 
-namespace Dunix
-{
+namespace Dunix{
 	Camera::Camera(float FOV, float aspect, float nearClip, float farClip) :
 		m_FOV(FOV), m_Aspect(aspect), m_nearClip(nearClip), m_farClip(farClip)
 	{

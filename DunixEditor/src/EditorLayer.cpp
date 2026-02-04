@@ -76,8 +76,12 @@ namespace Dunix {
 
         UpdateCameraPosition(ts);
 
+        glm::vec3 pos(0.0f, 10.0f, 0.0f);
+        glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos); // Here we can also add scale by multiplying  
+
         m_Shader->Bind();
         m_Shader->SetMat4("u_ViewProjection", m_Camera->GetViewProjection());
+        m_Shader->SetMat4("u_Transform", transform);
 
         m_VA->Bind();
         RenderCommand::DrawIndexed(m_VA);

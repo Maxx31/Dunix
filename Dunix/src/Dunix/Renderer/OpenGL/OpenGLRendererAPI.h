@@ -3,7 +3,6 @@
 #include "Dunix/Renderer/RendererApi.h"
 
 namespace Dunix {
-
 	class OpenGLRendererAPI : public RendererAPI
 	{
 		virtual void Init() override;
