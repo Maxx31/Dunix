@@ -68,9 +68,13 @@ namespace Dunix {
         m_Shader->SetMat4("u_ViewProjection", m_Camera->GetViewProjection());
     }
 
+    EditorLayer::~EditorLayer()
+    {
+    }
+
     void EditorLayer::OnUpdate(Timestep ts)
     {
-        // If you have depth testing in your RendererAPI, clear depth too there.
+        // If we have depth testing in RendererAPI, need to clear depth here.
         RenderCommand::SetClearColor({ 0.137f, 0.137f, 0.137f, 1.0f });
         RenderCommand::Clear();
 

@@ -16,6 +16,7 @@ namespace Dunix
 	{
 	public:
 		EditorLayer();
+		~EditorLayer() override;
 
 		void OnUpdate(Timestep ts) override;
 		void OnEvent(Event& e) override;

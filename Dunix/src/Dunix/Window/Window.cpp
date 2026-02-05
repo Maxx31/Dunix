@@ -4,9 +4,7 @@
 
 namespace Dunix
 {
-	Window::~Window()
-	{
-	}
+	Window::~Window() = default;
 
 	std::unique_ptr<Window> CreateDunixWindow(WindowsProps props)
 	{

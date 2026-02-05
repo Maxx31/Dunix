@@ -9,6 +9,7 @@ namespace Dunix
 	{
 	public:
 		explicit Layer(std::string name = "Layer") : m_DebugName(std::move(name)){}
+		virtual ~Layer() = default;
 
 		virtual void OnAttach() {};
 		virtual void OnDetach() {};
