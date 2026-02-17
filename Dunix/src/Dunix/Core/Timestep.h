@@ -15,7 +15,6 @@ namespace Dunix
 
 	private:
 		float m_time;
-
 	};
 }
 
