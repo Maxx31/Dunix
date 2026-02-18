@@ -70,6 +70,11 @@ namespace Dunix
 		glGenVertexArrays(1, &m_VAO);
 	}
 
+	OpenGLVertexArray::~OpenGLVertexArray()
+	{
+		glDeleteVertexArrays(1, &m_VAO);
+	}
+
 	void OpenGLVertexArray::Bind() const
 	{
 		glBindVertexArray(m_VAO);

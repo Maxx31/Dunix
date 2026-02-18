@@ -28,7 +28,7 @@ namespace Dunix {
         RenderCommand::SetClearColor({ 0.137f, 0.137f, 0.137f, 1.0f });
         RenderCommand::Clear();
 
-        Renderer3D::BeginScene();
+        Renderer3D::BeginScene(*m_Camera);
         Renderer3D::DrawCube({ 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f }, { 0.6f, 0.5f, 1.0f, 1.0f });
         Renderer3D::EndScene();
 
@@ -38,14 +38,6 @@ namespace Dunix {
 
         glm::vec3 pos(0.0f, 2.0f, 0.0f); 
         glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos); // Here we can also add scale by multiplying  
-
-
-        m_Shader->Bind();
-        m_Shader->SetMat4("u_ViewProjection", m_Camera->GetViewProjection());
-        m_Shader->SetMat4("u_Transform", transform);
-
-        m_VA->Bind();
-        RenderCommand::DrawIndexed(m_VA);
     }
 
     void EditorLayer::OnEvent(Event& event)

@@ -3,6 +3,7 @@
 
 #include "Buffer.h"
 #include "Shader.h"
+#include "Camera.h"
 
 namespace Dunix {
 
@@ -12,10 +13,12 @@ namespace Dunix {
 		Shader* BasicShader;
 	};
 
-	static Renderer3DStorage m_Data;
+	static Renderer3DStorage* m_Data;
 
 	void Renderer3D::Init()
 	{
+        m_Data = new Renderer3DStorage();
+
         //Rendering simple cube 
         float vertices[] =
         {
@@ -47,20 +50,20 @@ namespace Dunix {
         };
 
         VertexBuffer* CubeVB;
+        IndexBuffer* CubeIB;
 
         CubeVB = VertexBuffer::Create(vertices, sizeof(vertices));
         CubeVB->SetLayout({
             { ShaderDataType::Float3, "aPos" }   // 3 floats: x, y, z
             });
 
-        IndexBuffer* CubeIB;
         CubeIB = IndexBuffer::Create(indices, 36);
-        m_Data.CubeVertexArray = VertexArray::Create();
+        m_Data->CubeVertexArray = VertexArray::Create();
 
-        m_Data.CubeVertexArray->AddVertexBuffer(CubeVB);
-        m_Data.CubeVertexArray->SetIndexBuffer(CubeIB);
+        m_Data->CubeVertexArray->AddVertexBuffer(CubeVB);
+        m_Data->CubeVertexArray->SetIndexBuffer(CubeIB);
 
-        m_Data.BasicShader = Shader::CreateFromFile(
+        m_Data->BasicShader = Shader::CreateFromFile(
             "assets/shaders/default.vert",
             "assets/shaders/default.frag"
         );
@@ -68,12 +71,14 @@ namespace Dunix {
 
 	void Renderer3D::Shutdown()
 	{
-
+        delete m_Data;
 	}
 
-	void Renderer3D::BeginScene()
+	void Renderer3D::BeginScene(const Camera& camera)
 	{
-
+        m_Data->BasicShader->Bind();
+        m_Data->BasicShader->SetMat4("u_ViewProjection", camera.GetViewProjection());
+        m_Data->BasicShader->SetMat4("u_Transform", glm::mat4(1.0));
 	}
 
 	void Renderer3D::EndScene()
@@ -83,6 +88,9 @@ namespace Dunix {
 
 	void Renderer3D::DrawCube(const glm::vec3& position, const glm::vec3& size, const glm::vec4& color)
 	{
+        m_Data->BasicShader->Bind();
 
+        m_Data->CubeVertexArray->Bind();
+        RenderCommand::DrawIndexed(m_Data->CubeVertexArray);
 	}
 }
