@@ -28,16 +28,11 @@ namespace Dunix {
         RenderCommand::SetClearColor({ 0.137f, 0.137f, 0.137f, 1.0f });
         RenderCommand::Clear();
 
+        UpdateCameraPosition(ts);
+
         Renderer3D::BeginScene(*m_Camera);
         Renderer3D::DrawCube({ 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f }, { 0.6f, 0.5f, 1.0f, 1.0f });
         Renderer3D::EndScene();
-
-        //Everything below should be removed
-
-        UpdateCameraPosition(ts);
-
-        glm::vec3 pos(0.0f, 2.0f, 0.0f); 
-        glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos); // Here we can also add scale by multiplying  
     }
 
     void EditorLayer::OnEvent(Event& event)
@@ -87,6 +82,7 @@ namespace Dunix {
         if (e.GetKeyCode() == GLFW_KEY_ESCAPE)
         {
             Application::Get().GetWindow().SetCursorLocked(false);
+            m_FirstMouse = true;
         }
         return false;
     }
@@ -96,6 +92,7 @@ namespace Dunix {
         if (e.GetButtonCode() == GLFW_MOUSE_BUTTON_LEFT)
         {
             Application::Get().GetWindow().SetCursorLocked(true);
+            m_FirstMouse = true;
         }
         return false;
     }

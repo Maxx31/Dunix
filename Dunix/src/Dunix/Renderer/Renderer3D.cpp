@@ -78,7 +78,6 @@ namespace Dunix {
 	{
         m_Data->BasicShader->Bind();
         m_Data->BasicShader->SetMat4("u_ViewProjection", camera.GetViewProjection());
-        m_Data->BasicShader->SetMat4("u_Transform", glm::mat4(1.0));
 	}
 
 	void Renderer3D::EndScene()
@@ -88,7 +87,14 @@ namespace Dunix {
 
 	void Renderer3D::DrawCube(const glm::vec3& position, const glm::vec3& size, const glm::vec4& color)
 	{
+        glm::mat4 transform(1.0f);
+        transform = glm::translate(transform, position);
+        transform = glm::scale(transform, size);
+
+        // Shader MUST be bound before setting uniforms
         m_Data->BasicShader->Bind();
+        m_Data->BasicShader->SetMat4("u_Transform", transform);
+        m_Data->BasicShader->SetFloat4("u_Color", color);
 
         m_Data->CubeVertexArray->Bind();
         RenderCommand::DrawIndexed(m_Data->CubeVertexArray);

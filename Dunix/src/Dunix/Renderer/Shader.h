@@ -11,10 +11,11 @@ namespace Dunix
         virtual void Bind() const = 0;
         virtual void Unbind() const = 0;
 
-        virtual void SetFloat(const char* name, float v) = 0;
-        virtual void SetFloat3(const char* name, float x, float y, float z) = 0;
-
-        virtual void SetMat4(const char* name, const glm::mat4& value) = 0;
+        virtual void SetInt(const std::string& name, int value) = 0;
+        virtual void SetFloat(const std::string& nam, float v) = 0;
+        virtual void SetFloat3(const std::string& nam, float x, float y, float z) = 0;
+        virtual void SetFloat4(const std::string& nam, const glm::vec4& value) = 0;
+        virtual void SetMat4(const std::string& nam, const glm::mat4& value) = 0;
 
         static Shader* CreateFromFile(const std::string& vsPath, const std::string fsPath);
     };

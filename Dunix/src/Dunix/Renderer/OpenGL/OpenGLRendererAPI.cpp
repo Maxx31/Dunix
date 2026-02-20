@@ -7,6 +7,7 @@ namespace Dunix {
 	void OpenGLRendererAPI::Init()
 	{
 		glEnable(GL_DEPTH_TEST);
+		glDepthFunc(GL_LESS);
 	}
 
 	void OpenGLRendererAPI::SetClearColor(const glm::vec4& color)

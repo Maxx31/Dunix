@@ -27,17 +27,33 @@ namespace Dunix
 		glUseProgram(0);
 	}
 
-	void OpenGLShader::SetFloat(const char* name, float v)
+	void OpenGLShader::SetInt(const std::string& name, int value)
 	{
+		GLint location = glGetUniformLocation(m_Program, name.c_str());
+		glUniform1i(location, value);
 	}
 
-	void OpenGLShader::SetFloat3(const char* name, float x, float y, float z)
+	void OpenGLShader::SetFloat(const std::string& name, float value)
 	{
+		GLint location = glGetUniformLocation(m_Program, name.c_str());
+		glUniform1f(location, value);
 	}
 
-	void OpenGLShader::SetMat4(const char* name, const glm::mat4& value)
+	void OpenGLShader::SetFloat3(const std::string& name, float x, float y, float z)
 	{
-		GLint location = glGetUniformLocation(m_Program, name);
+		GLint location = glGetUniformLocation(m_Program, name.c_str());
+		glUniform3f(location, x, y, z);
+	}
+
+	void OpenGLShader::SetFloat4(const std::string& name, const glm::vec4& value)
+	{
+		GLint location = glGetUniformLocation(m_Program, name.c_str());
+		glUniform4fv(location, 1, glm::value_ptr(value));
+	}
+
+	void OpenGLShader::SetMat4(const std::string& name, const glm::mat4& value)
+	{
+		GLint location = glGetUniformLocation(m_Program, name.c_str());
 		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
 	}
 
