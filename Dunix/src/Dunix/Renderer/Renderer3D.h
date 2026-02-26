@@ -16,5 +16,6 @@ namespace Dunix {
 		static void EndScene();
 
 		static void DrawCube(const glm::vec3& position, const glm::vec3& size, const glm::vec4& color);
+		static void DrawCube(const glm::vec3& position, const glm::vec3& size, const class Texture3D* texture);
 	};
 }

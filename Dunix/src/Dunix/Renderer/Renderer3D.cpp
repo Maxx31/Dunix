@@ -1,5 +1,6 @@
 #include "dxpch.h"
 #include "Renderer3D.h"
+#include "Texture.h"
 
 #include "Buffer.h"
 #include "Shader.h"
@@ -10,7 +11,8 @@ namespace Dunix {
 	struct Renderer3DStorage
 	{
 		VertexArray* CubeVertexArray;
-		Shader* BasicShader;
+        Shader* TextureShader;
+        Texture3D* WhiteTexture;
 	};
 
 	static Renderer3DStorage* m_Data;
@@ -20,17 +22,17 @@ namespace Dunix {
         m_Data = new Renderer3DStorage();
 
         //Rendering simple cube 
-        float vertices[] =
+        float CubeVertices[] =
         {
-            // x, y, z
-            -0.5f, -0.5f, -0.5f, // 0
-             0.5f, -0.5f, -0.5f, // 1
-             0.5f,  0.5f, -0.5f, // 2
-            -0.5f,  0.5f, -0.5f, // 3
-            -0.5f, -0.5f,  0.5f, // 4
-             0.5f, -0.5f,  0.5f, // 5
-             0.5f,  0.5f,  0.5f, // 6
-            -0.5f,  0.5f,  0.5f  // 7
+            // x, y, z, texCoords (x, y, z)
+            -0.5f, -0.5f, -0.5f,  0.0f, 0.0f, 0.0f, // 0
+             0.5f, -0.5f, -0.5f,  1.0f, 0.0f, 0.0f, // 1
+             0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 0.0f, // 2
+            -0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 0.0f, // 3
+            -0.5f, -0.5f,  0.5f,  0.0f, 0.0f, 1.0f, // 4
+             0.5f, -0.5f,  0.5f,  1.0f, 0.0f, 1.0f, // 5
+             0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 1.0f, // 6
+            -0.5f,  0.5f,  0.5f,  0.0f, 1.0f, 1.0f // 7
         };
 
         uint32_t indices[] =
@@ -52,9 +54,10 @@ namespace Dunix {
         VertexBuffer* CubeVB;
         IndexBuffer* CubeIB;
 
-        CubeVB = VertexBuffer::Create(vertices, sizeof(vertices));
+        CubeVB = VertexBuffer::Create(CubeVertices, sizeof(CubeVertices));
         CubeVB->SetLayout({
-            { ShaderDataType::Float3, "aPos" }   // 3 floats: x, y, z
+            { ShaderDataType::Float3, "aPos" },  // 3 floats: x, y, z
+            { ShaderDataType::Float3, "a_TexCoord" }
             });
 
         CubeIB = IndexBuffer::Create(indices, 36);
@@ -63,10 +66,16 @@ namespace Dunix {
         m_Data->CubeVertexArray->AddVertexBuffer(CubeVB);
         m_Data->CubeVertexArray->SetIndexBuffer(CubeIB);
 
-        m_Data->BasicShader = Shader::CreateFromFile(
-            "assets/shaders/default.vert",
-            "assets/shaders/default.frag"
+        m_Data->WhiteTexture = Texture3D::Create(1, 1);
+        uint32_t whiteTextureData = 0xffffffff;
+        m_Data->WhiteTexture->SetData(&whiteTextureData, sizeof(uint32_t));
+
+        m_Data->TextureShader = Shader::CreateFromFile(
+            "assets/shaders/Texture.vert",
+            "assets/shaders/Texture.frag"
         );
+        m_Data->TextureShader->Bind();
+        m_Data->TextureShader->SetInt("u_Texture", 0);
 	}
 
 	void Renderer3D::Shutdown()
@@ -76,8 +85,8 @@ namespace Dunix {
 
 	void Renderer3D::BeginScene(const Camera& camera)
 	{
-        m_Data->BasicShader->Bind();
-        m_Data->BasicShader->SetMat4("u_ViewProjection", camera.GetViewProjection());
+        m_Data->TextureShader->Bind();
+        m_Data->TextureShader->SetMat4("u_ViewProjection", camera.GetViewProjection());
 	}
 
 	void Renderer3D::EndScene()
@@ -92,11 +101,23 @@ namespace Dunix {
         transform = glm::scale(transform, size);
 
         // Shader MUST be bound before setting uniforms
-        m_Data->BasicShader->Bind();
-        m_Data->BasicShader->SetMat4("u_Transform", transform);
-        m_Data->BasicShader->SetFloat4("u_Color", color);
+        m_Data->TextureShader->Bind();
+        m_Data->TextureShader->SetMat4("u_Transform", transform);
+        m_Data->TextureShader->SetFloat4("u_Color", color);
 
         m_Data->CubeVertexArray->Bind();
         RenderCommand::DrawIndexed(m_Data->CubeVertexArray);
 	}
+
+    void Renderer3D::DrawCube(const glm::vec3& position, const glm::vec3& size, const Texture3D* texture)
+    {
+        m_Data->TextureShader->SetFloat4("u_Color", glm::vec4(1.0f));
+        texture->Bind();
+
+        glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), { size.x, size.y, size.z });
+        m_Data->TextureShader->SetMat4("u_Transform", transform);
+
+        m_Data->CubeVertexArray->Bind();
+        RenderCommand::DrawIndexed(m_Data->CubeVertexArray);
+    }
 }
