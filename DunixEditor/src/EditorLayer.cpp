@@ -31,7 +31,8 @@ namespace Dunix {
         UpdateCameraPosition(ts);
 
         Renderer3D::BeginScene(*m_Camera);
-        Renderer3D::DrawCube({ 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f }, { 0.6f, 0.5f, 1.0f, 1.0f });
+        Renderer3D::DrawCube({ 0.0f, 0.0f, 0.0f }, { 2.0f, 2.0f, 2.0f }, { 0.0f, 0.0f, 1.0f, 1.0f });
+        Renderer3D::DrawCube({ 5.0f, 0.0f, 0.0f }, { 1.0f, 1.0f, 3.0f }, { 0.5f, 0.4f, 0.5f, 1.0f });
         Renderer3D::EndScene();
     }
 

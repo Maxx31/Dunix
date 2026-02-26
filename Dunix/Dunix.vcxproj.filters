@@ -85,6 +85,8 @@
     <ClInclude Include="src\Dunix\Core\Time.h" />
     <ClInclude Include="src\Dunix\Renderer\OpenGL\OpenGLRendererAPI.h" />
     <ClInclude Include="src\Dunix\Renderer\Renderer3D.h" />
+    <ClInclude Include="src\Dunix\Renderer\Texture.h" />
+    <ClInclude Include="src\Dunix\Renderer\OpenGL\OpenGLTexture3D.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Dunix\Window\Window.cpp">
@@ -125,5 +127,7 @@
     <ClCompile Include="src\Dunix\Core\Time.cpp" />
     <ClCompile Include="src\Dunix\Renderer\OpenGL\OpenGLRendererAPI.cpp" />
     <ClCompile Include="src\Dunix\Renderer\Renderer3D.cpp" />
+    <ClCompile Include="src\Dunix\Renderer\Texture.cpp" />
+    <ClCompile Include="src\Dunix\Renderer\OpenGL\OpenGLTexture3D.cpp" />
   </ItemGroup>
 </Project>
