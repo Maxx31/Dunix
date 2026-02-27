@@ -105,7 +105,9 @@ namespace Dunix {
         m_Data->TextureShader->SetMat4("u_Transform", transform);
         m_Data->TextureShader->SetFloat4("u_Color", color);
 
+        m_Data->WhiteTexture->Bind();
         m_Data->CubeVertexArray->Bind();
+
         RenderCommand::DrawIndexed(m_Data->CubeVertexArray);
 	}
 

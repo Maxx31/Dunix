@@ -2,6 +2,7 @@
 #include "EditorLayer.h"
 
 #include "Dunix/Events/EventDispatcher.h"
+#include "Dunix/Renderer/Texture.h"
 #include "Dunix/Core/Input.h"
 
 #include <GLFW/include/GLFW/glfw3.h>
@@ -22,6 +23,11 @@ namespace Dunix {
     {
     }
 
+    void EditorLayer::OnAttach()
+    {
+        m_TestTexture = Texture3D::Create("assets/textures/Checkerboard.png");
+    }
+
     void EditorLayer::OnUpdate(Timestep ts)
     {
         // If we have depth testing in RendererAPI, need to clear depth here.
@@ -32,7 +38,7 @@ namespace Dunix {
 
         Renderer3D::BeginScene(*m_Camera);
         Renderer3D::DrawCube({ 0.0f, 0.0f, 0.0f }, { 2.0f, 2.0f, 2.0f }, { 0.0f, 0.0f, 1.0f, 1.0f });
-        Renderer3D::DrawCube({ 5.0f, 0.0f, 0.0f }, { 1.0f, 1.0f, 3.0f }, { 0.5f, 0.4f, 0.5f, 1.0f });
+        Renderer3D::DrawCube({ 5.0f, 0.0f, 0.0f }, { 1.0f, 1.0f, 3.0f }, m_TestTexture);
         Renderer3D::EndScene();
     }
 

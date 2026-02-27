@@ -18,6 +18,7 @@ namespace Dunix
 		EditorLayer();
 		~EditorLayer() override;
 
+		void OnAttach() override;
 		void OnUpdate(Timestep ts) override;
 		void OnEvent(Event& e) override;
 		void OnImGuiRender() override;
@@ -38,6 +39,8 @@ namespace Dunix
 		class IndexBuffer* m_IBO;
 
 		class Shader* m_Shader;
+
+		class Texture3D* m_TestTexture;
 
 		bool  m_FirstMouse = true;
 		float m_LastMouseX = 0.0f;
