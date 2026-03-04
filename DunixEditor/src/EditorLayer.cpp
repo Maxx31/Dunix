@@ -25,7 +25,7 @@ namespace Dunix {
 
     void EditorLayer::OnAttach()
     {
-        m_TestTexture = Texture3D::Create("assets/textures/Checkerboard.png");
+        m_TestTexture = Texture3D::Create("assets/textures/TestTexture.png");
     }
 
     void EditorLayer::OnUpdate(Timestep ts)
@@ -37,8 +37,10 @@ namespace Dunix {
         UpdateCameraPosition(ts);
 
         Renderer3D::BeginScene(*m_Camera);
-        Renderer3D::DrawCube({ 0.0f, 0.0f, 0.0f }, { 2.0f, 2.0f, 2.0f }, { 0.0f, 0.0f, 1.0f, 1.0f });
-        Renderer3D::DrawCube({ 5.0f, 0.0f, 0.0f }, { 1.0f, 1.0f, 3.0f }, m_TestTexture);
+        Renderer3D::DrawCube({ 0.0f, 0.0f, 0.0f }, { 2.0f, 2.0f, 6.0f }, { 0.0f, 0.0f, 1.0f, 1.0f });
+        Renderer3D::DrawCube({ 0.0f, 8.0f, 0.0f }, { 15.0f, 1.0f, 15.0f }, { 0.4f, 0.7f, 1.0f, 1.0f }); //Sky
+        Renderer3D::DrawCube({ 0.0f, -8.0f, 0.0f }, { 15.0f, 1.0f, 15.0f }, { 0.145f, 0.710f, 0.082f, 1.0f }); //Grass
+        Renderer3D::DrawCube({ 5.0f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f }, m_TestTexture);
         Renderer3D::EndScene();
     }
 

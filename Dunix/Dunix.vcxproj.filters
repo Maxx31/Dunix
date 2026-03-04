@@ -87,6 +87,7 @@
     <ClInclude Include="src\Dunix\Renderer\Renderer3D.h" />
     <ClInclude Include="src\Dunix\Renderer\Texture.h" />
     <ClInclude Include="src\Dunix\Renderer\OpenGL\OpenGLTexture3D.h" />
+    <ClInclude Include="vendor\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Dunix\Window\Window.cpp">
@@ -129,5 +130,6 @@
     <ClCompile Include="src\Dunix\Renderer\Renderer3D.cpp" />
     <ClCompile Include="src\Dunix\Renderer\Texture.cpp" />
     <ClCompile Include="src\Dunix\Renderer\OpenGL\OpenGLTexture3D.cpp" />
+    <ClCompile Include="vendor\stb_image\stb_image.cpp" />
   </ItemGroup>
 </Project>

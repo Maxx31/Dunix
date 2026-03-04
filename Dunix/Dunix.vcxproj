@@ -201,6 +201,11 @@
     <ClInclude Include="src\Dunix\Core\Timestep.h" />
     <ClInclude Include="src\Dunix\Core\Time.h" />
     <ClInclude Include="src\Dunix\Renderer\Texture.h" />
+    <ClInclude Include="vendor\stb_image\stb_image.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Dunix\Renderer\OpenGL\OpenGLTexture3D.cpp" />
@@ -229,6 +234,11 @@
     </ClCompile>
     <ClCompile Include="src\Dunix\Core\Time.cpp" />
     <ClCompile Include="src\Dunix\Renderer\Texture.cpp" />
+    <ClCompile Include="vendor\stb_image\stb_image.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="vendor\Glad\Glad.vcxproj">
