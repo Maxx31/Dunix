@@ -29,7 +29,7 @@ namespace Dunix{
 		RecalculateView();
 	}
 
-	void Camera::SetRotation(const glm::vec3& rotEuler)
+	void Camera::SetRotation(const glm::vec3& rotEuler) 
 	{
 		m_Rotation = rotEuler;
 		RecalculateView();
