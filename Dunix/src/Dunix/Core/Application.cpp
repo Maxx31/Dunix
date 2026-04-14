@@ -13,6 +13,7 @@
 #include "Dunix/Core/Time.h"
 #include "Dunix/Core/Timestep.h"
 
+#include "Dunix/Debug/Profiler/Profiler.h"
 #include "Log.h"
 
 #include <glad/glad.h>
@@ -39,13 +40,16 @@ namespace Dunix
 
 	Application::~Application()
 	{
+		Profiler::Get().ExportToJson("ProfileData.json");
+		Profiler::Get().EndSession();
+
 		m_Instance = nullptr;
 	}
 
 	void Application::Run()
 	{
 		float lastFrameTime = Time::GetTime();
-
+		Profiler::Get().BeginSession();
 		while (m_Running)
 		{
 			float time = Time::GetTime();

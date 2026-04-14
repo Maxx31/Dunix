@@ -19,6 +19,7 @@
 #include <unordered_map>
 
 #include "Dunix/Core/Log.h"
+#include <Dunix/Debug/Profiler/ProfileScope.h>
 
 template<typename T>
 using SharedPtr = std::shared_ptr<T>;

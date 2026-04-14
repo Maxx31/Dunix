@@ -2,22 +2,25 @@
 #include "ProfileScope.h"
 #include "Profiler.h"
 
-using namespace std::chrono;
-
-namespace Dunix {
-
-    ProfileScope::ProfileScope(std::string name)
+namespace Dunix
+{
+    ProfileScope::ProfileScope(const std::string& name)
+        : m_name(name), m_startTime(std::chrono::steady_clock::now())
     {
-        m_startTime = high_resolution_clock::now();
     }
 
     ProfileScope::~ProfileScope()
     {
-        auto Start = m_startTime.time_since_epoch().count();
-        auto Duration = (high_resolution_clock::now() - m_startTime).count();
-        auto Name = m_name;
-        
-        Profiler::Get()->PushEvent(Name, Start, Duration);
-        Profiler::Get()->ExportToJson();
+        using namespace std::chrono;
+
+        uint64_t Start = duration_cast<microseconds>(
+            m_startTime.time_since_epoch()
+        ).count();
+
+        uint64_t Duration = duration_cast<microseconds>(
+            steady_clock::now() - m_startTime
+        ).count();
+
+        Profiler::Get().PushEvent(m_name, Start, Duration);
     }
 }

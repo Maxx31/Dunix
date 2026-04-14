@@ -1,4 +1,9 @@
 #pragma once
+
+#include <string>
+#include <vector>
+#include <cstdint>
+
 namespace Dunix
 {
     struct ProfileEvent
@@ -11,17 +16,17 @@ namespace Dunix
 
     class Profiler
     {
-    public: 
-    
-        static Profiler* Get();
-    
-        void PushEvent(std::string Name, uint64_t Start, uint64_t Duration);
-        void ExportToJson();
-        
-        static Profiler* Instance;
-        
+    public:
+        static Profiler& Get();
+
+        void BeginSession();
+        void EndSession();
+        void PushEvent(const std::string& Name, uint64_t Start, uint64_t Duration);
+        void ExportToJson(const std::string& filePath = "ProfileData.json");
+
     private:
         std::vector<ProfileEvent> Events;
+        uint64_t m_sessionStartUs = 0;
+        bool m_sessionActive = false;
     };
-    
 }
