@@ -168,6 +168,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\Dunix\Debug\Profiler\Profiler.h" />
+    <ClInclude Include="src\Dunix\Debug\Profiler\ProfilerMacros.h" />
     <ClInclude Include="src\Dunix\Debug\Profiler\ProfileScope.h" />
     <ClInclude Include="src\Dunix\Renderer\OpenGL\OpenGLTexture3D.h" />
     <ClInclude Include="src\Dunix\Renderer\Renderer3D.h" />

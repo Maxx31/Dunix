@@ -1,6 +1,7 @@
 #include "dxpch.h"
 #include "Camera.h"
-#include "Dunix/Debug/Profiler/ProfileScope.h"
+
+#include "Dunix/Debug/Profiler/ProfilerMacros.h"
 
 namespace Dunix{
 	Camera::Camera(float FOV, float aspect, float nearClip, float farClip) :
@@ -12,7 +13,8 @@ namespace Dunix{
 
 	glm::vec3 Camera::GetForward() const
 	{
-		ProfileScope scope("Camera::GetForward");
+		DX_PROFILE("Camera::GetForward");
+		
 		glm::mat4 rot(1.0f);
 		rot = glm::rotate(rot, glm::radians(m_Rotation.y), { 0,1,0 }); //Apply yaw
 		rot = glm::rotate(rot, glm::radians(m_Rotation.x), { 1,0,0 }); //Apply Pitch

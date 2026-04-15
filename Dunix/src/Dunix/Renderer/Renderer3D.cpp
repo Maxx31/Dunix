@@ -19,7 +19,6 @@ namespace Dunix {
 
 	void Renderer3D::Init()
 	{
-        ProfileScope scope("Renderer3D::Init");
         m_Data = new Renderer3DStorage();
 
         //Rendering simple cube 
@@ -114,7 +113,6 @@ namespace Dunix {
 
     void Renderer3D::DrawCube(const glm::vec3& position, const glm::vec3& size, const Texture3D* texture)
     {
-        ProfileScope scope("Renderer3D::DrawCube");
         m_Data->TextureShader->SetFloat4("u_Color", glm::vec4(1.0f));
         texture->Bind();
 
