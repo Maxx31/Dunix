@@ -19,6 +19,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include "Dunix/Test/SmartPointers.h"
+
 namespace Dunix
 {
 	Application* Application::m_Instance = nullptr;
@@ -34,6 +36,8 @@ namespace Dunix
 
 		Renderer::Init();
 
+		//TEST
+		
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
 	}

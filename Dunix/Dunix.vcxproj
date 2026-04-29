@@ -197,6 +197,7 @@
     <ClInclude Include="src\Dunix\Renderer\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Dunix\Renderer\RendererAPI.h" />
     <ClInclude Include="src\Dunix\Renderer\Shader.h" />
+    <ClInclude Include="src\Dunix\Test\SmartPointers.h" />
     <ClInclude Include="src\Dunix\Window\Window.h" />
     <ClInclude Include="src\Dunix\Window\WindowGLFW.h" />
     <ClInclude Include="src\Dunix\Window\WindowsInput.h" />

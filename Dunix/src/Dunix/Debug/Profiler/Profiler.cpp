@@ -39,6 +39,8 @@ namespace Dunix
 
         uint64_t RelativeStart = Start - m_sessionStartUs;
         Events.push_back({ Name, RelativeStart, Duration, 0 });
+        
+        std::unique_ptr<Profiler>ProfilerPtr;
     }
 
     void Profiler::ExportToJson(const std::string& filePath)
