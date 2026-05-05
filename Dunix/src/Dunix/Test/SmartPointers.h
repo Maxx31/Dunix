@@ -1,127 +1,225 @@
 #pragma once
 #include <atomic>
 
+
+template<typename T>
+struct ControlBlock
+{
+    explicit ControlBlock(T* InPtr)
+        : ptr(InPtr),
+          StrongPtrCount(1),
+          WeakPtrCount(0)
+    {}
+
+    T* ptr = nullptr;
+    std::atomic<int> StrongPtrCount{0};
+    std::atomic<int> WeakPtrCount{0};
+};
 template <typename T>
 class UniquePointerDX
 {
 public:
-    UniquePointerDX() : ptr(nullptr)
+    UniquePointerDX() = default;
+
+    explicit UniquePointerDX(T* InPtr)
+        : ptr(InPtr)
+    {}
+
+    UniquePointerDX(const UniquePointerDX&) = delete;
+    UniquePointerDX& operator=(const UniquePointerDX&) = delete;
+
+    UniquePointerDX(UniquePointerDX&& Other) noexcept
+        : ptr(Other.ptr)
     {
+        Other.ptr = nullptr;
     }
-    
-    UniquePointerDX(UniquePointerDX&& InOther)
-        : ptr(std::move(InOther.Get()))
+
+    UniquePointerDX& operator=(UniquePointerDX&& Other) noexcept
     {
+        if (this != &Other)
+        {
+            delete ptr;
+            ptr = Other.ptr;
+            Other.ptr = nullptr;
+        }
+
+        return *this;
     }
-    
-    UniquePointerDX(const UniquePointerDX& InUniquePtr) = delete;
-    UniquePointerDX& operator=(const UniquePointerDX& InUniquePtr) = delete;
-    
-    UniquePointerDX(T* InPtr)
-      : ptr(std::move(InPtr))
-    {
-    }
-    
+
     ~UniquePointerDX()
     {
         delete ptr;
     }
-    
-    T* Get()
+
+    T* Get() const
     {
         return ptr;
     }
-    
-private:
-    T* ptr;
-};
 
+private:
+    T* ptr = nullptr;
+};
 template <typename T>
 class SharedPointerDX
 {
 public:
     SharedPointerDX() = default;
-    
-    SharedPointerDX(T* InPtr)
+
+    explicit SharedPointerDX(T* InPtr)
     {
-        ptr = InPtr;
-        PtrCount = new std::atomic<int>(1);
+        control = new ControlBlock<T>(InPtr);
     }
-    
-    SharedPointerDX(SharedPointerDX& InSharedPtr)
+
+    SharedPointerDX(const SharedPointerDX& Other)
+        : control(Other.control)
     {
-        ptr = InSharedPtr.Get();
-        PtrCount->fetch_add(1);
+        if (control)
+            control->StrongPtrCount.fetch_add(1);
+    }
+
+    SharedPointerDX& operator=(const SharedPointerDX& Other)
+    {
+        if (this == &Other)
+            return *this;
+
+        Release();
+
+        control = Other.control;
+
+        if (control)
+            control->StrongPtrCount.fetch_add(1);
+
         return *this;
     }
-    
-    SharedPointerDX(const SharedPointerDX& InUniquePtr) = delete;
-    
+
     ~SharedPointerDX()
     {
-        if (PtrCount->fetch_sub(1) == 1) delete ptr;
+        Release();
     }
-    
-    SharedPointerDX& operator=(const SharedPointerDX& InPointer)
-    {
-        ptr = InPointer.Get();
-        PtrCount = InPointer.PtrCount;
-        PtrCount->fetch_add(1);
-        
-        return *this;
-    }
-    
-    T* Get()
-    {
-        return ptr;
-    }
-    
-private:
-    std::atomic<int>* PtrCount = nullptr;
-    T* ptr;
-};
 
+    T* Get() const
+    {
+        return control ? control->ptr : nullptr;
+    }
+
+    T* operator->() const
+    {
+        return Get();
+    }
+
+    explicit operator bool() const
+    {
+        return Get() != nullptr;
+    }
+
+private:
+    void Release()
+    {
+        if (!control)
+            return;
+
+        if (control->StrongPtrCount.fetch_sub(1) == 1)
+        {
+            delete control->ptr;
+            control->ptr = nullptr;
+
+            if (control->WeakPtrCount.load() == 0)
+            {
+                delete control;
+            }
+        }
+
+        control = nullptr;
+    }
+
+private:
+    ControlBlock<T>* control = nullptr;
+
+    template<typename U>
+    friend class WeakPointerDX;
+};
 template <typename T>
 class WeakPointerDX
 {
 public:
     WeakPointerDX() = default;
-    
-    WeakPointerDX(T* InPtr)
+
+    WeakPointerDX(T* InPtr) = delete;
+
+    WeakPointerDX(const SharedPointerDX<T>& Shared)
+        : control(Shared.control)
     {
-        ptr = InPtr;
-        PtrCount = new std::atomic<int>(1);
+        if (control)
+            control->WeakPtrCount.fetch_add(1);
     }
-    
-    WeakPointerDX(WeakPointerDX& InSharedPtr)
+
+    WeakPointerDX(const WeakPointerDX& Other)
+        : control(Other.control)
     {
-        ptr = InSharedPtr.Get();
-        PtrCount->fetch_add(1);
+        if (control)
+            control->WeakPtrCount.fetch_add(1);
+    }
+
+    WeakPointerDX& operator=(const WeakPointerDX& Other)
+    {
+        if (this == &Other)
+            return *this;
+
+        Release();
+
+        control = Other.control;
+
+        if (control)
+            control->WeakPtrCount.fetch_add(1);
+
         return *this;
     }
-    
-    WeakPointerDX(const WeakPointerDX& InUniquePtr) = delete;
-    
+
     ~WeakPointerDX()
     {
-        if (PtrCount->fetch_sub(1) == 1) delete ptr;
+        Release();
     }
-    
-    WeakPointerDX& operator=(const WeakPointerDX& InPointer)
+
+    bool IsValid() const
     {
-        ptr = InPointer.Get();
-        PtrCount = InPointer.PtrCount;
-        PtrCount->fetch_add(1);
-        
-        return *this;
+        return control && control->StrongPtrCount.load() > 0;
     }
-    
-    T* Get()
+
+    SharedPointerDX<T> Lock() const
     {
-        return ptr;
+        if (!control)
+            return SharedPointerDX<T>();
+
+        int count = control->StrongPtrCount.load();
+
+        while (count > 0)
+        {
+            if (control->StrongPtrCount.compare_exchange_weak(count, count + 1))
+            {
+                SharedPointerDX<T> result;
+                result.control = control;
+                return result;
+            }
+        }
+
+        return SharedPointerDX<T>();
     }
-    
+
 private:
-    std::atomic<int>* PtrCount = nullptr;
-    T* ptr;
+    void Release()
+    {
+        if (!control)
+            return;
+
+        if (control->WeakPtrCount.fetch_sub(1) == 1 &&
+            control->StrongPtrCount.load() == 0)
+        {
+            delete control;
+        }
+
+        control = nullptr;
+    }
+
+private:
+    ControlBlock<T>* control = nullptr;
 };
