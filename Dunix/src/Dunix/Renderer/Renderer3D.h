@@ -5,6 +5,8 @@
 
 #include "Buffer.h"
 
+#include <glm/glm.hpp>
+
 namespace Dunix {
 	class Renderer3D
 	{

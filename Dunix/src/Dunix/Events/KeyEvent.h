@@ -15,7 +15,7 @@ namespace Dunix
 			return ss.str();
 		}
 
-		EVENT_CLASS_TYPE(KeyEvent)
+		EVENT_CLASS_TYPE(KeyPressedEvent)
 		EVENT_CLASS_CATEGORY(EventCategory::CategoryInput | EventCategory::CategoryKeyboard)
 	};
 
@@ -36,7 +36,7 @@ namespace Dunix
 		}
 		inline unsigned int GetKeyCode() const { return m_KeyCode; }
 
-		EVENT_CLASS_TYPE(KeyEvent)
+		EVENT_CLASS_TYPE(KeyReleasedEvent)
 		EVENT_CLASS_CATEGORY(EventCategory::CategoryInput | EventCategory::CategoryKeyboard)
 
 	private:

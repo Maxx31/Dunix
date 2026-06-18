@@ -5,6 +5,9 @@
 #include "Dunix/Core/Timestep.h"
 #include "Dunix/Core/Layer.h"
 
+#include "Dunix/Events/KeyEvent.h"
+#include "Dunix/Events/MouseEvent.h"
+
 #include "Dunix/Renderer/Shader.h"
 #include "Dunix/Renderer/Buffer.h"
 #include "Dunix/Renderer/Camera.h"

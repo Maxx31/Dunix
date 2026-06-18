@@ -10,6 +10,7 @@
 #include <utility>
 #include <functional>
 #include <cstdint>
+#include <type_traits>
 
 #include <string>
 #include <sstream>

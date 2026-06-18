@@ -7,39 +7,26 @@ namespace Dunix
 {
 	LayerStack::LayerStack()
 	{
+		m_Layers.reserve(16);
 	}
 
 	LayerStack::~LayerStack()
 	{
-		for (Layer* layer : m_Layers)
-			delete layer;
-	}
-
-	void LayerStack::PushLayer(Layer* inLayer)
-	{
-		auto pos = m_Layers.begin() + m_LastLayerIndex;
-		m_Layers.insert(pos, inLayer);
-
-		m_LastLayerIndex++;
-
-		inLayer->OnAttach();
-	}
-
-	void LayerStack::PushOverlay(Layer* inOverLay)
-	{
-		m_Layers.push_back(inOverLay);
-
-		inOverLay->OnAttach();
+		for (auto& layer : m_Layers)
+			layer->OnDetach();
 	}
 
 	void LayerStack::PopLayer(Layer* inLayer)
 	{
 		auto endIt = m_Layers.begin() + m_LastLayerIndex;
-		auto res = std::find(m_Layers.begin(), endIt, inLayer);
+		auto res = std::find_if(m_Layers.begin(), endIt, [inLayer](const std::unique_ptr<Layer> & current)
+		{
+			return current.get() == inLayer;
+		});
 
 		if (res != endIt)
 		{
-			inLayer->OnDetach();
+			(*res)->OnDetach();
 			m_Layers.erase(res);
 			m_LastLayerIndex--;
 		}
@@ -48,11 +35,16 @@ namespace Dunix
 	void LayerStack::PopOverlay(Layer* inOverlay)
 	{
 		auto beginIt = m_Layers.begin() + m_LastLayerIndex;
-		auto res = std::find(beginIt, m_Layers.end(), inOverlay);
+
+		auto res = std::find_if(beginIt, m_Layers.end(),
+			[inOverlay](const std::unique_ptr<Layer>& current)
+			{
+				return current.get() == inOverlay;
+			});
 
 		if (res != m_Layers.end())
 		{
-			inOverlay->OnDetach();
+			(*res)->OnDetach();
 			m_Layers.erase(res);
 		}
 	}

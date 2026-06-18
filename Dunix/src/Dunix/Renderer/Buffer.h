@@ -1,5 +1,10 @@
 #pragma once
 #include <cstdint>
+#include <initializer_list>
+#include <string>
+#include <vector>
+
+#include "Dunix/Core/Log.h"
 
 namespace Dunix
 {

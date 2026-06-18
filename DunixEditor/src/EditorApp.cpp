@@ -35,7 +35,7 @@ namespace Dunix
 	public:
 		Editor()
 		{
-			PushLayer(new EditorLayer());
+			PushLayer<EditorLayer>();
 		}
 
 		~Editor()
@@ -43,8 +43,9 @@ namespace Dunix
 
 		}
 	};
-	Application* CreateApplication()
+	
+	std::unique_ptr<Application> CreateApplication()
 	{
-		return new Editor();
+		return std::make_unique<Editor>();
 	}
 }

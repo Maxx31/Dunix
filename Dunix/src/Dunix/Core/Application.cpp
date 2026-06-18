@@ -4,22 +4,16 @@
 #include "Dunix/Events/EventDispatcher.h"
 
 #include "Dunix/Renderer/Shader.h"
-#include "Dunix/Renderer/Buffer.h"
-#include "Dunix/Renderer/Camera.h"
-#include "Dunix/Renderer/RenderCommand.h"
 #include "Dunix/Renderer/Renderer.h"
 
-#include "Dunix/Core/Input.h"
 #include "Dunix/Core/Time.h"
 #include "Dunix/Core/Timestep.h"
 
 #include "Dunix/Debug/Profiler/Profiler.h"
 #include "Log.h"
 
-#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include "Dunix/Test/SmartPointers.h"
 
 namespace Dunix
 {
@@ -35,11 +29,8 @@ namespace Dunix
 		m_Window->SetEventCallback(std::bind(&Application::OnEvent, this, std::placeholders::_1));
 
 		Renderer::Init();
-
-		//TEST
 		
-		m_ImGuiLayer = new ImGuiLayer();
-		PushOverlay(m_ImGuiLayer);
+		m_ImGuiLayer = PushOverlay<ImGuiLayer>();
 	}
 
 	Application::~Application()
@@ -49,11 +40,13 @@ namespace Dunix
 
 		m_Instance = nullptr;
 	}
-
+ 
 	void Application::Run()
 	{
 		float lastFrameTime = Time::GetTime();
 		Profiler::Get().BeginSession();
+		
+		m_Running = true;
 		while (m_Running)
 		{
 			float time = Time::GetTime();
@@ -63,7 +56,7 @@ namespace Dunix
 			m_LayerStack.OnUpdate(ts);
 
 			m_ImGuiLayer->Begin();
-			for (Layer* layer : m_LayerStack)
+			for (auto& layer : m_LayerStack)
 				layer->OnImGuiRender();
 
 			m_ImGuiLayer->End();
@@ -83,15 +76,5 @@ namespace Dunix
 	{
 		m_Running = false;
 		return true;
-	}
-
-	void Application::PushLayer(Layer* layer)
-	{
-		m_LayerStack.PushLayer(layer);
-	}
-
-	void Application::PushOverlay(Layer* layer)
-	{
-		m_LayerStack.PushOverlay(layer);
 	}
 }
