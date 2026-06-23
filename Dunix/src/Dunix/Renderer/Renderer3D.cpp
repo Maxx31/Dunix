@@ -10,9 +10,9 @@ namespace Dunix {
 
 	struct Renderer3DStorage
 	{
-		VertexArray* CubeVertexArray;
-        Shader* TextureShader;
-        Texture3D* WhiteTexture;
+		UniquePtr<VertexArray> CubeVertexArray;
+        UniquePtr<Shader> TextureShader;
+        UniquePtr<Texture3D> WhiteTexture;
 	};
 
 	static Renderer3DStorage* m_Data;
@@ -61,19 +61,20 @@ namespace Dunix {
             });
 
         CubeIB = IndexBuffer::Create(indices, 36);
-        m_Data->CubeVertexArray = VertexArray::Create();
+        m_Data->CubeVertexArray = std::unique_ptr<VertexArray>(VertexArray::Create());
 
         m_Data->CubeVertexArray->AddVertexBuffer(CubeVB);
         m_Data->CubeVertexArray->SetIndexBuffer(CubeIB);
 
-        m_Data->WhiteTexture = Texture3D::Create(1, 1);
+        m_Data->WhiteTexture = std::unique_ptr<Texture3D>(Texture3D::Create(1, 1));
         uint32_t whiteTextureData = 0xffffffff;
         m_Data->WhiteTexture->SetData(&whiteTextureData, sizeof(uint32_t));
 
-        m_Data->TextureShader = Shader::CreateFromFile(
+        m_Data->TextureShader = std::unique_ptr<Shader>( Shader::CreateFromFile(
             "assets/shaders/Texture.vert",
             "assets/shaders/Texture.frag"
-        );
+        ));
+		
         m_Data->TextureShader->Bind();
         m_Data->TextureShader->SetInt("u_Texture", 0);
 	}
@@ -108,7 +109,7 @@ namespace Dunix {
         m_Data->WhiteTexture->Bind();
         m_Data->CubeVertexArray->Bind();
 
-        RenderCommand::DrawIndexed(m_Data->CubeVertexArray);
+        RenderCommand::DrawIndexed(m_Data->CubeVertexArray.get());
 	}
 
     void Renderer3D::DrawCube(const glm::vec3& position, const glm::vec3& size, const Texture3D* texture)
@@ -120,6 +121,6 @@ namespace Dunix {
         m_Data->TextureShader->SetMat4("u_Transform", transform);
 
         m_Data->CubeVertexArray->Bind();
-        RenderCommand::DrawIndexed(m_Data->CubeVertexArray);
+        RenderCommand::DrawIndexed(m_Data->CubeVertexArray.get());
     }
 }

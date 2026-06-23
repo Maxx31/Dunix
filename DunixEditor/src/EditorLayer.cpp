@@ -8,6 +8,8 @@
 #include <GLFW/include/GLFW/glfw3.h>
 #include <imgui/imgui.h>
 
+#define DX_BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
+
 namespace Dunix {
 
     EditorLayer::EditorLayer()

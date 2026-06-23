@@ -25,9 +25,9 @@ namespace Dunix
 		}
 		glfwSetErrorCallback(GlfwErrorCallback);
 
-		m_Window = glfwCreateWindow((int)windowsProps.Width, (int)windowsProps.Height, "Dunix", nullptr, nullptr);
-		m_Data.Width = (int)windowsProps.Width;
-		m_Data.Height = (int)windowsProps.Height;
+		m_Window = glfwCreateWindow(static_cast<int>(windowsProps.Width), static_cast<int>(windowsProps.Height), "Dunix", nullptr, nullptr);
+		m_Data.Width = static_cast<int>(windowsProps.Width);
+		m_Data.Height = static_cast<int>(windowsProps.Height);
 
 		if (!m_Window)
 		{

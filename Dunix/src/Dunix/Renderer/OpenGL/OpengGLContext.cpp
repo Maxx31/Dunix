@@ -19,6 +19,10 @@ namespace Dunix
 	{
 		glfwMakeContextCurrent(m_Window);
 		int ok = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		if (ok == 0)
+		{
+			DX_CORE_ERROR("Failed to initialize GLAD");
+		}
 	}
 
 	void OpengGLContext::SwapBuffers()
