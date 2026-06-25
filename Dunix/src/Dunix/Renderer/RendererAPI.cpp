@@ -4,10 +4,8 @@
 
 namespace Dunix {
 
-	RendererAPI* RendererAPI::Create()
+	SharedPtr<RendererAPI> RendererAPI::Create()
 	{	
-		auto CurrentRenderAPI = new OpenGLRendererAPI();
-
-		return CurrentRenderAPI;
+		return std::make_shared<OpenGLRendererAPI>();
 	}
 }

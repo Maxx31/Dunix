@@ -43,7 +43,7 @@ namespace Dunix
 
 		class Shader* m_Shader;
 
-		class Texture3D* m_TestTexture;
+		SharedPtr<class Texture3D> m_TestTexture;
 
 		bool  m_FirstMouse = true;
 		float m_LastMouseX = 0.0f;

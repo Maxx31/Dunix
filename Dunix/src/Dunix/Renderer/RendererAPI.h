@@ -10,6 +10,8 @@ namespace Dunix {
 	class RendererAPI
 	{
 	public:
+		virtual ~RendererAPI() = default;
+
 		virtual void Init() = 0;
 
 		virtual void SetClearColor(const glm::vec4& color) = 0;
@@ -17,7 +19,7 @@ namespace Dunix {
 
 		virtual void DrawIndexed(class VertexArray* vertexArray) = 0;
 
-		static RendererAPI* Create();
+		static SharedPtr<RendererAPI> Create();
 	};
 
 }

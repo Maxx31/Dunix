@@ -33,6 +33,11 @@ namespace Dunix
 		glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
 	}
 
+	OpenGLVertexBuffer::~OpenGLVertexBuffer()
+	{
+		glDeleteBuffers(1, &m_RendererID);
+	}
+
 	void OpenGLVertexBuffer::Bind() const
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
@@ -51,6 +56,11 @@ namespace Dunix
 		glGenBuffers(1, &m_ID);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ID);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint32_t), indices, GL_STATIC_DRAW);
+	}
+
+	OpenGLIndexBuffer::~OpenGLIndexBuffer()
+	{
+		glDeleteBuffers(1, &m_ID);
 	}
 
 	void OpenGLIndexBuffer::Bind() const
@@ -85,7 +95,7 @@ namespace Dunix
 		glBindVertexArray(0);
 	}
 
-	void OpenGLVertexArray::AddVertexBuffer(VertexBuffer* vb)
+	void OpenGLVertexArray::AddVertexBuffer(const SharedPtr<VertexBuffer>& vb)
 	{
 		Bind();
 		vb->Bind();
@@ -107,9 +117,11 @@ namespace Dunix
 			);
 			index++;
 		}
+
+		m_VertexBuffers.push_back(vb);
 	}
 
-	void OpenGLVertexArray::SetIndexBuffer(IndexBuffer* ib)
+	void OpenGLVertexArray::SetIndexBuffer(const SharedPtr<IndexBuffer>& ib)
 	{
 		Bind();
 		ib->Bind();

@@ -3,11 +3,15 @@
 #include <string>
 #include <glm/glm.hpp>
 
+#include "Dunix/Core/Core.h"
+
 namespace Dunix
 {
     class Shader
     {
     public:
+        virtual ~Shader() = default;
+
         virtual void Bind() const = 0;
         virtual void Unbind() const = 0;
 
@@ -17,6 +21,6 @@ namespace Dunix
         virtual void SetFloat4(const std::string& nam, const glm::vec4& value) = 0;
         virtual void SetMat4(const std::string& nam, const glm::mat4& value) = 0;
 
-        static Shader* CreateFromFile(const std::string& vsPath, const std::string fsPath);
+        static SharedPtr<Shader> CreateFromFile(const std::string& vsPath, const std::string fsPath);
     };
 }

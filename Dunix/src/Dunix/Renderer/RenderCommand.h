@@ -27,6 +27,6 @@ namespace Dunix {
 		}
 
 	private:
-		static RendererAPI* m_RendererAPI;
+		static SharedPtr<RendererAPI> m_RendererAPI;
 	};
 }

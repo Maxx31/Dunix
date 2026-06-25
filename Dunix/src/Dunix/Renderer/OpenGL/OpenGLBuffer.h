@@ -9,6 +9,7 @@ namespace Dunix
 	{
 	public:
 		OpenGLVertexBuffer(const float* vertices, uint32_t size);
+		virtual ~OpenGLVertexBuffer();
 
 		void Bind() const override;
 		void Unbind() const override;
@@ -25,6 +26,7 @@ namespace Dunix
 	{
 	public:
 		OpenGLIndexBuffer(const uint32_t* indices, uint32_t count);
+		virtual ~OpenGLIndexBuffer();
 
 		void Bind() const override;
 		void Unbind() const override;
@@ -45,15 +47,15 @@ namespace Dunix
 		virtual void Bind() const override;
 		virtual void Unbind() const override;
 
-		virtual void AddVertexBuffer(VertexBuffer* vb) override;
-		virtual void SetIndexBuffer(IndexBuffer* ib) override;
+		virtual void AddVertexBuffer(const SharedPtr<VertexBuffer>& vb) override;
+		virtual void SetIndexBuffer(const SharedPtr<IndexBuffer>& ib) override;
 
-		virtual const IndexBuffer* GetIndexBuffer() const { return m_IndexBuffer; }
+		virtual const SharedPtr<IndexBuffer>& GetIndexBuffer() const override { return m_IndexBuffer; }
 
 	private:
 		unsigned int m_VAO;
 
-		std::vector<VertexBuffer*> m_VertexBuffers;
-		IndexBuffer* m_IndexBuffer = nullptr;
+		std::vector<SharedPtr<VertexBuffer>> m_VertexBuffers;
+		SharedPtr<IndexBuffer> m_IndexBuffer;
 	};
 }

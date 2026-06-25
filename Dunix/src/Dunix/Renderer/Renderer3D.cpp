@@ -10,9 +10,9 @@ namespace Dunix {
 
 	struct Renderer3DStorage
 	{
-		UniquePtr<VertexArray> CubeVertexArray;
-        UniquePtr<Shader> TextureShader;
-        UniquePtr<Texture3D> WhiteTexture;
+		SharedPtr<VertexArray> CubeVertexArray;
+        SharedPtr<Shader> TextureShader;
+        SharedPtr<Texture3D> WhiteTexture;
 	};
 
 	static Renderer3DStorage* m_Data;
@@ -51,29 +51,27 @@ namespace Dunix {
             3, 2, 6,  6, 7, 3
         };
 
-        VertexBuffer* CubeVB;
-        IndexBuffer* CubeIB;
-
-        CubeVB = VertexBuffer::Create(CubeVertices, sizeof(CubeVertices));
+        SharedPtr<VertexBuffer> CubeVB = VertexBuffer::Create(CubeVertices, sizeof(CubeVertices));
         CubeVB->SetLayout({
             { ShaderDataType::Float3, "aPos" },  // 3 floats: x, y, z
             { ShaderDataType::Float3, "a_TexCoord" }
             });
 
-        CubeIB = IndexBuffer::Create(indices, 36);
-        m_Data->CubeVertexArray = std::unique_ptr<VertexArray>(VertexArray::Create());
+        SharedPtr<IndexBuffer> CubeIB = IndexBuffer::Create(indices, 36);
+
+        m_Data->CubeVertexArray = VertexArray::Create();
 
         m_Data->CubeVertexArray->AddVertexBuffer(CubeVB);
         m_Data->CubeVertexArray->SetIndexBuffer(CubeIB);
 
-        m_Data->WhiteTexture = std::unique_ptr<Texture3D>(Texture3D::Create(1, 1));
+        m_Data->WhiteTexture = Texture3D::Create(1, 1);
         uint32_t whiteTextureData = 0xffffffff;
         m_Data->WhiteTexture->SetData(&whiteTextureData, sizeof(uint32_t));
 
-        m_Data->TextureShader = std::unique_ptr<Shader>( Shader::CreateFromFile(
+        m_Data->TextureShader = Shader::CreateFromFile(
             "assets/shaders/Texture.vert",
             "assets/shaders/Texture.frag"
-        ));
+        );
 		
         m_Data->TextureShader->Bind();
         m_Data->TextureShader->SetInt("u_Texture", 0);

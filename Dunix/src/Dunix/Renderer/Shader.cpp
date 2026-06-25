@@ -4,9 +4,9 @@
 
 namespace Dunix
 {
-	Shader* Shader::CreateFromFile(const std::string& vsPath, const std::string fsPath)
+	SharedPtr<Shader> Shader::CreateFromFile(const std::string& vsPath, const std::string fsPath)
 	{
-		return new OpenGLShader(vsPath, fsPath);
+		return std::make_shared<OpenGLShader>(vsPath, fsPath);
 	}
 
 }

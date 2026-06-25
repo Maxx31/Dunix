@@ -110,23 +110,27 @@ namespace Dunix
 	class VertexBuffer
 	{
 	public:
+		virtual ~VertexBuffer() = default;
+
 		virtual void Bind() const = 0;
 		virtual void Unbind() const = 0;
 
 		virtual const BufferLayout& GetLayout() const = 0;
 		virtual void SetLayout(const BufferLayout& layout) = 0;
 
-		static VertexBuffer* Create(float* vertices, uint32_t  size);
+		static SharedPtr<VertexBuffer> Create(const float* vertices, uint32_t size);
 
 	};
 
 	class IndexBuffer {
 	public:
+		virtual ~IndexBuffer() = default;
+
 		virtual void Bind() const = 0;
 		virtual void Unbind() const = 0;
 		virtual uint32_t GetCount() const = 0;
 
-		static IndexBuffer* Create(const uint32_t* indices, uint32_t  count);
+		static SharedPtr<IndexBuffer> Create(const uint32_t* indices, uint32_t count);
 	};
 
 	class VertexArray
@@ -137,12 +141,12 @@ namespace Dunix
 		virtual void Bind() const = 0;
 		virtual void Unbind() const = 0;
 
-		virtual void AddVertexBuffer(VertexBuffer* vb) = 0;
-		virtual void SetIndexBuffer(IndexBuffer* ib) = 0;
+		virtual void AddVertexBuffer(const SharedPtr<VertexBuffer>& vb) = 0;
+		virtual void SetIndexBuffer(const SharedPtr<IndexBuffer>& ib) = 0;
 
-		virtual const IndexBuffer* GetIndexBuffer() const = 0;
+		virtual const SharedPtr<IndexBuffer>& GetIndexBuffer() const = 0;
 
-		static VertexArray* Create();
+		static SharedPtr<VertexArray> Create();
 	};
 
 }

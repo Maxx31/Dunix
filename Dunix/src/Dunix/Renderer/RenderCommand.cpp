@@ -2,5 +2,5 @@
 #include "RenderCommand.h"
 
 namespace Dunix {
-	RendererAPI* RenderCommand::m_RendererAPI = RendererAPI::Create();
+	SharedPtr<RendererAPI> RenderCommand::m_RendererAPI = RendererAPI::Create();
 }

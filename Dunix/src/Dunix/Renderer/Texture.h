@@ -2,6 +2,8 @@
 #include <cstdint>
 #include <string>
 
+#include "Dunix/Core/Core.h"
+
 namespace Dunix{
 	class Texture
 	{
@@ -19,8 +21,8 @@ namespace Dunix{
 	class Texture3D : public Texture
 	{
 	public:
-		static Texture3D* Create(uint32_t width, uint32_t height);
-		static Texture3D* Create(const std::string& path);
+		static SharedPtr<Texture3D> Create(uint32_t width, uint32_t height);
+		static SharedPtr<Texture3D> Create(const std::string& path);
 	};
 }
 

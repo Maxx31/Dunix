@@ -17,6 +17,11 @@ namespace Dunix
 		m_Program = CreateShader(vsrc, fsrc);
 	}
 
+	OpenGLShader::~OpenGLShader()
+	{
+		glDeleteProgram(m_Program);
+	}
+
 	void OpenGLShader::Bind() const
 	{
 		glUseProgram(m_Program);
