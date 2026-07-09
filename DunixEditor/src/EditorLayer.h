@@ -44,6 +44,7 @@ namespace Dunix
 		class Shader* m_Shader;
 
 		SharedPtr<class Texture3D> m_TestTexture;
+		SharedPtr<class Scene> m_ActiveScene;
 
 		bool  m_FirstMouse = true;
 		float m_LastMouseX = 0.0f;

@@ -4,6 +4,7 @@
 #include "Dunix/Events/EventDispatcher.h"
 #include "Dunix/Renderer/Texture.h"
 #include "Dunix/Core/Input.h"
+#include "Dunix/Scene/Scene.h"
 
 #include <GLFW/include/GLFW/glfw3.h>
 #include <imgui/imgui.h>
@@ -28,10 +29,13 @@ namespace Dunix {
     void EditorLayer::OnAttach()
     {
         m_TestTexture = Texture3D::Create("assets/textures/TestTexture.png");
+        m_ActiveScene = std::make_shared<Scene>();
     }
 
     void EditorLayer::OnUpdate(Timestep ts)
     {
+        m_ActiveScene->OnUpdate(ts);
+        
         // If we have depth testing in RendererAPI, need to clear depth here.
         RenderCommand::SetClearColor({ 0.137f, 0.137f, 0.137f, 1.0f });
         RenderCommand::Clear();
