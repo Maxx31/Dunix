@@ -7,6 +7,7 @@ namespace Dunix
 {
     
     class Entity;
+    class Camera;
     
     class Scene
     {
@@ -15,7 +16,12 @@ namespace Dunix
         Scene(entt::registry* registry);
         ~Scene();
         
-         entt::registry* GetEnttRegistry() const
+         entt::registry& GetEnttRegistry()
+         {
+             return m_Registry;
+         }
+
+         const entt::registry& GetEnttRegistry() const
          {
              return m_Registry;
          }
@@ -24,8 +30,9 @@ namespace Dunix
         void DestroyEntity(entt::entity inEntity);
         
         void OnUpdate(Timestep ts);
+        void OnRender(const Camera& camera);
         
     private:
-        entt::registry* m_Registry;
+        entt::registry m_Registry;
     };
 }

@@ -4,6 +4,8 @@
 #include "Dunix/Events/EventDispatcher.h"
 #include "Dunix/Renderer/Texture.h"
 #include "Dunix/Core/Input.h"
+#include "Dunix/Scene/Components.h"
+#include "Dunix/Scene/Entity.h"
 #include "Dunix/Scene/Scene.h"
 
 #include <GLFW/include/GLFW/glfw3.h>
@@ -30,6 +32,38 @@ namespace Dunix {
     {
         m_TestTexture = Texture3D::Create("assets/textures/TestTexture.png");
         m_ActiveScene = std::make_shared<Scene>();
+
+        Entity blueCube = m_ActiveScene->CreateEntity();
+        blueCube.AddComponent<TransformComponent>(
+            glm::vec3{ 0.0f, 0.0f, 0.0f },
+            glm::vec3{ 0.0f },
+            glm::vec3{ 2.0f, 2.0f, 6.0f }
+        );
+        blueCube.AddComponent<CubeRendererComponent>(glm::vec4{ 0.0f, 0.0f, 1.0f, 1.0f });
+
+        Entity sky = m_ActiveScene->CreateEntity();
+        sky.AddComponent<TransformComponent>(
+            glm::vec3{ 0.0f, 8.0f, 0.0f },
+            glm::vec3{ 0.0f },
+            glm::vec3{ 15.0f, 1.0f, 15.0f }
+        );
+        sky.AddComponent<CubeRendererComponent>(glm::vec4{ 0.4f, 0.7f, 1.0f, 1.0f });
+
+        Entity grass = m_ActiveScene->CreateEntity();
+        grass.AddComponent<TransformComponent>(
+            glm::vec3{ 0.0f, -8.0f, 0.0f },
+            glm::vec3{ 0.0f },
+            glm::vec3{ 15.0f, 1.0f, 15.0f }
+        );
+        grass.AddComponent<CubeRendererComponent>(glm::vec4{ 0.145f, 0.710f, 0.082f, 1.0f });
+
+        Entity texturedCube = m_ActiveScene->CreateEntity();
+        texturedCube.AddComponent<TransformComponent>(
+            glm::vec3{ 5.0f, 0.0f, 0.0f },
+            glm::vec3{ 0.0f },
+            glm::vec3{ 1.0f }
+        );
+        texturedCube.AddComponent<CubeRendererComponent>(glm::vec4{ 1.0f }, m_TestTexture.get());
     }
 
     void EditorLayer::OnUpdate(Timestep ts)
@@ -42,12 +76,7 @@ namespace Dunix {
 
         UpdateCameraPosition(ts);
 
-        Renderer3D::BeginScene(*m_Camera);
-        Renderer3D::DrawCube({ 0.0f, 0.0f, 0.0f }, { 2.0f, 2.0f, 6.0f }, { 0.0f, 0.0f, 1.0f, 1.0f });
-        Renderer3D::DrawCube({ 0.0f, 8.0f, 0.0f }, { 15.0f, 1.0f, 15.0f }, { 0.4f, 0.7f, 1.0f, 1.0f }); //Sky
-        Renderer3D::DrawCube({ 0.0f, -8.0f, 0.0f }, { 15.0f, 1.0f, 15.0f }, { 0.145f, 0.710f, 0.082f, 1.0f }); //Grass
-        Renderer3D::DrawCube({ 5.0f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f }, m_TestTexture.get());
-        Renderer3D::EndScene();
+        m_ActiveScene->OnRender(*m_Camera);
     }
 
     void EditorLayer::OnEvent(Event& event)
