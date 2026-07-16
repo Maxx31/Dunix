@@ -14,4 +14,3 @@
 #include "Dunix/Renderer/Renderer.h"
 #include "Dunix/Renderer/Renderer3D.h"
 
-#include "Dunix/Assets/ModelImporter.h"
