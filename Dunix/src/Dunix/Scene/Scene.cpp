@@ -33,7 +33,6 @@ namespace Dunix
     void Scene::OnUpdate(Timestep ts)
     {
         // Scene update systems will go here, for example physics or scripted movement.
-        (void)ts;
     }
 
     void Scene::OnRender(const Camera& camera)

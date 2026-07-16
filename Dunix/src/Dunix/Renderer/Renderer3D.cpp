@@ -110,6 +110,7 @@ namespace Dunix {
         RenderCommand::DrawIndexed(m_Data->CubeVertexArray.get());
 	}
 
+	//To be changed with more generic Mesh
     void Renderer3D::DrawCube(const glm::vec3& position, const glm::vec3& size, const Texture3D* texture)
     {
         m_Data->TextureShader->SetFloat4("u_Color", glm::vec4(1.0f));
