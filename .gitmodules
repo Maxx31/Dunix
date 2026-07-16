@@ -11,3 +11,6 @@
 	path = Dunix/vendor/imgui
 	url = https://github.com/ocornut/imgui
 	branch = docking
+[submodule "Dunix/vendor/assimp"]
+	path = Dunix/vendor/assimp
+	url = https://github.com/assimp/assimp.git
