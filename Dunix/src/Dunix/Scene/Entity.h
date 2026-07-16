@@ -15,7 +15,6 @@ namespace Dunix
         {
             return m_Scene->GetEnttRegistry().emplace<T>(m_EntityHandle, std::forward<Args>(args)...);
         }
-        
         template<typename T>
         T& GetComponent()
         {
