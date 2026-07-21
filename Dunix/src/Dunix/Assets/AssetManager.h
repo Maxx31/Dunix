@@ -2,10 +2,11 @@
 
 namespace Dunix
 {
+    class Model;
     
+    class AssetManager
+    {
+    public:
+        static Model* LoadModel(const std::string &inFilename);
+    };
 }
-class AssetManager
-{
-public:
-    static bool LoadModel(const std::string &filename);
-};

@@ -1,5 +1,8 @@
 #pragma once
+
 #include "Dunix/Renderer/Buffer.h"
+
+struct aiMesh;
 
 namespace Dunix
 {
@@ -14,9 +17,10 @@ namespace Dunix
     {
     public:
         Mesh(const MeshData& inMeshData);
+        Mesh(const aiMesh* inAiMesh);
     
     private:
-        SharedPtr<Dunix::VertexArray> m_VertexArray;
+        SharedPtr<VertexArray> m_VertexArray;
         SharedPtr<VertexBuffer> m_VertexBuffer;
         SharedPtr<IndexBuffer> m_IndexBuffer;
     };

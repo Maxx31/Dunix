@@ -21,7 +21,7 @@ namespace Dunix
 		DX_INFO("Window create");
 		if (!glfwInit())
 		{
-			DX_ERROR("GLFW can't initialize");
+			DX_CORE_ERROR("GLFW can't initialize");
 		}
 		glfwSetErrorCallback(GlfwErrorCallback);
 
@@ -32,7 +32,7 @@ namespace Dunix
 		if (!m_Window)
 		{
 			glfwTerminate();
-			DX_ERROR("Can't create GLFW window");
+			DX_CORE_ERROR("Can't create GLFW window");
 		}
 
 		m_Context = std::make_unique<OpengGLContext>(m_Window);

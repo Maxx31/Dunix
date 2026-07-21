@@ -1,7 +1,12 @@
 #pragma once
 
-class ModelImporter
+namespace Dunix
 {
-public:
+    class Model;
     
-};
+    class ModelImporter
+    {
+    public:
+        static Model* LoadModel(const std::string &inFilename);
+    };
+}
