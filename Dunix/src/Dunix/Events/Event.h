@@ -48,6 +48,8 @@ namespace Dunix
 
 		virtual std::string ToString() const { return GetName(); }
 
+		bool IsInCategory(EventCategory category) const { return GetCategoryFlags() & category; }
+
 		bool Handled = false;
 	};
 	

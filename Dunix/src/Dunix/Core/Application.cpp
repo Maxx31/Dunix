@@ -57,7 +57,7 @@ namespace Dunix
 
 			m_ImGuiLayer->Begin();
 			for (auto& layer : m_LayerStack)
-				layer->OnImGuiRender();
+				layer->OnImGuiRender(ts);
 
 			m_ImGuiLayer->End();
 			m_Window->Update();

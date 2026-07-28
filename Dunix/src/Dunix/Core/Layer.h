@@ -14,7 +14,7 @@ namespace Dunix
 		virtual void OnAttach() {};
 		virtual void OnDetach() {};
 		virtual void OnUpdate(Timestep ts) {};
-		virtual void OnImGuiRender() {}
+		virtual void OnImGuiRender(Timestep ts) {}
 		virtual void OnEvent(Event& e) {}
 	private:
 		std::string m_DebugName;

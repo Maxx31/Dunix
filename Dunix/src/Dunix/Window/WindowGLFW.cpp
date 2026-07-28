@@ -41,7 +41,7 @@ namespace Dunix
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		glfwSwapInterval(1);
 
-		SetCursorLocked(true);
+		SetCursorLocked(false);
 
 		//GLFW callbacks
 		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height)

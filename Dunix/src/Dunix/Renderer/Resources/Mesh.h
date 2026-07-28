@@ -18,6 +18,9 @@ namespace Dunix
     public:
         Mesh(const MeshData& inMeshData);
         Mesh(const aiMesh* inAiMesh);
+
+        VertexArray* GetVertexArray() const { return m_VertexArray.get(); }
+        uint32_t GetIndexCount() const;
     
     private:
         SharedPtr<VertexArray> m_VertexArray;

@@ -7,8 +7,21 @@
 #include "Dunix/Renderer/Renderer3D.h"
 #include "Dunix/Renderer/Texture.h"
 
+#include <glm/gtc/matrix_transform.hpp>
+
 namespace Dunix
 {
+    static glm::mat4 GetTransform(const TransformComponent& transform)
+    {
+        glm::mat4 result = glm::mat4(1.0f);
+        result = glm::translate(result, transform.Position);
+        result = glm::rotate(result, glm::radians(transform.Rotation.x), { 1.0f, 0.0f, 0.0f });
+        result = glm::rotate(result, glm::radians(transform.Rotation.y), { 0.0f, 1.0f, 0.0f });
+        result = glm::rotate(result, glm::radians(transform.Rotation.z), { 0.0f, 0.0f, 1.0f });
+        result = glm::scale(result, transform.Scale);
+        return result;
+    }
+
     Scene::Scene(entt::registry* registry)
     {
         if (registry)
@@ -49,6 +62,16 @@ namespace Dunix
                 Renderer3D::DrawCube(transform.Position, transform.Scale, cube.Texture);
             else
                 Renderer3D::DrawCube(transform.Position, transform.Scale, cube.Color);
+        }
+
+        auto meshView = m_Registry.view<TransformComponent, MeshRendererComponent>();
+        for (auto entity : meshView)
+        {
+            auto& transform = meshView.get<TransformComponent>(entity);
+            auto& meshRenderer = meshView.get<MeshRendererComponent>(entity);
+
+            if (meshRenderer.ModelAsset)
+                Renderer3D::DrawModel(*meshRenderer.ModelAsset, GetTransform(transform), meshRenderer.Color);
         }
 
         Renderer3D::EndScene();

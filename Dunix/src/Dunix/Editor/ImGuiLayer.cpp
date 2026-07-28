@@ -86,10 +86,18 @@ namespace Dunix
         }
     }
 
-    void ImGuiLayer::OnImGuiRender()
+    void ImGuiLayer::OnImGuiRender(Timestep ts)
     {
-        static bool show = true;
-        ImGui::ShowDemoWindow(&show);
+    }
+
+    void ImGuiLayer::OnEvent(Event& e)
+    {
+        if (!m_BlockEvents)
+            return;
+
+        ImGuiIO& io = ImGui::GetIO();
+        e.Handled |= e.IsInCategory(EventCategory::CategoryMouse) && io.WantCaptureMouse;
+        e.Handled |= e.IsInCategory(EventCategory::CategoryKeyboard) && io.WantCaptureKeyboard;
     }
 
     static ImGuiKey GlfwKeyToImGuiKey(int key)

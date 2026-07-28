@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Dunix/Core/Core.h"
+
 #include <glm/glm.hpp>
 
 namespace Dunix
@@ -27,5 +29,17 @@ namespace Dunix
 
         glm::vec4 Color{ 1.0f };
         const class Texture3D* Texture = nullptr;
+    };
+
+    struct MeshRendererComponent
+    {
+        MeshRendererComponent() = default;
+        MeshRendererComponent(const SharedPtr<class Model>& model)
+            : ModelAsset(model) {}
+        MeshRendererComponent(const SharedPtr<class Model>& model, const glm::vec4& color)
+            : ModelAsset(model), Color(color) {}
+
+        SharedPtr<class Model> ModelAsset = nullptr;
+        glm::vec4 Color{ 1.0f };
     };
 }

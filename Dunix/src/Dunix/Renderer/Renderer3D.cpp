@@ -5,6 +5,8 @@
 #include "Buffer.h"
 #include "Shader.h"
 #include "Camera.h"
+#include "Dunix/Renderer/Resources/Mesh.h"
+#include "Dunix/Renderer/Resources/Model.h"
 
 namespace Dunix {
 
@@ -121,5 +123,27 @@ namespace Dunix {
 
         m_Data->CubeVertexArray->Bind();
         RenderCommand::DrawIndexed(m_Data->CubeVertexArray.get());
+    }
+
+    void Renderer3D::DrawMesh(const Mesh& mesh, const glm::mat4& transform, const glm::vec4& color)
+    {
+        if (!mesh.GetVertexArray() || mesh.GetIndexCount() == 0)
+            return;
+
+        m_Data->TextureShader->Bind();
+        m_Data->TextureShader->SetMat4("u_Transform", transform);
+        m_Data->TextureShader->SetFloat4("u_Color", color);
+
+        m_Data->WhiteTexture->Bind();
+        RenderCommand::DrawIndexed(mesh.GetVertexArray());
+    }
+
+    void Renderer3D::DrawModel(const Model& model, const glm::mat4& transform, const glm::vec4& color)
+    {
+        for (const UniquePtr<Mesh>& mesh : model.GetMeshes())
+        {
+            if (mesh)
+                DrawMesh(*mesh, transform, color);
+        }
     }
 }

@@ -2,6 +2,9 @@
 
 #include <Dunix.h>
 
+#include "Panels/SceneHierarchyPanel.h"
+#include "Panels/ContentBrowserPanel.h"
+
 #include "Dunix/Core/Timestep.h"
 #include "Dunix/Core/Layer.h"
 
@@ -24,7 +27,7 @@ namespace Dunix
 		void OnAttach() override;
 		void OnUpdate(Timestep ts) override;
 		void OnEvent(Event& e) override;
-		void OnImGuiRender() override;
+		void OnImGuiRender(Timestep ts) override;
 
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
@@ -32,8 +35,18 @@ namespace Dunix
 
 		bool OnMouseMoved(MouseMovedEvent& e);
 		bool OnMousePressed(MouseButtonPressedEvent& e);
+		bool OnMouseReleased(MouseButtonReleasedEvent& e);
 
 		void UpdateCameraPosition(float dt);
+
+		//ImGui UI related funcs
+		void BeginDockspace();
+
+		void DrawSceneViewport();
+		void DrawTopPanel();
+		void DrawSettingsPanel();
+
+		void EndDockspace();
 
 	private:
 		std::shared_ptr<class Camera> m_Camera;
@@ -49,6 +62,15 @@ namespace Dunix
 		bool  m_FirstMouse = true;
 		float m_LastMouseX = 0.0f;
 		float m_LastMouseY = 0.0f;
+		bool  m_ViewportFocused = false;
+		bool  m_ViewportHovered = false;
+		bool  m_ViewportCameraActive = false;
+		glm::vec2 m_ViewportSize = { 0.0f, 0.0f };
+		glm::vec2 m_ViewportBounds[2] = {};
+
+		//Panels
+		SceneHierarchyPanel m_SceneHierarchyPanel;
+		SharedPtr<ContentBrowserPanel> m_ContentBrowserPanel;
 	};
 }
 

@@ -36,6 +36,11 @@ namespace Dunix
 		{
 			return *m_Window;
 		}
+
+		ImGuiLayer* GetImGuiLayer()
+		{
+			return m_ImGuiLayer;
+		}
 		
 		static Application& Get()
 		{

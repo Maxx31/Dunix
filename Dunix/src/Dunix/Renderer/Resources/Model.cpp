@@ -6,6 +6,8 @@
 
 namespace Dunix
 {
+    Model::~Model() = default;
+
     Model::Model(std::vector<UniquePtr<Mesh>> meshes)
         : Meshes(std::move(meshes))
     {
