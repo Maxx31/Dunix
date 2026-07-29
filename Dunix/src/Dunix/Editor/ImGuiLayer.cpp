@@ -100,6 +100,11 @@ namespace Dunix
         e.Handled |= e.IsInCategory(EventCategory::CategoryKeyboard) && io.WantCaptureKeyboard;
     }
 
+    void ImGuiLayer::BlockEvents(bool block)
+    {
+        m_BlockEvents = block;
+    }
+
     static ImGuiKey GlfwKeyToImGuiKey(int key)
     {
         switch (key)

@@ -13,6 +13,8 @@
 #include <imgui/imgui.h>
 #include <imgui/imgui_internal.h>
 
+#include <algorithm>
+
 #define DX_BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
 
 namespace Dunix {
@@ -132,8 +134,11 @@ namespace Dunix {
         rot.x += yoffset;
         rot.y -= xoffset;
 
-        if (rot.x > 89.0f)  rot.x = 89.0f;
-        if (rot.x < -89.0f) rot.x = -89.0f;
+        rot.x = std::clamp(rot.x, -89.0f, 89.0f);
+        if (rot.y > 180.0f)
+            rot.y -= 360.0f;
+        else if (rot.y < -180.0f)
+            rot.y += 360.0f;
 
         m_Camera->SetRotation(rot);
         return false;
@@ -160,6 +165,7 @@ namespace Dunix {
             m_ViewportCameraActive = true;
             return true;
         }
+
         return false;
     }
 
@@ -182,13 +188,15 @@ namespace Dunix {
 
         float speed = 5.0f * dt;
         glm::vec3 pos = m_Camera->GetPosition();
+        bool moved = false;
 
-        if (Input::IsKeyPressed(GLFW_KEY_W)) pos += m_Camera->GetForward() * speed;
-        if (Input::IsKeyPressed(GLFW_KEY_S)) pos -= m_Camera->GetForward() * speed;
-        if (Input::IsKeyPressed(GLFW_KEY_A)) pos -= m_Camera->GetRight() * speed;
-        if (Input::IsKeyPressed(GLFW_KEY_D)) pos += m_Camera->GetRight() * speed;
+        if (Input::IsKeyPressed(GLFW_KEY_W)) { pos += m_Camera->GetForward() * speed; moved = true; }
+        if (Input::IsKeyPressed(GLFW_KEY_S)) { pos -= m_Camera->GetForward() * speed; moved = true; }
+        if (Input::IsKeyPressed(GLFW_KEY_A)) { pos -= m_Camera->GetRight() * speed; moved = true; }
+        if (Input::IsKeyPressed(GLFW_KEY_D)) { pos += m_Camera->GetRight() * speed; moved = true; }
 
-        m_Camera->SetPosition(pos);
+        if (moved)
+            m_Camera->SetPosition(pos);
     }
 
     void EditorLayer::BeginDockspace()
@@ -255,10 +263,10 @@ namespace Dunix {
         m_ViewportFocused = ImGui::IsWindowFocused();
         m_ViewportHovered = ImGui::IsWindowHovered();
 
-        Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportHovered);
-
         ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
         m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
+
+        Application::Get().GetImGuiLayer()->BlockEvents(!(m_ViewportHovered || m_ViewportCameraActive));
 
         ImGui::End();
         ImGui::PopStyleVar();

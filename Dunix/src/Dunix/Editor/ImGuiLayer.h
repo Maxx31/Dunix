@@ -17,7 +17,7 @@ namespace Dunix
 
 		void Begin();
 		void End();
-		void BlockEvents(bool block) { m_BlockEvents = block; }
+		void BlockEvents(bool block);
 
 	private:
 		float m_Time = 0.0f;
