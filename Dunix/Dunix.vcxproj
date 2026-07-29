@@ -206,6 +206,7 @@
     <ClInclude Include="src\Dunix\Scene\Entity.h" />
     <ClInclude Include="src\Dunix\Scene\Scene.h" />
     <ClInclude Include="src\Dunix\Test\SmartPointers.h" />
+    <ClInclude Include="src\Dunix\Utils\UUID.h" />
     <ClInclude Include="src\Dunix\Window\Window.h" />
     <ClInclude Include="src\Dunix\Window\WindowGLFW.h" />
     <ClInclude Include="src\Dunix\Window\WindowsInput.h" />
@@ -399,6 +400,7 @@
     <ClCompile Include="src\Dunix\Renderer\Shader.cpp" />
     <ClCompile Include="src\Dunix\Scene\Entity.cpp" />
     <ClCompile Include="src\Dunix\Scene\Scene.cpp" />
+    <ClCompile Include="src\Dunix\Utils\UUID.cpp" />
     <ClCompile Include="src\Dunix\Window\Window.cpp" />
     <ClCompile Include="src\Dunix\Window\WindowGLFW.cpp" />
     <ClCompile Include="src\Dunix\Window\WindowsInput.cpp" />
