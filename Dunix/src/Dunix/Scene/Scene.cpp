@@ -41,14 +41,14 @@ namespace Dunix
         entity.AddComponent<IdComponent>(EntId);
         entity.AddComponent<TagComponent>(InName);
         
-       // m_Entities[EntId] = entity;
+        m_Entities[EntId] = entity;
         
         return entity;
     }
 
     void Scene::DestroyEntity(Entity* InEntity)
     {
-        //m_Entities.erase(InEntity->GetEntityId());
+        m_Entities.erase(InEntity->GetEntityId());
         
         m_Registry.destroy(InEntity->GetHandle());
     }

@@ -1,8 +1,9 @@
 #pragma once
 
 #include "Dunix/Core/Core.h"
-
+#include "Dunix/Utils/UUID.h"
 #include <glm/glm.hpp>
+#include <string>
 
 namespace Dunix
 {

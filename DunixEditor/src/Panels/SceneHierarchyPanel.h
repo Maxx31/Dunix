@@ -13,7 +13,7 @@ namespace Dunix
         
         void OnImGuiRender();
         
-        Entity GetSelectedEntity() const { return m_SelectionContext; }
+        Entity GetSelectedEntity() const { return m_SelectedEntity; }
         void SetSelectedEntity(Entity entity);
         
     private:
@@ -25,6 +25,6 @@ namespace Dunix
         
     private:
         SharedPtr<Scene> m_Context;
-        Entity m_SelectionContext;
+        Entity m_SelectedEntity;
     };
 }

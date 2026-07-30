@@ -38,6 +38,7 @@ namespace Dunix {
     {
         m_TestTexture = Texture3D::Create("assets/textures/TestTexture.png");
         m_ActiveScene = std::make_shared<Scene>();
+        m_SceneHierarchyPanel.SetNewContext(m_ActiveScene);
 
         Entity sky = m_ActiveScene->CreateEntity();
         sky.AddComponent<TransformComponent>(
