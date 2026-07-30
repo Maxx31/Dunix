@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Components.h"
 #include "Scene.h"
 
 namespace Dunix
@@ -29,9 +30,24 @@ namespace Dunix
         }
 
         template<typename T>
-        void RemoveComponent()
+        void RemoveComponent() const
         {
             m_Scene->GetEnttRegistry().remove<T>(m_EntityHandle);
+        }
+        
+        UUID GetEntityId()
+        {
+            return GetComponent<IdComponent>().Id;
+        }
+        
+        std::string GetEntityName()
+        {
+            return GetComponent<TagComponent>().Name;
+        }
+        
+        bool operator ==(Entity& entity)
+        {
+            return entity.GetEntityId() == GetEntityId();
         }
 
         entt::entity GetHandle() const { return m_EntityHandle; }

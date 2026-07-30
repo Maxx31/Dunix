@@ -99,9 +99,15 @@ namespace Dunix {
         DrawTopPanel();
         DrawSceneViewport();
         DrawSettingsPanel();
+        m_SceneHierarchyPanel.OnImGuiRender();
         m_ContentBrowserPanel->OnImGuiRender();
 
         EndDockspace();
+    }
+
+    bool EditorLayer::OnWindowClose(WindowCloseEvent& e)
+    {
+        return true;
     }
 
     bool EditorLayer::OnMouseMoved(MouseMovedEvent& e)

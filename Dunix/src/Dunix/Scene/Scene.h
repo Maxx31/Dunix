@@ -25,14 +25,17 @@ namespace Dunix
          {
              return m_Registry;
          }
+        
+       // std::unordered_map<UUID, Entity>& GetAllEntites(){return m_Entities;}
     
-        Entity CreateEntity();
-        void DestroyEntity(entt::entity inEntity);
+        Entity CreateEntity(const std::string& InName = "Entity");
+        void DestroyEntity(Entity* InEntity);
         
         void OnUpdate(Timestep ts);
         void OnRender(const Camera& camera);
         
     private:
+        //std::unordered_map<UUID, Entity> m_Entities;
         entt::registry m_Registry;
     };
 }

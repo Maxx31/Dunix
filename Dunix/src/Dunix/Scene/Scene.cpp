@@ -32,15 +32,25 @@ namespace Dunix
     {
     }
 
-    Entity Scene::CreateEntity()
+    Entity Scene::CreateEntity(const std::string& InName)
     {
         Entity entity = { m_Registry.create(), this };
+        
+        //Default components for every entity
+        UUID EntId;
+        entity.AddComponent<IdComponent>(EntId);
+        entity.AddComponent<TagComponent>(InName);
+        
+       // m_Entities[EntId] = entity;
+        
         return entity;
     }
 
-    void Scene::DestroyEntity(entt::entity inEntity)
+    void Scene::DestroyEntity(Entity* InEntity)
     {
-        m_Registry.destroy(inEntity);
+        //m_Entities.erase(InEntity->GetEntityId());
+        
+        m_Registry.destroy(InEntity->GetHandle());
     }
 
     void Scene::OnUpdate(Timestep ts)

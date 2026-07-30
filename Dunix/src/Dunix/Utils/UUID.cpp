@@ -1,3 +1,4 @@
+#include "dxpch.h"
 #include "UUID.h"
 
 #include <limits>
@@ -10,8 +11,8 @@ namespace
     };
 
     thread_local std::uniform_int_distribution<uint64_t> Distribution{
-        1,
-        std::numeric_limits<uint64_t>::max()
+      //  1,
+       // std::numeric_limits<uint64_t>::max()
     };
 }
 

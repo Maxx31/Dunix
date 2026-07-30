@@ -6,6 +6,24 @@
 
 namespace Dunix
 {
+    struct IdComponent
+    {
+        IdComponent() = default;
+        IdComponent(const UUID& id)
+            : Id(id){};
+
+        UUID Id;
+    };
+    
+    struct TagComponent
+    {
+        TagComponent() = default;
+        TagComponent(const std::string& InName) 
+            :Name(InName){};
+
+        std::string Name;
+    };
+    
     struct TransformComponent
     {
         TransformComponent() = default;
