@@ -34,23 +34,46 @@ namespace Dunix
 
     Entity Scene::CreateEntity(const std::string& InName)
     {
+        return CreateEntityWithUUID(UUID(), InName);
+    }
+
+    Entity Scene::CreateEntityWithUUID(UUID id, const std::string& InName)
+    {
         Entity entity = { m_Registry.create(), this };
         
         //Default components for every entity
-        UUID EntId;
-        entity.AddComponent<IdComponent>(EntId);
+        entity.AddComponent<IDComponent>(id);
         entity.AddComponent<TagComponent>(InName);
-        
-        m_Entities[EntId] = entity;
-        
+        entity.AddComponent<TransformComponent>();
+
         return entity;
     }
 
-    void Scene::DestroyEntity(Entity* InEntity)
+    Entity Scene::DuplicateEntity(Entity entity)
     {
-        m_Entities.erase(InEntity->GetEntityId());
-        
-        m_Registry.destroy(InEntity->GetHandle());
+        if (!entity)
+            return {};
+
+        Entity newEntity = CreateEntity(entity.GetEntityName());
+
+        if (entity.HasComponent<TransformComponent>())
+            newEntity.GetComponent<TransformComponent>() = entity.GetComponent<TransformComponent>();
+
+        if (entity.HasComponent<CubeRendererComponent>())
+            newEntity.AddComponent<CubeRendererComponent>(entity.GetComponent<CubeRendererComponent>());
+
+        if (entity.HasComponent<MeshRendererComponent>())
+            newEntity.AddComponent<MeshRendererComponent>(entity.GetComponent<MeshRendererComponent>());
+
+        return newEntity;
+    }
+
+    void Scene::DestroyEntity(Entity entity)
+    {
+        if (!entity)
+            return;
+
+        m_Registry.destroy(entity.GetHandle());
     }
 
     void Scene::OnUpdate(Timestep ts)

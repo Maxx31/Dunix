@@ -3,6 +3,7 @@
 #include "Dunix/Core/Timestep.h"
 #include "Dunix/Utils/UUID.h"
 #include <entt.hpp>
+#include <string>
 
 namespace Dunix
 {
@@ -17,26 +18,25 @@ namespace Dunix
         Scene(entt::registry* registry);
         ~Scene();
         
-         entt::registry& GetEnttRegistry()
-         {
-             return m_Registry;
-         }
+        entt::registry& GetEnttRegistry()
+        {
+            return m_Registry;
+        }
 
-         const entt::registry& GetEnttRegistry() const
-         {
-             return m_Registry;
-         }
-        
-        std::unordered_map<UUID, Entity>& GetAllEntites(){return m_Entities;}
-    
+        const entt::registry& GetEnttRegistry() const
+        {
+            return m_Registry;
+        }
+
         Entity CreateEntity(const std::string& InName = "Entity");
-        void DestroyEntity(Entity* InEntity);
+        Entity CreateEntityWithUUID(UUID id, const std::string& InName = "Entity");
+        Entity DuplicateEntity(Entity entity);
+        void DestroyEntity(Entity entity);
         
         void OnUpdate(Timestep ts);
         void OnRender(const Camera& camera);
         
     private:
-        std::unordered_map<UUID, Entity> m_Entities;
         entt::registry m_Registry;
     };
 }

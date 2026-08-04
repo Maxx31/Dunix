@@ -37,34 +37,40 @@ namespace Dunix {
     void EditorLayer::OnAttach()
     {
         m_TestTexture = Texture3D::Create("assets/textures/TestTexture.png");
+        NewScene();
+    }
+
+    void EditorLayer::NewScene()
+    {
         m_ActiveScene = std::make_shared<Scene>();
         m_SceneHierarchyPanel.SetNewContext(m_ActiveScene);
 
-        Entity sky = m_ActiveScene->CreateEntity();
-        sky.AddComponent<TransformComponent>(
-            glm::vec3{ 0.0f, 8.0f, 0.0f },
-            glm::vec3{ 0.0f },
-            glm::vec3{ 15.0f, 1.0f, 15.0f }
-        );
+        CreateDefaultScene();
+    }
+
+    void EditorLayer::CreateDefaultScene()
+    {
+        Entity sky = m_ActiveScene->CreateEntity("Sky");
+        auto& skyTransform = sky.GetComponent<TransformComponent>();
+        skyTransform.Position = glm::vec3(0.0f, 8.0f, 0.0f);
+        skyTransform.Scale = glm::vec3(15.0f, 1.0f, 15.0f);
         sky.AddComponent<CubeRendererComponent>(glm::vec4{ 0.4f, 0.7f, 1.0f, 1.0f });
 
-        Entity grass = m_ActiveScene->CreateEntity();
-        grass.AddComponent<TransformComponent>(
-            glm::vec3{ 0.0f, -8.0f, 0.0f },
-            glm::vec3{ 0.0f },
-            glm::vec3{ 15.0f, 1.0f, 15.0f }
-        );
+        Entity grass = m_ActiveScene->CreateEntity("Grass");
+        auto& grassTransform = grass.GetComponent<TransformComponent>();
+        grassTransform.Position = glm::vec3(0.0f, -8.0f, 0.0f);
+        grassTransform.Rotation = glm::vec3(0.0f);
+        grassTransform.Scale = glm::vec3(15.0f, 1.0f, 15.0f);
         grass.AddComponent<CubeRendererComponent>(glm::vec4{ 0.145f, 0.710f, 0.082f, 1.0f });
 
         SharedPtr<Model> testModel = AssetManager::LoadModel("assets/models/HumanMesh.obj");
         if (testModel)
         {
-            Entity importedModel = m_ActiveScene->CreateEntity();
-            importedModel.AddComponent<TransformComponent>(
-                glm::vec3{ -5.0f, 0.0f, 0.0f },
-                glm::vec3{ 0.0f },
-                glm::vec3{ 0.2f }
-            );
+            Entity importedModel = m_ActiveScene->CreateEntity("HumanMesh");
+            auto& modelTransform = importedModel.GetComponent<TransformComponent>();
+            modelTransform.Position = glm::vec3(-5.0f, 0.0f, 0.0f);
+            modelTransform.Rotation = glm::vec3(0.0f);
+            modelTransform.Scale = glm::vec3(0.2f);
             importedModel.AddComponent<MeshRendererComponent>(testModel, glm::vec4{ 1.0f, 0.85f, 0.25f, 1.0f });
         }
     }
@@ -99,7 +105,6 @@ namespace Dunix {
 
         DrawTopPanel();
         DrawSceneViewport();
-        DrawSettingsPanel();
         m_SceneHierarchyPanel.OnImGuiRender();
         m_ContentBrowserPanel->OnImGuiRender();
 
@@ -224,7 +229,7 @@ namespace Dunix {
         ImGui::Begin("Editor Dockspace", &dockspaceOpen, window_flags);
         ImGui::PopStyleVar(3);
 
-        ImGuiID dockspaceID = ImGui::GetID("EditorDockspace");
+        ImGuiID dockspaceID = ImGui::GetID("EditorDockspaceV2");
         ImGuiDockNodeFlags dockspaceFlags = ImGuiDockNodeFlags_None;
 
         bool buildDefaultLayout = firstTime && ImGui::DockBuilderGetNode(dockspaceID) == nullptr;
@@ -240,14 +245,18 @@ namespace Dunix {
             ImGuiID dockTopID = 0;
             ImGuiID dockBottomID = 0;
             ImGuiID dockRightID = 0;
+            ImGuiID dockRightTopID = 0;
+            ImGuiID dockRightBottomID = 0;
 
             ImGui::DockBuilderSplitNode(dockMainID, ImGuiDir_Up, 0.08f, &dockTopID, &dockMainID);
             ImGui::DockBuilderSplitNode(dockMainID, ImGuiDir_Down, 0.25f, &dockBottomID, &dockMainID);
             ImGui::DockBuilderSplitNode(dockMainID, ImGuiDir_Right, 0.25f, &dockRightID, &dockMainID);
+            ImGui::DockBuilderSplitNode(dockRightID, ImGuiDir_Down, 0.45f, &dockRightBottomID, &dockRightTopID);
 
             ImGui::DockBuilderDockWindow("Top Panel", dockTopID);
             ImGui::DockBuilderDockWindow("Viewport", dockMainID);
-            ImGui::DockBuilderDockWindow("Settings", dockRightID);
+            ImGui::DockBuilderDockWindow("Scene Hierarchy", dockRightTopID);
+            ImGui::DockBuilderDockWindow("Settings", dockRightBottomID);
             ImGui::DockBuilderDockWindow("Content Browser", dockBottomID);
             ImGui::DockBuilderFinish(dockspaceID);
         }
@@ -287,25 +296,13 @@ namespace Dunix {
         {
             if (ImGui::BeginMenu("File"))
             {
-                ImGui::EndMenu();
-            }
-            if (ImGui::BeginMenu("New Scene"))
-            {
+                if (ImGui::MenuItem("New Scene"))
+                    NewScene();
+
                 ImGui::EndMenu();
             }
             ImGui::EndMenuBar();
         }
-
-        ImGui::End();
-    }
-
-    void EditorLayer::DrawSettingsPanel()
-    {
-        ImGui::Begin("Settings");
-
-        ImGui::Text("Transform");
-        ImGui::Separator();
-        ImGui::TextDisabled("Select an entity to edit its transform.");
 
         ImGui::End();
     }

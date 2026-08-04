@@ -7,13 +7,13 @@
 
 namespace Dunix
 {
-    struct IdComponent
+    struct IDComponent
     {
-        IdComponent() = default;
-        IdComponent(const UUID& id)
-            : Id(id){};
+        IDComponent() = default;
+        IDComponent(const UUID& id)
+            : ID(id) {}
 
-        UUID Id;
+        UUID ID;
     };
     
     struct TagComponent

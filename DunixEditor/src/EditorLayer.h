@@ -37,6 +37,8 @@ namespace Dunix
 		bool OnMousePressed(MouseButtonPressedEvent& e);
 		bool OnMouseReleased(MouseButtonReleasedEvent& e);
 
+		void NewScene();
+		void CreateDefaultScene();
 		void UpdateCameraPosition(float dt);
 
 		//ImGui UI related funcs
@@ -44,8 +46,6 @@ namespace Dunix
 
 		void DrawSceneViewport();
 		void DrawTopPanel();
-		void DrawSettingsPanel();
-
 		void EndDockspace();
 
 	private:

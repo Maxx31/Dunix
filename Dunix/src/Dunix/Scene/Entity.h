@@ -18,7 +18,7 @@ namespace Dunix
         }
         
         template<typename T>
-        T& GetComponent()
+        T& GetComponent() const
         {
             return m_Scene->GetEnttRegistry().get<T>(m_EntityHandle);
         }
@@ -35,19 +35,24 @@ namespace Dunix
             m_Scene->GetEnttRegistry().remove<T>(m_EntityHandle);
         }
         
-        UUID GetEntityId()
+        UUID GetEntityID() const
         {
-            return GetComponent<IdComponent>().Id;
+            return GetComponent<IDComponent>().ID;
         }
         
-        std::string GetEntityName()
+        const std::string& GetEntityName() const
         {
             return GetComponent<TagComponent>().Name;
         }
         
-        bool operator ==(Entity& entity)
+        bool operator==(const Entity& entity) const
         {
-            return entity.GetEntityId() == GetEntityId();
+            return m_EntityHandle == entity.m_EntityHandle && m_Scene == entity.m_Scene;
+        }
+
+        bool operator!=(const Entity& entity) const
+        {
+            return !(*this == entity);
         }
 
         entt::entity GetHandle() const { return m_EntityHandle; }

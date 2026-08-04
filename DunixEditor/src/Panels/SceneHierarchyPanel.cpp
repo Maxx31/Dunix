@@ -1,8 +1,12 @@
 #include "SceneHierarchyPanel.h"
 
+#include "Dunix/Scene/Components.h"
 #include "Dunix/Scene/Scene.h"
-#include "imgui/imgui.h"
-#include "imgui/imgui_internal.h"
+
+#include <imgui/imgui.h>
+
+#include <array>
+#include <cstring>
 
 namespace Dunix
 {
@@ -19,39 +23,53 @@ namespace Dunix
 
     void SceneHierarchyPanel::OnImGuiRender()
     {
-        
         ImGui::Begin("Scene Hierarchy");
 
         if (m_Context)
         {
-            for (auto& [id, entity] : m_Context->GetAllEntites())
+            m_EntityToDelete = {};
+            m_EntityToDuplicate = {};
+
+            if (ImGui::Button("Create Entity"))
+                m_SelectedEntity = m_Context->CreateEntity("Empty Entity");
+
+            ImGui::Separator();
+
+            auto view = m_Context->GetEnttRegistry().view<IDComponent, TagComponent>();
+            for (auto entityHandle : view)
+                DrawEntityNode({ entityHandle, m_Context.get() });
+
+            if (m_EntityToDuplicate)
+                m_SelectedEntity = m_Context->DuplicateEntity(m_EntityToDuplicate);
+
+            if (m_EntityToDelete)
             {
-                DrawEntityNode(entity);
+                if (m_SelectedEntity == m_EntityToDelete)
+                    m_SelectedEntity = {};
+
+                m_Context->DestroyEntity(m_EntityToDelete);
             }
-            
-            if (ImGui::IsMouseDown(0) && ImGui::IsWindowHovered())
-            {
+
+            if (ImGui::IsMouseClicked(ImGuiMouseButton_Left) && ImGui::IsWindowHovered() && !ImGui::IsAnyItemHovered())
                 m_SelectedEntity = {};
-            }
-            
-            // Right-click on blank space
-            if (ImGui::BeginPopupContextWindow(0, 1))
+
+            if (ImGui::BeginPopupContextWindow(nullptr, ImGuiPopupFlags_MouseButtonRight | ImGuiPopupFlags_NoOpenOverItems))
             {
                 if (ImGui::MenuItem("Create Empty Entity"))
-                    m_Context->CreateEntity("Empty Entity");
+                    m_SelectedEntity = m_Context->CreateEntity("Empty Entity");
 
                 ImGui::EndPopup();
             }
         }
 
         ImGui::End();
-        
-        ImGui::Begin("Properties");
+
+        ImGui::Begin("Settings");
+
         if (m_SelectedEntity)
-        {
-            //For now we can just show Transform or something temp
-            //DrawComponents(m_SelectionContext);
-        }
+            DrawComponents(m_SelectedEntity);
+        else
+            ImGui::TextDisabled("No entity selected.");
 
         ImGui::End();
     }
@@ -64,37 +82,51 @@ namespace Dunix
     void SceneHierarchyPanel::DrawEntityNode(Entity entity)
     {
         auto& tag = entity.GetComponent<TagComponent>().Name;
-        
+
         ImGuiTreeNodeFlags flags = ((m_SelectedEntity == entity) ? ImGuiTreeNodeFlags_Selected : 0)
             | ImGuiTreeNodeFlags_OpenOnArrow
             | ImGuiTreeNodeFlags_Leaf
-            | ImGuiTreeNodeFlags_NoTreePushOnOpen;
-        
-        flags |= ImGuiTreeNodeFlags_SpanAvailWidth;
-        const auto entityId = static_cast<uint64_t>(entity.GetEntityId());
-        ImGui::TreeNodeEx(reinterpret_cast<void*>(static_cast<uintptr_t>(entityId)), flags, "%s", tag.c_str());
-    	
-        if (ImGui::IsItemClicked())
-        {
-            m_SelectedEntity = entity;
-        }
+            | ImGuiTreeNodeFlags_NoTreePushOnOpen
+            | ImGuiTreeNodeFlags_SpanAvailWidth;
 
-        bool entityDeleted = false;
+        const uint64_t entityID = static_cast<uint64_t>(entity.GetEntityID());
+        ImGui::TreeNodeEx(reinterpret_cast<void*>(static_cast<uintptr_t>(entityID)), flags, "%s", tag.c_str());
+
+        if (ImGui::IsItemClicked())
+            m_SelectedEntity = entity;
+
         if (ImGui::BeginPopupContextItem())
         {
+            if (ImGui::MenuItem("Duplicate Entity"))
+                m_EntityToDuplicate = entity;
+
             if (ImGui::MenuItem("Delete Entity"))
-                entityDeleted = true;
+                m_EntityToDelete = entity;
 
             ImGui::EndPopup();
         }
+    }
 
-        if (entityDeleted)
+    void SceneHierarchyPanel::DrawComponents(Entity entity)
+    {
+        if (entity.HasComponent<TagComponent>())
         {
-            m_Context->DestroyEntity(&entity);
-            if (m_SelectedEntity == entity)
-            {
-                m_SelectedEntity = {};
-            }
+            auto& tag = entity.GetComponent<TagComponent>().Name;
+            std::array<char, 256> buffer{};
+            std::strncpy(buffer.data(), tag.c_str(), buffer.size() - 1);
+
+            if (ImGui::InputText("Name", buffer.data(), buffer.size()))
+                tag = buffer.data();
+        }
+
+        if (entity.HasComponent<TransformComponent>())
+        {
+            auto& transform = entity.GetComponent<TransformComponent>();
+
+            ImGui::SeparatorText("Transform");
+            ImGui::DragFloat3("Position", &transform.Position.x, 0.1f);
+            ImGui::DragFloat3("Rotation", &transform.Rotation.x, 0.1f);
+            ImGui::DragFloat3("Scale", &transform.Scale.x, 0.1f);
         }
     }
 }

@@ -19,6 +19,9 @@
     <Filter Include="Dunix\Renderer">
       <UniqueIdentifier>{f2a6fed9-2234-497e-a6e4-6a59601e0b1c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Dunix\Utils">
+      <UniqueIdentifier>{6e6d93f4-d469-42cc-94f7-b7a9f2173f7f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Dunix.h" />
@@ -94,6 +97,9 @@
     <ClInclude Include="src\Dunix\Scene\Components.h" />
     <ClInclude Include="src\Dunix\Scene\Entity.h" />
     <ClInclude Include="src\Dunix\Scene\Scene.h" />
+    <ClInclude Include="src\Dunix\Utils\UUID.h">
+      <Filter>Dunix\Utils</Filter>
+    </ClInclude>
     <ClInclude Include="src\Dunix\Test\SmartPointers.h" />
   </ItemGroup>
   <ItemGroup>
@@ -142,5 +148,8 @@
     <ClCompile Include="src\Dunix\Debug\Profiler\ProfileScope.cpp" />
     <ClCompile Include="src\Dunix\Scene\Entity.cpp" />
     <ClCompile Include="src\Dunix\Scene\Scene.cpp" />
+    <ClCompile Include="src\Dunix\Utils\UUID.cpp">
+      <Filter>Dunix\Utils</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
