@@ -229,7 +229,7 @@ namespace Dunix {
         ImGui::Begin("Editor Dockspace", &dockspaceOpen, window_flags);
         ImGui::PopStyleVar(3);
 
-        ImGuiID dockspaceID = ImGui::GetID("EditorDockspaceV2");
+        ImGuiID dockspaceID = ImGui::GetID("EditorDockspace");
         ImGuiDockNodeFlags dockspaceFlags = ImGuiDockNodeFlags_None;
 
         bool buildDefaultLayout = firstTime && ImGui::DockBuilderGetNode(dockspaceID) == nullptr;
