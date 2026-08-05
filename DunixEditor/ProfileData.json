@@ -1,4 +1,12 @@
 {
 "traceEvents": [
+{"name":"Camera::RecalculateView","cat":"function","ph":"X","ts":930447,"dur":15,"pid":1,"tid":0},
+{"name":"Camera::RecalculateView","cat":"function","ph":"X","ts":947162,"dur":13,"pid":1,"tid":0},
+{"name":"Camera::RecalculateView","cat":"function","ph":"X","ts":964165,"dur":14,"pid":1,"tid":0},
+{"name":"Camera::RecalculateView","cat":"function","ph":"X","ts":980636,"dur":22,"pid":1,"tid":0},
+{"name":"Camera::RecalculateView","cat":"function","ph":"X","ts":997836,"dur":18,"pid":1,"tid":0},
+{"name":"Camera::RecalculateView","cat":"function","ph":"X","ts":1014132,"dur":59,"pid":1,"tid":0},
+{"name":"Camera::RecalculateView","cat":"function","ph":"X","ts":1030836,"dur":15,"pid":1,"tid":0},
+{"name":"Camera::RecalculateView","cat":"function","ph":"X","ts":1097270,"dur":15,"pid":1,"tid":0}
 ]
 }

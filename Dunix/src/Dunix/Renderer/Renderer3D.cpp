@@ -92,7 +92,7 @@ namespace Dunix {
 
 	void Renderer3D::EndScene()
 	{
-
+		
 	}
 
 	void Renderer3D::DrawCube(const glm::vec3& position, const glm::vec3& size, const glm::vec4& color)
@@ -142,8 +142,7 @@ namespace Dunix {
     {
         for (const UniquePtr<Mesh>& mesh : model.GetMeshes())
         {
-            if (mesh)
-                DrawMesh(*mesh, transform, color);
+            if (mesh) DrawMesh(*mesh, transform, color);
         }
     }
 }
