@@ -37,6 +37,14 @@ namespace Dunix {
     void EditorLayer::OnAttach()
     {
         m_TestTexture = Texture3D::Create("assets/textures/TestTexture.png");
+       
+        //Test values for now, in the future need to get vieport size 
+        FramebufferSpecification fbSpec;
+        fbSpec.Width = 1280;
+        fbSpec.Height = 720;
+        
+        m_Framebuffer = Framebuffer::Create(fbSpec);
+        
         NewScene();
     }
 
@@ -80,12 +88,16 @@ namespace Dunix {
         m_ActiveScene->OnUpdate(ts);
         
         // If we have depth testing in RendererAPI, need to clear depth here.
+        m_Framebuffer->Bind();
+        
         RenderCommand::SetClearColor({ 0.137f, 0.137f, 0.137f, 1.0f });
         RenderCommand::Clear();
 
         UpdateCameraPosition(ts);
 
         m_ActiveScene->OnRender(*m_Camera);
+        
+        m_Framebuffer->Unbind();
     }
 
     void EditorLayer::OnEvent(Event& event)
@@ -107,6 +119,10 @@ namespace Dunix {
         DrawSceneViewport();
         m_SceneHierarchyPanel.OnImGuiRender();
         m_ContentBrowserPanel->OnImGuiRender();
+        
+        //Temp to test framebuffer 
+        uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
+        ImGui::Image((void*)textureID, ImVec2{1200.0f, 760.0f});
 
         EndDockspace();
     }

@@ -9,6 +9,7 @@
 
 #include "Dunix/Renderer/Camera.h"
 #include "Dunix/Renderer/Buffer.h"
+#include "Dunix/Renderer/Framebuffer.h"
 #include "Dunix/Renderer/Shader.h"
 
 #include "Dunix/Renderer/Renderer.h"

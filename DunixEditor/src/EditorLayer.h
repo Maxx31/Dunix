@@ -49,12 +49,13 @@ namespace Dunix
 		void EndDockspace();
 
 	private:
-		std::shared_ptr<class Camera> m_Camera;
+		SharedPtr<class Camera> m_Camera;
 		class VertexArray* m_VA;
 		class VertexBuffer* m_VBO;
 		class IndexBuffer* m_IBO;
 
 		class Shader* m_Shader;
+		SharedPtr<Framebuffer> m_Framebuffer;
 
 		SharedPtr<class Texture3D> m_TestTexture;
 		SharedPtr<class Scene> m_ActiveScene;

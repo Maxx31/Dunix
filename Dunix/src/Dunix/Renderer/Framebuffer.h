@@ -14,7 +14,12 @@ namespace Dunix
     class Framebuffer
     {
     public:
-        virtual const FramebufferSpecification& GetSpecification() const ;
+        virtual void Bind() = 0;
+        virtual void Unbind() = 0;
+        
+        virtual uint32_t GetColorAttachmentRendererID() const = 0;
+        
+        virtual const FramebufferSpecification& GetSpecification() const;
         
         static SharedPtr<Framebuffer> Create(const FramebufferSpecification& spec);
     };
