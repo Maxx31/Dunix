@@ -42,7 +42,11 @@ namespace Dunix {
         FramebufferSpecification fbSpec;
         fbSpec.Width = 1280;
         fbSpec.Height = 720;
-        fbSpec.Attachments = { FramebufferTextureFormat::RGBA8, FramebufferTextureFormat::Depth };
+        fbSpec.Attachments = {
+            FramebufferTextureFormat::RGBA8,
+            FramebufferTextureFormat::RED_INTEGER,
+            FramebufferTextureFormat::Depth
+        };
         
         m_Framebuffer = Framebuffer::Create(fbSpec);
         
@@ -87,18 +91,27 @@ namespace Dunix {
     void EditorLayer::OnUpdate(Timestep ts)
     {
         m_ActiveScene->OnUpdate(ts);
+
+        FramebufferSpecification spec = m_Framebuffer->GetSpecification();
+        if (m_ViewportSize.x > 0.0f && m_ViewportSize.y > 0.0f &&
+            (spec.Width != static_cast<uint32_t>(m_ViewportSize.x) || spec.Height != static_cast<uint32_t>(m_ViewportSize.y)))
+        {
+            m_Framebuffer->Resize(static_cast<uint32_t>(m_ViewportSize.x), static_cast<uint32_t>(m_ViewportSize.y));
+        }
         
         // If we have depth testing in RendererAPI, need to clear depth here.
-      //  m_Framebuffer->Bind();
+        m_Framebuffer->Bind();
         
         RenderCommand::SetClearColor({ 0.137f, 0.137f, 0.137f, 1.0f });
         RenderCommand::Clear();
+        m_Framebuffer->ClearAttachment(1, -1);
 
         UpdateCameraPosition(ts);
 
         m_ActiveScene->OnRender(*m_Camera);
+        CheckForHoveredEntity();
         
-      //  m_Framebuffer->Unbind();
+        m_Framebuffer->Unbind();
     }
 
     void EditorLayer::OnEvent(Event& event)
@@ -120,10 +133,6 @@ namespace Dunix {
         DrawSceneViewport();
         m_SceneHierarchyPanel.OnImGuiRender();
         m_ContentBrowserPanel->OnImGuiRender();
-        
-        //Temp to test framebuffer 
-        uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
-        //ImGui::Image(reinterpret_cast<void*>(static_cast<uintptr_t>(textureID)), ImVec2{1200.0f, 760.0f});
 
         EndDockspace();
     }
@@ -195,6 +204,10 @@ namespace Dunix {
             return true;
         }
 
+        if (e.GetButtonCode() == GLFW_MOUSE_BUTTON_LEFT && m_ViewportHovered)
+        {
+            m_SceneHierarchyPanel.SetSelectedEntity(m_HoveredEntity);
+        }
         return false;
     }
 
@@ -226,6 +239,27 @@ namespace Dunix {
 
         if (moved)
             m_Camera->SetPosition(pos);
+    }
+
+    void EditorLayer::CheckForHoveredEntity()
+    {
+        auto[mx, my] = ImGui::GetMousePos();
+        mx -= m_ViewportBounds[0].x;
+        my -= m_ViewportBounds[0].y;
+        glm::vec2 viewportSize = m_ViewportBounds[1] - m_ViewportBounds[0];
+        my = viewportSize.y - my;
+        int mouseX = (int)mx;
+        int mouseY = (int)my;
+
+        if (mouseX >= 0 && mouseY >= 0 && mouseX < (int)viewportSize.x && mouseY < (int)viewportSize.y)
+        {
+            int pixelData = m_Framebuffer->ReadPixel(1, mouseX, mouseY);
+            m_HoveredEntity = pixelData == -1 ? Entity() : Entity((entt::entity)pixelData, m_ActiveScene.get());
+        }
+        else
+        {
+            m_HoveredEntity = {};
+        }
     }
 
     void EditorLayer::BeginDockspace()
@@ -298,6 +332,14 @@ namespace Dunix {
 
         ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
         m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
+
+        uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
+        ImGui::Image(
+            reinterpret_cast<void*>(static_cast<uintptr_t>(textureID)),
+            viewportPanelSize,
+            ImVec2{ 0, 1 },
+            ImVec2{ 1, 0 }
+        );
 
         Application::Get().GetImGuiLayer()->BlockEvents(!(m_ViewportHovered || m_ViewportCameraActive));
 

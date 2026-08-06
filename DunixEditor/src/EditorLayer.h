@@ -40,6 +40,7 @@ namespace Dunix
 		void NewScene();
 		void CreateDefaultScene();
 		void UpdateCameraPosition(float dt);
+		void CheckForHoveredEntity();
 
 		//ImGui UI related funcs
 		void BeginDockspace();
@@ -59,6 +60,8 @@ namespace Dunix
 
 		SharedPtr<class Texture3D> m_TestTexture;
 		SharedPtr<class Scene> m_ActiveScene;
+		
+		Entity m_HoveredEntity;
 
 		bool  m_FirstMouse = true;
 		float m_LastMouseX = 0.0f;

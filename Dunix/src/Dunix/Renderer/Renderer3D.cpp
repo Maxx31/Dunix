@@ -95,7 +95,7 @@ namespace Dunix {
 		
 	}
 
-	void Renderer3D::DrawCube(const glm::vec3& position, const glm::vec3& size, const glm::vec4& color)
+	void Renderer3D::DrawCube(const glm::vec3& position, const glm::vec3& size, const glm::vec4& color, int entityID)
 	{
         glm::mat4 transform(1.0f);
         transform = glm::translate(transform, position);
@@ -105,6 +105,7 @@ namespace Dunix {
         m_Data->TextureShader->Bind();
         m_Data->TextureShader->SetMat4("u_Transform", transform);
         m_Data->TextureShader->SetFloat4("u_Color", color);
+        m_Data->TextureShader->SetInt("u_EntityID", entityID);
 
         m_Data->WhiteTexture->Bind();
         m_Data->CubeVertexArray->Bind();
@@ -113,9 +114,11 @@ namespace Dunix {
 	}
 
 	//To be changed with more generic Mesh
-    void Renderer3D::DrawCube(const glm::vec3& position, const glm::vec3& size, const Texture3D* texture)
+    void Renderer3D::DrawCube(const glm::vec3& position, const glm::vec3& size, const Texture3D* texture, int entityID)
     {
+        m_Data->TextureShader->Bind();
         m_Data->TextureShader->SetFloat4("u_Color", glm::vec4(1.0f));
+        m_Data->TextureShader->SetInt("u_EntityID", entityID);
         texture->Bind();
 
         glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), { size.x, size.y, size.z });
@@ -125,7 +128,7 @@ namespace Dunix {
         RenderCommand::DrawIndexed(m_Data->CubeVertexArray.get());
     }
 
-    void Renderer3D::DrawMesh(const Mesh& mesh, const glm::mat4& transform, const glm::vec4& color)
+    void Renderer3D::DrawMesh(const Mesh& mesh, const glm::mat4& transform, const glm::vec4& color, int entityID)
     {
         if (!mesh.GetVertexArray() || mesh.GetIndexCount() == 0)
             return;
@@ -133,16 +136,17 @@ namespace Dunix {
         m_Data->TextureShader->Bind();
         m_Data->TextureShader->SetMat4("u_Transform", transform);
         m_Data->TextureShader->SetFloat4("u_Color", color);
+        m_Data->TextureShader->SetInt("u_EntityID", entityID);
 
         m_Data->WhiteTexture->Bind();
         RenderCommand::DrawIndexed(mesh.GetVertexArray());
     }
 
-    void Renderer3D::DrawModel(const Model& model, const glm::mat4& transform, const glm::vec4& color)
+    void Renderer3D::DrawModel(const Model& model, const glm::mat4& transform, const glm::vec4& color, int entityID)
     {
         for (const UniquePtr<Mesh>& mesh : model.GetMeshes())
         {
-            if (mesh) DrawMesh(*mesh, transform, color);
+            if (mesh) DrawMesh(*mesh, transform, color, entityID);
         }
     }
 }

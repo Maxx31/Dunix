@@ -90,11 +90,12 @@ namespace Dunix
         {
             auto& transform = view.get<TransformComponent>(entity);
             auto& cube = view.get<CubeRendererComponent>(entity);
+            int entityID = static_cast<int>(entity);
 
             if (cube.Texture)
-                Renderer3D::DrawCube(transform.Position, transform.Scale, cube.Texture);
+                Renderer3D::DrawCube(transform.Position, transform.Scale, cube.Texture, entityID);
             else
-                Renderer3D::DrawCube(transform.Position, transform.Scale, cube.Color);
+                Renderer3D::DrawCube(transform.Position, transform.Scale, cube.Color, entityID);
         }
 
         auto meshView = m_Registry.view<TransformComponent, MeshRendererComponent>();
@@ -102,9 +103,10 @@ namespace Dunix
         {
             auto& transform = meshView.get<TransformComponent>(entity);
             auto& meshRenderer = meshView.get<MeshRendererComponent>(entity);
+            int entityID = static_cast<int>(entity);
 
             if (meshRenderer.ModelAsset)
-                Renderer3D::DrawModel(*meshRenderer.ModelAsset, GetTransform(transform), meshRenderer.Color);
+                Renderer3D::DrawModel(*meshRenderer.ModelAsset, GetTransform(transform), meshRenderer.Color, entityID);
         }
 
         Renderer3D::EndScene();

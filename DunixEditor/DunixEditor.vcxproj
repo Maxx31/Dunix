@@ -159,6 +159,15 @@
     <ClInclude Include="src\Panels\ContentBrowserPanel.h" />
     <ClInclude Include="src\Panels\SceneHierarchyPanel.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="assets\models\cube.obj" />
+    <Content Include="assets\models\HumanMesh.obj" />
+    <Content Include="assets\shaders\default.frag" />
+    <Content Include="assets\shaders\default.vert" />
+    <Content Include="assets\shaders\Texture.frag" />
+    <Content Include="assets\shaders\Texture.vert" />
+    <Content Include="assets\textures\TestTexture.png" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
