@@ -169,16 +169,6 @@ namespace Dunix {
         if (m_FirstMouse)
         {
             m_FirstMouse = false;
-
-            std::cout << "[InputDebug][Editor] Mouse baseline"
-                << " count=" << activeMouseMoveCount
-                << " pos=(" << xpos << ", " << ypos << ")"
-                << " center=(" << viewportCenter.x << ", " << viewportCenter.y << ")"
-                << " viewportHovered=" << m_ViewportHovered
-                << " viewportFocused=" << m_ViewportFocused
-                << " viewportBoundsMin=(" << m_ViewportBounds[0].x << ", " << m_ViewportBounds[0].y << ")"
-                << " viewportBoundsMax=(" << m_ViewportBounds[1].x << ", " << m_ViewportBounds[1].y << ")"
-                << std::endl;
             return false;
         }
 
@@ -201,22 +191,6 @@ namespace Dunix {
         else if (rot.y < -180.0f)
             rot.y += 360.0f;
 
-        if (ShouldLogMouseDelta(activeMouseMoveCount, rawXOffset, rawYOffset))
-        {
-            const glm::vec3 currentRot = m_Camera->GetRotation();
-            std::cout << "[InputDebug][Editor] Mouse camera delta"
-                << " count=" << activeMouseMoveCount
-                << " pos=(" << xpos << ", " << ypos << ")"
-                << " center=(" << viewportCenter.x << ", " << viewportCenter.y << ")"
-                << " rawDelta=(" << rawXOffset << ", " << rawYOffset << ")"
-                << " scaledDelta=(" << xoffset << ", " << yoffset << ")"
-                << " rotBefore=(" << currentRot.x << ", " << currentRot.y << ", " << currentRot.z << ")"
-                << " rotAfter=(" << rot.x << ", " << rot.y << ", " << rot.z << ")"
-                << " viewportHovered=" << m_ViewportHovered
-                << " viewportFocused=" << m_ViewportFocused
-                << std::endl;
-        }
-
         m_Camera->SetRotation(rot);
 
         if (std::abs(rawXOffset) > 0.0f || std::abs(rawYOffset) > 0.0f)
@@ -227,18 +201,6 @@ namespace Dunix {
 
     bool EditorLayer::OnKeyPressed(KeyPressedEvent& e)
     {
-        if (e.GetKeyCode() == GLFW_KEY_W || e.GetKeyCode() == GLFW_KEY_A ||
-            e.GetKeyCode() == GLFW_KEY_S || e.GetKeyCode() == GLFW_KEY_D ||
-            e.GetKeyCode() == GLFW_KEY_ESCAPE)
-        {
-            std::cout << "[InputDebug][Editor] KeyPressed"
-                << " key=" << e.GetKeyCode()
-                << " cameraActive=" << m_ViewportCameraActive
-                << " viewportHovered=" << m_ViewportHovered
-                << " viewportFocused=" << m_ViewportFocused
-                << std::endl;
-        }
-
         if (e.GetKeyCode() == GLFW_KEY_ESCAPE)
         {
             DeactivateViewportCamera();
@@ -249,13 +211,6 @@ namespace Dunix {
 
     bool EditorLayer::OnMousePressed(MouseButtonPressedEvent& e)
     {
-        std::cout << "[InputDebug][Editor] MousePressed"
-            << " button=" << e.GetButtonCode()
-            << " viewportHovered=" << m_ViewportHovered
-            << " viewportFocused=" << m_ViewportFocused
-            << " cameraActive=" << m_ViewportCameraActive
-            << std::endl;
-
         if (e.GetButtonCode() == GLFW_MOUSE_BUTTON_RIGHT && (m_ViewportHovered || m_ViewportCameraActive))
         {
             if (m_ViewportCameraActive)
@@ -275,16 +230,8 @@ namespace Dunix {
 
     bool EditorLayer::OnMouseReleased(MouseButtonReleasedEvent& e)
     {
-        std::cout << "[InputDebug][Editor] MouseReleased"
-            << " button=" << e.GetButtonCode()
-            << " viewportHovered=" << m_ViewportHovered
-            << " viewportFocused=" << m_ViewportFocused
-            << " cameraActive=" << m_ViewportCameraActive
-            << std::endl;
-
         if (e.GetButtonCode() == GLFW_MOUSE_BUTTON_RIGHT)
         {
-            std::cout << "[InputDebug][Editor] RMB release ignored; camera toggles on press" << std::endl;
             return true;
         }
         return false;
@@ -296,12 +243,6 @@ namespace Dunix {
         m_ViewportCameraActive = true;
         m_FirstMouse = false;
         CenterMouseInViewport();
-
-        std::cout << "[InputDebug][Editor] Camera activated by right mouse"
-            << " viewportBoundsMin=(" << m_ViewportBounds[0].x << ", " << m_ViewportBounds[0].y << ")"
-            << " viewportBoundsMax=(" << m_ViewportBounds[1].x << ", " << m_ViewportBounds[1].y << ")"
-            << " viewportSize=(" << m_ViewportSize.x << ", " << m_ViewportSize.y << ")"
-            << std::endl;
     }
 
     void EditorLayer::DeactivateViewportCamera()
@@ -312,7 +253,6 @@ namespace Dunix {
         Application::Get().GetWindow().SetCursorLocked(false);
         m_FirstMouse = true;
         m_ViewportCameraActive = false;
-        std::cout << "[InputDebug][Editor] Camera deactivated" << std::endl;
     }
 
     void EditorLayer::CenterMouseInViewport()
@@ -350,21 +290,6 @@ namespace Dunix {
         const bool keyStateChanged = wPressed != lastWPressed || sPressed != lastSPressed ||
             aPressed != lastAPressed || dPressed != lastDPressed;
 
-        if (keyStateChanged || activeCameraFrameCount <= 20 || activeCameraFrameCount % 60 == 0)
-        {
-            const auto [mouseX, mouseY] = Input::GetMousePosition();
-            const glm::vec3 rot = m_Camera->GetRotation();
-            std::cout << "[InputDebug][Editor] Camera update"
-                << " frame=" << activeCameraFrameCount
-                << " dt=" << dt
-                << " speed=" << speed
-                << " keys(WASD)=" << wPressed << aPressed << sPressed << dPressed
-                << " mousePos=(" << mouseX << ", " << mouseY << ")"
-                << " posBefore=(" << pos.x << ", " << pos.y << ", " << pos.z << ")"
-                << " rot=(" << rot.x << ", " << rot.y << ", " << rot.z << ")"
-                << std::endl;
-        }
-
         lastWPressed = wPressed;
         lastSPressed = sPressed;
         lastAPressed = aPressed;
@@ -378,9 +303,6 @@ namespace Dunix {
         if (moved)
         {
             m_Camera->SetPosition(pos);
-            std::cout << "[InputDebug][Editor] Camera moved"
-                << " posAfter=(" << pos.x << ", " << pos.y << ", " << pos.z << ")"
-                << std::endl;
         }
     }
 

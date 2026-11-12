@@ -100,20 +100,6 @@ namespace Dunix
 				const double dy = hasLastPos ? ypos - lastY : 0.0;
 				++moveEventCount;
 
-				const bool suspiciousDelta = std::abs(dx) > 200.0 || std::abs(dy) > 200.0;
-				if (moveEventCount <= 20 || moveEventCount % 60 == 0 || suspiciousDelta)
-				{
-					const int cursorMode = glfwGetInputMode(window, GLFW_CURSOR);
-					std::cout << "[InputDebug][GLFW] MouseMove"
-						<< " count=" << moveEventCount
-						<< " pos=(" << xpos << ", " << ypos << ")"
-						<< " delta=(" << dx << ", " << dy << ")"
-						<< " cursorMode=" << CursorModeToString(cursorMode)
-						<< " focused=" << glfwGetWindowAttrib(window, GLFW_FOCUSED)
-						<< " hovered=" << glfwGetWindowAttrib(window, GLFW_HOVERED)
-						<< std::endl;
-				}
-
 				lastX = xpos;
 				lastY = ypos;
 				hasLastPos = true;
@@ -125,15 +111,6 @@ namespace Dunix
 		glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int button, int action, int mods)
 			{
 				WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
-
-				std::cout << "[InputDebug][GLFW] MouseButton"
-					<< " button=" << button
-					<< " action=" << KeyActionToString(action)
-					<< " mods=" << mods
-					<< " cursorMode=" << CursorModeToString(glfwGetInputMode(window, GLFW_CURSOR))
-					<< " focused=" << glfwGetWindowAttrib(window, GLFW_FOCUSED)
-					<< " hovered=" << glfwGetWindowAttrib(window, GLFW_HOVERED)
-					<< std::endl;
 
 				if (action == GLFW_PRESS)
 				{
@@ -161,18 +138,6 @@ namespace Dunix
 
 				windowData.KeyCode = key;
 				windowData.KeyAction = action;
-
-				if (IsCameraDebugKey(key) && action != GLFW_REPEAT)
-				{
-					std::cout << "[InputDebug][GLFW] Key"
-						<< " key=" << key
-						<< " scancode=" << scancode
-						<< " action=" << KeyActionToString(action)
-						<< " mods=" << mods
-						<< " cursorMode=" << CursorModeToString(glfwGetInputMode(window, GLFW_CURSOR))
-						<< " focused=" << glfwGetWindowAttrib(window, GLFW_FOCUSED)
-						<< std::endl;
-				}
 
 				if (action == GLFW_PRESS)
 				{
@@ -224,16 +189,7 @@ namespace Dunix
 		double xpos = 0.0;
 		double ypos = 0.0;
 		glfwGetCursorPos(m_Window, &xpos, &ypos);
-
-		std::cout << "[InputDebug][GLFW] SetCursorLocked"
-			<< " requested=" << locked
-			<< " actualMode=" << CursorModeToString(glfwGetInputMode(m_Window, GLFW_CURSOR))
-			<< " pos=(" << xpos << ", " << ypos << ")"
-			<< " focused=" << glfwGetWindowAttrib(m_Window, GLFW_FOCUSED)
-			<< " hovered=" << glfwGetWindowAttrib(m_Window, GLFW_HOVERED)
-			<< " rawMouseSupported=" << glfwRawMouseMotionSupported()
-			<< " rawMouseEnabled=" << glfwGetInputMode(m_Window, GLFW_RAW_MOUSE_MOTION)
-			<< std::endl;
+		
 	}
 
 	void* WindowGLFW::GetNativeWindow()
