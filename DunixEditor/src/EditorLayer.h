@@ -41,6 +41,9 @@ namespace Dunix
 		void CreateDefaultScene();
 		void UpdateCameraPosition(float dt);
 		void CheckForHoveredEntity();
+		void ActivateViewportCamera();
+		void DeactivateViewportCamera();
+		void CenterMouseInViewport();
 
 		//ImGui UI related funcs
 		void BeginDockspace();

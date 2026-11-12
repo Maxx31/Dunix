@@ -14,10 +14,19 @@
 #include <imgui/imgui_internal.h>
 
 #include <algorithm>
+#include <cmath>
 
 #define DX_BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
 
 namespace Dunix {
+    namespace
+    {
+        bool ShouldLogMouseDelta(int count, float xoffset, float yoffset)
+        {
+            return count <= 20 || count % 30 == 0 ||
+                std::abs(xoffset) > 50.0f || std::abs(yoffset) > 50.0f;
+        }
+    }
 
     EditorLayer::EditorLayer()
         : Layer()
@@ -147,22 +156,36 @@ namespace Dunix {
         if (!m_ViewportCameraActive)
             return false;
 
+        static int activeMouseMoveCount = 0;
+        ++activeMouseMoveCount;
+
         float xpos = e.GetPosX();
         float ypos = e.GetPosY();
+        const glm::vec2 viewportCenter = {
+            (m_ViewportBounds[0].x + m_ViewportBounds[1].x) * 0.5f,
+            (m_ViewportBounds[0].y + m_ViewportBounds[1].y) * 0.5f
+        };
 
         if (m_FirstMouse)
         {
-            m_LastMouseX = xpos;
-            m_LastMouseY = ypos;
             m_FirstMouse = false;
+
+            std::cout << "[InputDebug][Editor] Mouse baseline"
+                << " count=" << activeMouseMoveCount
+                << " pos=(" << xpos << ", " << ypos << ")"
+                << " center=(" << viewportCenter.x << ", " << viewportCenter.y << ")"
+                << " viewportHovered=" << m_ViewportHovered
+                << " viewportFocused=" << m_ViewportFocused
+                << " viewportBoundsMin=(" << m_ViewportBounds[0].x << ", " << m_ViewportBounds[0].y << ")"
+                << " viewportBoundsMax=(" << m_ViewportBounds[1].x << ", " << m_ViewportBounds[1].y << ")"
+                << std::endl;
             return false;
         }
 
-        float xoffset = xpos - m_LastMouseX;
-        float yoffset = m_LastMouseY - ypos;
-
-        m_LastMouseX = xpos;
-        m_LastMouseY = ypos;
+        float xoffset = xpos - viewportCenter.x;
+        float yoffset = viewportCenter.y - ypos;
+        const float rawXOffset = xoffset;
+        const float rawYOffset = yoffset;
 
         const float sensitivity = 0.1f;
         xoffset *= sensitivity;
@@ -178,17 +201,47 @@ namespace Dunix {
         else if (rot.y < -180.0f)
             rot.y += 360.0f;
 
+        if (ShouldLogMouseDelta(activeMouseMoveCount, rawXOffset, rawYOffset))
+        {
+            const glm::vec3 currentRot = m_Camera->GetRotation();
+            std::cout << "[InputDebug][Editor] Mouse camera delta"
+                << " count=" << activeMouseMoveCount
+                << " pos=(" << xpos << ", " << ypos << ")"
+                << " center=(" << viewportCenter.x << ", " << viewportCenter.y << ")"
+                << " rawDelta=(" << rawXOffset << ", " << rawYOffset << ")"
+                << " scaledDelta=(" << xoffset << ", " << yoffset << ")"
+                << " rotBefore=(" << currentRot.x << ", " << currentRot.y << ", " << currentRot.z << ")"
+                << " rotAfter=(" << rot.x << ", " << rot.y << ", " << rot.z << ")"
+                << " viewportHovered=" << m_ViewportHovered
+                << " viewportFocused=" << m_ViewportFocused
+                << std::endl;
+        }
+
         m_Camera->SetRotation(rot);
+
+        if (std::abs(rawXOffset) > 0.0f || std::abs(rawYOffset) > 0.0f)
+            CenterMouseInViewport();
+
         return false;
     }
 
     bool EditorLayer::OnKeyPressed(KeyPressedEvent& e)
     {
+        if (e.GetKeyCode() == GLFW_KEY_W || e.GetKeyCode() == GLFW_KEY_A ||
+            e.GetKeyCode() == GLFW_KEY_S || e.GetKeyCode() == GLFW_KEY_D ||
+            e.GetKeyCode() == GLFW_KEY_ESCAPE)
+        {
+            std::cout << "[InputDebug][Editor] KeyPressed"
+                << " key=" << e.GetKeyCode()
+                << " cameraActive=" << m_ViewportCameraActive
+                << " viewportHovered=" << m_ViewportHovered
+                << " viewportFocused=" << m_ViewportFocused
+                << std::endl;
+        }
+
         if (e.GetKeyCode() == GLFW_KEY_ESCAPE)
         {
-            Application::Get().GetWindow().SetCursorLocked(false);
-            m_FirstMouse = true;
-            m_ViewportCameraActive = false;
+            DeactivateViewportCamera();
             return true;
         }
         return false;
@@ -196,11 +249,20 @@ namespace Dunix {
 
     bool EditorLayer::OnMousePressed(MouseButtonPressedEvent& e)
     {
-        if (e.GetButtonCode() == GLFW_MOUSE_BUTTON_RIGHT && m_ViewportHovered)
+        std::cout << "[InputDebug][Editor] MousePressed"
+            << " button=" << e.GetButtonCode()
+            << " viewportHovered=" << m_ViewportHovered
+            << " viewportFocused=" << m_ViewportFocused
+            << " cameraActive=" << m_ViewportCameraActive
+            << std::endl;
+
+        if (e.GetButtonCode() == GLFW_MOUSE_BUTTON_RIGHT && (m_ViewportHovered || m_ViewportCameraActive))
         {
-            Application::Get().GetWindow().SetCursorLocked(true);
-            m_FirstMouse = true;
-            m_ViewportCameraActive = true;
+            if (m_ViewportCameraActive)
+                DeactivateViewportCamera();
+            else
+                ActivateViewportCamera();
+
             return true;
         }
 
@@ -213,14 +275,55 @@ namespace Dunix {
 
     bool EditorLayer::OnMouseReleased(MouseButtonReleasedEvent& e)
     {
+        std::cout << "[InputDebug][Editor] MouseReleased"
+            << " button=" << e.GetButtonCode()
+            << " viewportHovered=" << m_ViewportHovered
+            << " viewportFocused=" << m_ViewportFocused
+            << " cameraActive=" << m_ViewportCameraActive
+            << std::endl;
+
         if (e.GetButtonCode() == GLFW_MOUSE_BUTTON_RIGHT)
         {
-            Application::Get().GetWindow().SetCursorLocked(false);
-            m_FirstMouse = true;
-            m_ViewportCameraActive = false;
+            std::cout << "[InputDebug][Editor] RMB release ignored; camera toggles on press" << std::endl;
             return true;
         }
         return false;
+    }
+
+    void EditorLayer::ActivateViewportCamera()
+    {
+        Application::Get().GetWindow().SetCursorLocked(true);
+        m_ViewportCameraActive = true;
+        m_FirstMouse = false;
+        CenterMouseInViewport();
+
+        std::cout << "[InputDebug][Editor] Camera activated by right mouse"
+            << " viewportBoundsMin=(" << m_ViewportBounds[0].x << ", " << m_ViewportBounds[0].y << ")"
+            << " viewportBoundsMax=(" << m_ViewportBounds[1].x << ", " << m_ViewportBounds[1].y << ")"
+            << " viewportSize=(" << m_ViewportSize.x << ", " << m_ViewportSize.y << ")"
+            << std::endl;
+    }
+
+    void EditorLayer::DeactivateViewportCamera()
+    {
+        if (!m_ViewportCameraActive)
+            return;
+
+        Application::Get().GetWindow().SetCursorLocked(false);
+        m_FirstMouse = true;
+        m_ViewportCameraActive = false;
+        std::cout << "[InputDebug][Editor] Camera deactivated" << std::endl;
+    }
+
+    void EditorLayer::CenterMouseInViewport()
+    {
+        GLFWwindow* window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
+        if (!window)
+            return;
+
+        const double centerX = (m_ViewportBounds[0].x + m_ViewportBounds[1].x) * 0.5;
+        const double centerY = (m_ViewportBounds[0].y + m_ViewportBounds[1].y) * 0.5;
+        glfwSetCursorPos(window, centerX, centerY);
     }
 
     void EditorLayer::UpdateCameraPosition(float dt)
@@ -232,13 +335,53 @@ namespace Dunix {
         glm::vec3 pos = m_Camera->GetPosition();
         bool moved = false;
 
-        if (Input::IsKeyPressed(GLFW_KEY_W)) { pos += m_Camera->GetForward() * speed; moved = true; }
-        if (Input::IsKeyPressed(GLFW_KEY_S)) { pos -= m_Camera->GetForward() * speed; moved = true; }
-        if (Input::IsKeyPressed(GLFW_KEY_A)) { pos -= m_Camera->GetRight() * speed; moved = true; }
-        if (Input::IsKeyPressed(GLFW_KEY_D)) { pos += m_Camera->GetRight() * speed; moved = true; }
+        const bool wPressed = Input::IsKeyPressed(GLFW_KEY_W);
+        const bool sPressed = Input::IsKeyPressed(GLFW_KEY_S);
+        const bool aPressed = Input::IsKeyPressed(GLFW_KEY_A);
+        const bool dPressed = Input::IsKeyPressed(GLFW_KEY_D);
+
+        static int activeCameraFrameCount = 0;
+        static bool lastWPressed = false;
+        static bool lastSPressed = false;
+        static bool lastAPressed = false;
+        static bool lastDPressed = false;
+        ++activeCameraFrameCount;
+
+        const bool keyStateChanged = wPressed != lastWPressed || sPressed != lastSPressed ||
+            aPressed != lastAPressed || dPressed != lastDPressed;
+
+        if (keyStateChanged || activeCameraFrameCount <= 20 || activeCameraFrameCount % 60 == 0)
+        {
+            const auto [mouseX, mouseY] = Input::GetMousePosition();
+            const glm::vec3 rot = m_Camera->GetRotation();
+            std::cout << "[InputDebug][Editor] Camera update"
+                << " frame=" << activeCameraFrameCount
+                << " dt=" << dt
+                << " speed=" << speed
+                << " keys(WASD)=" << wPressed << aPressed << sPressed << dPressed
+                << " mousePos=(" << mouseX << ", " << mouseY << ")"
+                << " posBefore=(" << pos.x << ", " << pos.y << ", " << pos.z << ")"
+                << " rot=(" << rot.x << ", " << rot.y << ", " << rot.z << ")"
+                << std::endl;
+        }
+
+        lastWPressed = wPressed;
+        lastSPressed = sPressed;
+        lastAPressed = aPressed;
+        lastDPressed = dPressed;
+
+        if (wPressed) { pos += m_Camera->GetForward() * speed; moved = true; }
+        if (sPressed) { pos -= m_Camera->GetForward() * speed; moved = true; }
+        if (aPressed) { pos -= m_Camera->GetRight() * speed; moved = true; }
+        if (dPressed) { pos += m_Camera->GetRight() * speed; moved = true; }
 
         if (moved)
+        {
             m_Camera->SetPosition(pos);
+            std::cout << "[InputDebug][Editor] Camera moved"
+                << " posAfter=(" << pos.x << ", " << pos.y << ", " << pos.z << ")"
+                << std::endl;
+        }
     }
 
     void EditorLayer::CheckForHoveredEntity()
