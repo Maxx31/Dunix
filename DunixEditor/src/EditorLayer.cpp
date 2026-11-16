@@ -14,20 +14,10 @@
 #include <imgui/imgui_internal.h>
 
 #include <algorithm>
-#include <cmath>
 
 #define DX_BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
 
 namespace Dunix {
-    namespace
-    {
-        bool ShouldLogMouseDelta(int count, float xoffset, float yoffset)
-        {
-            return count <= 20 || count % 30 == 0 ||
-                std::abs(xoffset) > 50.0f || std::abs(yoffset) > 50.0f;
-        }
-    }
-
     EditorLayer::EditorLayer()
         : Layer()
     {
@@ -46,8 +36,8 @@ namespace Dunix {
     void EditorLayer::OnAttach()
     {
         m_TestTexture = Texture3D::Create("assets/textures/TestTexture.png");
-       
-        //Test values for now, in the future need to get vieport size 
+
+        //Test values for now, in the future need to get vieport size
         FramebufferSpecification fbSpec;
         fbSpec.Width = 1280;
         fbSpec.Height = 720;
@@ -56,9 +46,9 @@ namespace Dunix {
             FramebufferTextureFormat::RED_INTEGER,
             FramebufferTextureFormat::Depth
         };
-        
+
         m_Framebuffer = Framebuffer::Create(fbSpec);
-        
+
         NewScene();
     }
 
@@ -107,10 +97,10 @@ namespace Dunix {
         {
             m_Framebuffer->Resize(static_cast<uint32_t>(m_ViewportSize.x), static_cast<uint32_t>(m_ViewportSize.y));
         }
-        
+
         // If we have depth testing in RendererAPI, need to clear depth here.
         m_Framebuffer->Bind();
-        
+
         RenderCommand::SetClearColor({ 0.137f, 0.137f, 0.137f, 1.0f });
         RenderCommand::Clear();
         m_Framebuffer->ClearAttachment(1, -1);
@@ -119,7 +109,7 @@ namespace Dunix {
 
         m_ActiveScene->OnRender(*m_Camera);
         CheckForHoveredEntity();
-        
+
         m_Framebuffer->Unbind();
     }
 
@@ -156,26 +146,19 @@ namespace Dunix {
         if (!m_ViewportCameraActive)
             return false;
 
-        static int activeMouseMoveCount = 0;
-        ++activeMouseMoveCount;
-
         float xpos = e.GetPosX();
         float ypos = e.GetPosY();
-        const glm::vec2 viewportCenter = {
-            (m_ViewportBounds[0].x + m_ViewportBounds[1].x) * 0.5f,
-            (m_ViewportBounds[0].y + m_ViewportBounds[1].y) * 0.5f
-        };
 
-        if (m_FirstMouse)
+        if (!m_MousePositionSet)
         {
-            m_FirstMouse = false;
+            m_LastMousePosition = { xpos, ypos };
+            m_MousePositionSet = true;
             return false;
         }
 
-        float xoffset = xpos - viewportCenter.x;
-        float yoffset = viewportCenter.y - ypos;
-        const float rawXOffset = xoffset;
-        const float rawYOffset = yoffset;
+        float xoffset = xpos - m_LastMousePosition.x;
+        float yoffset = m_LastMousePosition.y - ypos;
+        m_LastMousePosition = { xpos, ypos };
 
         const float sensitivity = 0.1f;
         xoffset *= sensitivity;
@@ -192,10 +175,6 @@ namespace Dunix {
             rot.y += 360.0f;
 
         m_Camera->SetRotation(rot);
-
-        if (std::abs(rawXOffset) > 0.0f || std::abs(rawYOffset) > 0.0f)
-            CenterMouseInViewport();
-
         return false;
     }
 
@@ -211,27 +190,25 @@ namespace Dunix {
 
     bool EditorLayer::OnMousePressed(MouseButtonPressedEvent& e)
     {
-        if (e.GetButtonCode() == GLFW_MOUSE_BUTTON_RIGHT && (m_ViewportHovered || m_ViewportCameraActive))
+        if (e.GetButtonCode() == GLFW_MOUSE_BUTTON_RIGHT && m_ViewportHovered)
         {
-            if (m_ViewportCameraActive)
-                DeactivateViewportCamera();
-            else
-                ActivateViewportCamera();
-
+            ActivateViewportCamera();
             return true;
         }
 
         if (e.GetButtonCode() == GLFW_MOUSE_BUTTON_LEFT && m_ViewportHovered)
         {
             m_SceneHierarchyPanel.SetSelectedEntity(m_HoveredEntity);
+            return true;
         }
         return false;
     }
 
     bool EditorLayer::OnMouseReleased(MouseButtonReleasedEvent& e)
     {
-        if (e.GetButtonCode() == GLFW_MOUSE_BUTTON_RIGHT)
+        if (e.GetButtonCode() == GLFW_MOUSE_BUTTON_RIGHT && m_ViewportCameraActive)
         {
+            DeactivateViewportCamera();
             return true;
         }
         return false;
@@ -239,10 +216,12 @@ namespace Dunix {
 
     void EditorLayer::ActivateViewportCamera()
     {
-        Application::Get().GetWindow().SetCursorLocked(true);
+        if (m_ViewportCameraActive)
+            return;
+
         m_ViewportCameraActive = true;
-        m_FirstMouse = false;
-        CenterMouseInViewport();
+        m_MousePositionSet = false;
+        Application::Get().GetWindow().SetCursorLocked(true);
     }
 
     void EditorLayer::DeactivateViewportCamera()
@@ -250,20 +229,9 @@ namespace Dunix {
         if (!m_ViewportCameraActive)
             return;
 
-        Application::Get().GetWindow().SetCursorLocked(false);
-        m_FirstMouse = true;
         m_ViewportCameraActive = false;
-    }
-
-    void EditorLayer::CenterMouseInViewport()
-    {
-        GLFWwindow* window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
-        if (!window)
-            return;
-
-        const double centerX = (m_ViewportBounds[0].x + m_ViewportBounds[1].x) * 0.5;
-        const double centerY = (m_ViewportBounds[0].y + m_ViewportBounds[1].y) * 0.5;
-        glfwSetCursorPos(window, centerX, centerY);
+        m_MousePositionSet = false;
+        Application::Get().GetWindow().SetCursorLocked(false);
     }
 
     void EditorLayer::UpdateCameraPosition(float dt)
@@ -271,7 +239,10 @@ namespace Dunix {
         if (!m_ViewportCameraActive)
             return;
 
-        float speed = 5.0f * dt;
+        //TODO: Make it as a parameter that user can set up
+        const float DefaultCameraSpeed = 5.0f;
+
+        float speed = DefaultCameraSpeed * dt;
         glm::vec3 pos = m_Camera->GetPosition();
         bool moved = false;
 
@@ -279,21 +250,6 @@ namespace Dunix {
         const bool sPressed = Input::IsKeyPressed(GLFW_KEY_S);
         const bool aPressed = Input::IsKeyPressed(GLFW_KEY_A);
         const bool dPressed = Input::IsKeyPressed(GLFW_KEY_D);
-
-        static int activeCameraFrameCount = 0;
-        static bool lastWPressed = false;
-        static bool lastSPressed = false;
-        static bool lastAPressed = false;
-        static bool lastDPressed = false;
-        ++activeCameraFrameCount;
-
-        const bool keyStateChanged = wPressed != lastWPressed || sPressed != lastSPressed ||
-            aPressed != lastAPressed || dPressed != lastDPressed;
-
-        lastWPressed = wPressed;
-        lastSPressed = sPressed;
-        lastAPressed = aPressed;
-        lastDPressed = dPressed;
 
         if (wPressed) { pos += m_Camera->GetForward() * speed; moved = true; }
         if (sPressed) { pos -= m_Camera->GetForward() * speed; moved = true; }

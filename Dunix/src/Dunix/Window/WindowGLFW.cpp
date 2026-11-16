@@ -9,41 +9,8 @@
 
 #include "glad/glad.h"
 
-#include <cmath>
-
 namespace Dunix
 {
-	namespace
-	{
-		const char* CursorModeToString(int mode)
-		{
-			switch (mode)
-			{
-			case GLFW_CURSOR_NORMAL: return "NORMAL";
-			case GLFW_CURSOR_HIDDEN: return "HIDDEN";
-			case GLFW_CURSOR_DISABLED: return "DISABLED";
-			default: return "UNKNOWN";
-			}
-		}
-
-		const char* KeyActionToString(int action)
-		{
-			switch (action)
-			{
-			case GLFW_PRESS: return "PRESS";
-			case GLFW_RELEASE: return "RELEASE";
-			case GLFW_REPEAT: return "REPEAT";
-			default: return "UNKNOWN";
-			}
-		}
-
-		bool IsCameraDebugKey(int key)
-		{
-			return key == GLFW_KEY_W || key == GLFW_KEY_A || key == GLFW_KEY_S ||
-				key == GLFW_KEY_D || key == GLFW_KEY_ESCAPE;
-		}
-	}
-
 	static void GlfwErrorCallback(int code, const char* desc)
 	{
 		DX_CORE_ERROR("GLFW error {}: {}", code, desc);
@@ -90,19 +57,6 @@ namespace Dunix
 		glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double xpos, double ypos)
 			{
 				WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
-
-				static bool hasLastPos = false;
-				static double lastX = 0.0;
-				static double lastY = 0.0;
-				static int moveEventCount = 0;
-
-				const double dx = hasLastPos ? xpos - lastX : 0.0;
-				const double dy = hasLastPos ? ypos - lastY : 0.0;
-				++moveEventCount;
-
-				lastX = xpos;
-				lastY = ypos;
-				hasLastPos = true;
 
 				MouseMovedEvent event((float)xpos, (float)ypos);
 				data.EventCallback(event);
@@ -182,14 +136,9 @@ namespace Dunix
 	void WindowGLFW::SetCursorLocked(bool locked)
 	{
 		glfwSetInputMode(m_Window, GLFW_CURSOR,
-			locked ? GLFW_CURSOR_HIDDEN : GLFW_CURSOR_NORMAL);
+			locked ? GLFW_CURSOR_DISABLED : GLFW_CURSOR_NORMAL);
 
 		glfwSetInputMode(m_Window, GLFW_RAW_MOUSE_MOTION, GLFW_FALSE);
-
-		double xpos = 0.0;
-		double ypos = 0.0;
-		glfwGetCursorPos(m_Window, &xpos, &ypos);
-		
 	}
 
 	void* WindowGLFW::GetNativeWindow()

@@ -8,3 +8,36 @@ bin-int/
 
 # Files
 *.ipch
+*.user
+*.suo
+*.VC.db
+*.VC.opendb
+
+# Local build and editor output
+/x64/
+/msbuild-tmp/
+imgui.ini
+ProfileData
+ProfileData.json
+
+# Local assistant configuration, notes, and generated planning documents
+AGENTS.md
+CLAUDE.md
+GEMINI.md
+CODEX.md
+.agent-notes/
+.agents/
+.codex/
+.claude/
+.cursor/
+.continue/
+.aider*
+.worktrees/
+/.github/copilot-instructions.md
+/.github/instructions/
+/.github/agents/
+/.github/prompts/
+/docs/superpowers/
+/docs/ai/
+/tests/CursorCaptureTests.*
+/tests/README.md

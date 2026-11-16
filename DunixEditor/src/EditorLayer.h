@@ -43,7 +43,6 @@ namespace Dunix
 		void CheckForHoveredEntity();
 		void ActivateViewportCamera();
 		void DeactivateViewportCamera();
-		void CenterMouseInViewport();
 
 		//ImGui UI related funcs
 		void BeginDockspace();
@@ -63,15 +62,15 @@ namespace Dunix
 
 		SharedPtr<class Texture3D> m_TestTexture;
 		SharedPtr<class Scene> m_ActiveScene;
-		
+
 		Entity m_HoveredEntity;
 
-		bool  m_FirstMouse = true;
-		float m_LastMouseX = 0.0f;
-		float m_LastMouseY = 0.0f;
 		bool  m_ViewportFocused = false;
 		bool  m_ViewportHovered = false;
 		bool  m_ViewportCameraActive = false;
+		bool  m_MousePositionSet = false;
+
+		glm::vec2 m_LastMousePosition = { 0.0f, 0.0f };
 		glm::vec2 m_ViewportSize = { 0.0f, 0.0f };
 		glm::vec2 m_ViewportBounds[2] = {};
 

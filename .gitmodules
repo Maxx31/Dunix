@@ -3,7 +3,7 @@
 	url = https://github.com/gabime/spdlog
 [submodule "Dunix/vendor/GLFW"]
 	path = Dunix/vendor/GLFW
-	url = https://github.com/TheCherno/glfw
+	url = https://github.com/glfw/glfw.git
 [submodule "Dunix/vendor/glm"]
 	path = Dunix/vendor/glm
 	url = https://github.com/g-truc/glm
