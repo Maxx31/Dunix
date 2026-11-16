@@ -288,7 +288,7 @@ namespace Dunix {
         static bool dockspaceOpen = true;
         static bool firstTime = true;
 
-        ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
+        ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDocking;
         ImGuiViewport* viewport = ImGui::GetMainViewport();
         ImGui::SetNextWindowPos(viewport->Pos);
         ImGui::SetNextWindowSize(viewport->Size);
@@ -370,7 +370,11 @@ namespace Dunix {
 
     void EditorLayer::DrawTopPanel()
     {
-        ImGui::Begin("Top Panel", nullptr, ImGuiWindowFlags_MenuBar);
+        ImGuiWindowClass windowClass;
+        windowClass.DockNodeFlagsOverrideSet = ImGuiDockNodeFlags_NoTabBar;
+        ImGui::SetNextWindowClass(&windowClass);
+        
+        ImGui::Begin("Top Panel", nullptr, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoTitleBar);
 
         if (ImGui::BeginMenuBar())
         {
