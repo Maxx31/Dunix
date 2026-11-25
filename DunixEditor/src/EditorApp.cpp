@@ -1,5 +1,7 @@
 #include <Dunix.h>
 #include "EditorLayer.h"
+#include "Dunix/Managers/ProjectManager.h"
+#include "Dunix/Managers/SaveManager.h"
 
 //--------EntryPoint--------------
 #include "Dunix/Core/EntryPoint.h"
@@ -35,6 +37,10 @@ namespace Dunix
 		{
 
 		}
+
+	private:
+		std::unique_ptr<ProjectManager> m_ProjectManager = CreateProjectManager();
+		std::unique_ptr<SaveManager> m_SaveManager = CreateSaveManager();
 	};
 	
 	std::unique_ptr<Application> CreateApplication()

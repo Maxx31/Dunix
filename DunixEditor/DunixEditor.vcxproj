@@ -80,7 +80,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DX_PLATFORM_WINDOWS;ASSIMP_DLL;DX_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Dunix\vendor\spdlog\include;..\Dunix\src;..\Dunix\vendor\glm;..\Dunix\vendor;..\Dunix\vendor\glm;..\Dunix\vendor\entt\include;..\Dunix\vendor\assimp\build\include;..\Dunix\vendor\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Dunix\vendor\spdlog\include;..\Dunix\src;..\Dunix\vendor\glm;..\Dunix\vendor;..\Dunix\vendor\glm;..\Dunix\vendor\entt\include;..\Dunix\vendor\assimp\build\include;..\Dunix\vendor\assimp\include;$(SolutionDir)Dunix\vendor\json\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -103,7 +103,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DX_PLATFORM_WINDOWS;ASSIMP_DLL;DX_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Dunix\vendor\spdlog\include;..\Dunix\src;..\Dunix\vendor;..\Dunix\vendor\glm;%(AdditionalIncludeDirectories)..\Dunix\vendor;..\Dunix\vendor\entt\include;..\Dunix\vendor\assimp\build\include;..\Dunix\vendor\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Dunix\vendor\spdlog\include;..\Dunix\src;..\Dunix\vendor;..\Dunix\vendor\glm;%(AdditionalIncludeDirectories)..\Dunix\vendor;..\Dunix\vendor\entt\include;..\Dunix\vendor\assimp\build\include;..\Dunix\vendor\assimp\include;$(SolutionDir)Dunix\vendor\json\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -147,6 +147,7 @@
     <ClCompile Include="src\EditorLayer.cpp" />
     <ClCompile Include="src\EditorApp.cpp" />
     <ClCompile Include="src\Panels\ContentBrowserPanel.cpp" />
+    <ClCompile Include="src\Panels\ProjectSelectionPanel.cpp" />
     <ClCompile Include="src\Panels\SceneHierarchyPanel.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -157,6 +158,7 @@
   <ItemGroup>
     <ClInclude Include="src\EditorLayer.h" />
     <ClInclude Include="src\Panels\ContentBrowserPanel.h" />
+    <ClInclude Include="src\Panels\ProjectSelectionPanel.h" />
     <ClInclude Include="src\Panels\SceneHierarchyPanel.h" />
   </ItemGroup>
   <ItemGroup>

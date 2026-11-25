@@ -14,6 +14,10 @@
 #include <imgui/imgui_internal.h>
 
 #include <algorithm>
+#include <json/single_include/nlohmann/json.hpp>
+
+#include "Dunix/Managers/ProjectManager.h"
+#include "Dunix/Managers/SaveManager.h"
 
 #define DX_BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
 
@@ -35,8 +39,6 @@ namespace Dunix {
 
     void EditorLayer::OnAttach()
     {
-        m_TestTexture = Texture3D::Create("assets/textures/TestTexture.png");
-
         //Test values for now, in the future need to get vieport size
         FramebufferSpecification fbSpec;
         fbSpec.Width = 1280;
@@ -48,7 +50,6 @@ namespace Dunix {
         };
 
         m_Framebuffer = Framebuffer::Create(fbSpec);
-
         NewScene();
     }
 
@@ -58,6 +59,12 @@ namespace Dunix {
         m_SceneHierarchyPanel.SetNewContext(m_ActiveScene);
 
         CreateDefaultScene();
+    }
+
+    void EditorLayer::SaveActiveScene()
+    {
+         nlohmann::json ActiveSceneJson = SaveManager::Get().ConvertSceneToJson(m_ActiveScene);
+        //Put active scene json to content browser
     }
 
     void EditorLayer::CreateDefaultScene()
@@ -125,13 +132,17 @@ namespace Dunix {
     void EditorLayer::OnImGuiRender(Timestep ts)
     {
         Layer::OnImGuiRender(ts);
-
+        
         BeginDockspace();
-
-        DrawTopPanel();
-        DrawSceneViewport();
-        m_SceneHierarchyPanel.OnImGuiRender();
-        m_ContentBrowserPanel->OnImGuiRender();
+        
+        if (ProjectManager::Get().IsProjectSelected())
+        {
+            DrawEditorElements();
+        }
+        else
+        {
+            DrawProjectSelection();
+        }
 
         EndDockspace();
     }
@@ -334,6 +345,22 @@ namespace Dunix {
         }
 
         ImGui::DockSpace(dockspaceID, ImVec2(0.0f, 0.0f), dockspaceFlags);
+    }
+
+    void EditorLayer::DrawProjectSelection()
+    {
+        //Need a callback from project selection when everything is set and ready
+        m_ProjectSelectionPanel.OnImGuiRender();
+    }
+
+    void EditorLayer::DrawEditorElements()
+    {
+        DrawTopPanel();  
+        DrawSceneViewport();
+        m_SceneHierarchyPanel.OnImGuiRender();
+        
+        //In Content browser need to provide info about current folder and files
+        m_ContentBrowserPanel->OnImGuiRender();
     }
 
     void EditorLayer::DrawSceneViewport()

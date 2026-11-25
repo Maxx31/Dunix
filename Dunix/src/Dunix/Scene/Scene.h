@@ -27,7 +27,7 @@ namespace Dunix
         {
             return m_Registry;
         }
-
+        
         Entity CreateEntity(const std::string& InName = "Entity");
         Entity CreateEntityWithUUID(UUID id, const std::string& InName = "Entity");
         Entity DuplicateEntity(Entity entity);

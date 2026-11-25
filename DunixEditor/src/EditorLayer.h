@@ -4,6 +4,7 @@
 
 #include "Panels/SceneHierarchyPanel.h"
 #include "Panels/ContentBrowserPanel.h"
+#include "Panels/ProjectSelectionPanel.h"
 
 #include "Dunix/Core/Timestep.h"
 #include "Dunix/Core/Layer.h"
@@ -38,6 +39,8 @@ namespace Dunix
 		bool OnMouseReleased(MouseButtonReleasedEvent& e);
 
 		void NewScene();
+		void SaveActiveScene();
+		
 		void CreateDefaultScene();
 		void UpdateCameraPosition(float dt);
 		void CheckForHoveredEntity();
@@ -46,6 +49,8 @@ namespace Dunix
 
 		//ImGui UI related funcs
 		void BeginDockspace();
+		void DrawProjectSelection();
+		void DrawEditorElements();
 
 		void DrawSceneViewport();
 		void DrawTopPanel();
@@ -75,6 +80,7 @@ namespace Dunix
 		glm::vec2 m_ViewportBounds[2] = {};
 
 		//Panels
+		ProjectSelectionPanel m_ProjectSelectionPanel;
 		SceneHierarchyPanel m_SceneHierarchyPanel;
 		SharedPtr<ContentBrowserPanel> m_ContentBrowserPanel;
 	};
